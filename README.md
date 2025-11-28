@@ -18,7 +18,7 @@
 
 **SORA** es una plataforma de comercio electrónico moderna, robusta y escalable diseñada para ofrecer una experiencia de compra fluida y segura. Con una interfaz de usuario elegante y un backend potente, SORA facilita la gestión de productos, pedidos y usuarios.
 
-El proyecto ha sido sometido a un proceso de **Rebranding completo** (anteriormente Rafcart), adoptando una identidad visual fresca, minimalista y tecnológica.
+El proyecto ha sido sometido a un proceso de **Rebranding completo**, adoptando una identidad visual fresca, minimalista y tecnológica.
 
 ## ✨ Características Principales
 

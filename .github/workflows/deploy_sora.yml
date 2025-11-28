@@ -1,0 +1,130 @@
+name: Deploy SORA to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # ----------------------------------------------------------------------
+  # 1. DEPLOY API (LARAVEL)
+  # ----------------------------------------------------------------------
+  deploy-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Install Dependencies (API)
+        run: |
+          cd api_ecommerce_v_10
+          composer install --no-dev --optimize-autoloader
+
+      - name: Copy API Files to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_KEY }}
+          source: "api_ecommerce_v_10/*"
+          target: "/var/www/sora/api"
+          strip_components: 1
+
+      - name: Configure .env (Production)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: |
+            cd /var/www/sora/api
+            echo "${{ secrets.ENV_LARAVEL }}" > .env
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            php artisan migrate --force
+
+  # ----------------------------------------------------------------------
+  # 2. DEPLOY FRONTEND (ANGULAR)
+  # ----------------------------------------------------------------------
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install & Build (Frontend)
+        run: |
+          cd fronted_ecommerce
+          npm install
+          npm run build -- --prod
+
+      - name: Copy Frontend Dist to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_KEY }}
+          source: "fronted_ecommerce/dist/fronted_ecommerce/*"
+          target: "/var/www/sora/frontend"
+          strip_components: 3
+
+  # ----------------------------------------------------------------------
+  # 3. DEPLOY ADMIN (ANGULAR)
+  # ----------------------------------------------------------------------
+  deploy-admin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # Admin uses Angular 11, Node 14 is safer
+
+      - name: Install & Build (Admin)
+        run: |
+          cd admin
+          npm install
+          npm run build -- --prod
+
+      - name: Copy Admin Dist to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_KEY }}
+          source: "admin/dist/metronic-angular-demo1/*"
+          target: "/var/www/sora/admin"
+          strip_components: 3
+
+  # ----------------------------------------------------------------------
+  # 4. FINAL SERVER CONFIG
+  # ----------------------------------------------------------------------
+  finalize-deployment:
+    needs: [deploy-api, deploy-frontend, deploy-admin]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restart Services & Permissions
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: |
+            sudo chown -R ubuntu:www-data /var/www/sora
+            sudo chmod -R 775 /var/www/sora/api/storage
+            sudo chmod -R 775 /var/www/sora/api/bootstrap/cache
+            sudo systemctl restart nginx
+            sudo systemctl restart php8.1-fpm

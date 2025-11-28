@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="fronted_ecommerce/src/assets/images/sora_banner.png" alt="SORA Banner" width="100%">
-  <br>
-  <img src="fronted_ecommerce/src/assets/images/svg/logo.svg" alt="SORA Logo" width="200">
+  <img src="fronted_ecommerce/src/assets/images/banner.svg" alt="SORA Banner" width="100%" style="border-radius: 10px;">
+  <br><br>
+  <img src="fronted_ecommerce/src/assets/images/svg/logo.svg" alt="SORA Logo" width="150">
 
   # SORA E-commerce
   
@@ -41,8 +41,8 @@ Este proyecto está construido con un stack tecnológico de vanguardia:
 ## 📸 Capturas
 
 <div align="center">
-  <img src="fronted_ecommerce/src/assets/images/sora_banner.png" alt="Home Preview" width="800" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-  <p><em>Página de Inicio con la nueva identidad SORA</em></p>
+  <img src="fronted_ecommerce/src/assets/images/interface_capture.png" alt="SORA Interface" width="100%" style="border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+  <p><em>Interfaz de Usuario Moderna y Responsiva</em></p>
 </div>
 
 ## 🔧 Instalación y Configuración

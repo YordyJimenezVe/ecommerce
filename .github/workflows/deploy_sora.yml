@@ -35,105 +35,6 @@ jobs:
           target: "/var/www/sora/api"
           strip_components: 1
 
-      - name: Configure .env (Production)
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AWS_HOST }}
-          username: ${{ secrets.AWS_USER }}
-          key: ${{ secrets.AWS_SSH_KEY }}
-          script: |
-            cd /var/www/sora/api
-            echo "${{ secrets.ENV_LARAVEL }}" > .env
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
-            php artisan migrate --force
-
-  # ----------------------------------------------------------------------
-  # 2. DEPLOY FRONTEND (ANGULAR)
-  # ----------------------------------------------------------------------
-  deploy-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: Install & Build (Frontend)
-        run: |
-          cd fronted_ecommerce
-          npm install --legacy-peer-deps
-          npm run build -- --prod
-
-      - name: Copy Frontend Dist to Server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.AWS_HOST }}
-          username: ${{ secrets.AWS_USER }}
-          key: ${{ secrets.AWS_SSH_KEY }}
-          source: "fronted_ecommerce/dist/fronted_ecommerce/*"
-          target: "/var/www/sora/frontend"
-          strip_components: 3
-
-  # ----------------------------------------------------------------------
-  # 3. DEPLOY ADMIN (ANGULAR)
-  # ----------------------------------------------------------------------
-  deploy-admin:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14' # Admin uses Angular 11, Node 14 is safer
-
-      - name: Install & Build (Admin)
-        run: |
-          cd admin
-          npm install --legacy-peer-deps
-name: Deploy SORA to AWS
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  # ----------------------------------------------------------------------
-  # 1. DEPLOY API (LARAVEL)
-  # ----------------------------------------------------------------------
-  deploy-api:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
-
-      - name: Install Dependencies (API)
-        run: |
-          cd api_ecommerce_v_10
-          composer install --no-dev --optimize-autoloader
-
-      - name: Copy API Files to Server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.AWS_HOST }}
-          username: ${{ secrets.AWS_USER }}
-          key: ${{ secrets.AWS_SSH_KEY }}
-          source: "api_ecommerce_v_10/*"
-          target: "/var/www/sora/api"
-          strip_components: 1
-
       - name: Configure .env & Run Commands (Production)
         uses: appleboy/ssh-action@master
         with:
@@ -143,7 +44,8 @@ jobs:
           script: |
             cd /var/www/sora/api
             echo "${{ secrets.ENV_LARAVEL }}" > .env
-            # 4. Run Commands (Suppressing Deprecation Warnings)
+            
+            # Run Commands (Suppressing Deprecation Warnings)
             php -d error_reporting="E_ALL & ~E_DEPRECATED" artisan migrate --force
             php -d error_reporting="E_ALL & ~E_DEPRECATED" artisan config:clear
             php -d error_reporting="E_ALL & ~E_DEPRECATED" artisan cache:clear
@@ -232,4 +134,4 @@ jobs:
             
             # Restart Services
             sudo systemctl restart php-fpm
-            sudo systemctl restart nginxphp-fpm
+            sudo systemctl restart nginx

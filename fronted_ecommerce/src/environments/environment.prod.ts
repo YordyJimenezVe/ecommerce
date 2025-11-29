@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  URL_BACKEND: 'http://api.cursos-udemy.site',
-  URL_SERVICIOS: 'http://api.cursos-udemy.site/api',
-  URL_FROTEND: 'http://ecommerce.cursos-udemy.site',
+  URL_BACKEND: 'http://98.92.53.173/',
+  URL_SERVICIOS: 'http://98.92.53.173/api',
+  URL_FROTEND: 'http://98.92.53.173',
 };

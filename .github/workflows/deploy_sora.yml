@@ -79,7 +79,7 @@ jobs:
           host: ${{ secrets.AWS_HOST }}
           username: ${{ secrets.AWS_USER }}
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "fronted_ecommerce/dist/fronted_ecommerce/*"
+          source: "fronted_ecommerce/dist/ecommerce/*"
           target: "/var/www/sora/frontend"
           strip_components: 3
 

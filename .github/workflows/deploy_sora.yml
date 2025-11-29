@@ -111,7 +111,7 @@ jobs:
           key: ${{ secrets.AWS_SSH_KEY }}
           source: "admin/dist/*"
           target: "/var/www/sora/admin"
-          strip_components: 3
+          strip_components: 2
 
   # ----------------------------------------------------------------------
   # 4. FINAL SERVER CONFIG

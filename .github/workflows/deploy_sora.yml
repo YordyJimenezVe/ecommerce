@@ -66,7 +66,7 @@ jobs:
       - name: Install & Build (Frontend)
         run: |
           cd fronted_ecommerce
-          npm install
+          npm install --legacy-peer-deps
           npm run build -- --prod
 
       - name: Copy Frontend Dist to Server
@@ -96,7 +96,7 @@ jobs:
       - name: Install & Build (Admin)
         run: |
           cd admin
-          npm install
+          npm install --legacy-peer-deps
           npm run build -- --prod --base-href /admin/
 
       - name: Copy Admin Dist to Server

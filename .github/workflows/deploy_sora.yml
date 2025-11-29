@@ -123,8 +123,10 @@ jobs:
           username: ${{ secrets.AWS_USER }}
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            sudo chown -R ubuntu:www-data /var/www/sora
+            # Amazon Linux uses 'ec2-user' and usually 'nginx' or 'apache' group
+            sudo chown -R ec2-user:nginx /var/www/sora
             sudo chmod -R 775 /var/www/sora/api/storage
             sudo chmod -R 775 /var/www/sora/api/bootstrap/cache
             sudo systemctl restart nginx
-            sudo systemctl restart php8.1-fpm
+            # Service name is usually php-fpm on Amazon Linux
+            sudo systemctl restart php-fpm

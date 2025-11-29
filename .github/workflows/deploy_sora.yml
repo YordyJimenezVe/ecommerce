@@ -109,7 +109,7 @@ jobs:
           host: ${{ secrets.AWS_HOST }}
           username: ${{ secrets.AWS_USER }}
           key: ${{ secrets.AWS_SSH_KEY }}
-          source: "admin/dist/metronic-angular-demo1/*"
+          source: "admin/dist/*"
           target: "/var/www/sora/admin"
           strip_components: 3
 

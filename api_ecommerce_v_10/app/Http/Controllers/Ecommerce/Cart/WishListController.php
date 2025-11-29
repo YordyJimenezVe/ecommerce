@@ -15,27 +15,30 @@ class WishListController extends Controller
      */
     public function index()
     {
-        $wishlists = Wishlist::where("user_id",auth('api')->user()->id)->orderBy("id","desc")->get();
+        $wishlists = Wishlist::where("user_id", auth('api')->user()->id)->orderBy("id", "desc")->get();
 
-        return response()->json(["wishlists" => $wishlists->map(function($wishlist){
-            return [
-                "id" => $wishlist->id,
-                "user" => [
-                    "id" => $wishlist->client->id,
-                    "name" =>$wishlist->client->name,
-                ],
-                "product_size_id" => $wishlist->product_size_id,
-                "product_color_size_id" => $wishlist->product_color_size_id,
-                "product" => [
-                    "id" =>  $wishlist->product->id,
-                    "title" => $wishlist->product->title,
-                    "slug" => $wishlist->product->slug,
-                    "price_soles" => $wishlist->product->price_soles,
-                    "price_usd" => $wishlist->product->price_usd,
-                    "imagen" =>  env("APP_URL")."storage/".$wishlist->product->imagen,
-                ],
-            ];
-        })]
+        return response()->json(
+            [
+                "wishlists" => $wishlists->map(function ($wishlist) {
+                    return [
+                        "id" => $wishlist->id,
+                        "user" => [
+                            "id" => $wishlist->client->id,
+                            "name" => $wishlist->client->name,
+                        ],
+                        "product_size_id" => $wishlist->product_size_id,
+                        "product_color_size_id" => $wishlist->product_color_size_id,
+                        "product" => [
+                            "id" => $wishlist->product->id,
+                            "title" => $wishlist->product->title,
+                            "slug" => $wishlist->product->slug,
+                            "price_soles" => $wishlist->product->price_soles,
+                            "price_usd" => $wishlist->product->price_usd,
+                            "imagen" => env("APP_URL") . "/storage/" . $wishlist->product->imagen,
+                        ],
+                    ];
+                })
+            ]
         );
     }
 
@@ -57,28 +60,31 @@ class WishListController extends Controller
      */
     public function store(Request $request)
     {
-        $validate_wishlist = Wishlist::where("product_id",$request->product_id)->first();
-        if($validate_wishlist){
+        $validate_wishlist = Wishlist::where("product_id", $request->product_id)->first();
+        if ($validate_wishlist) {
             return response()->json(["message" => 403, "message_text" => "EL PRODUCTO SELECCIONADO YA EXISTE"]);
         }
         $wishlist = Wishlist::create($request->all());
-        return response(["message" => 200 , "wishlist" => [
-            "id" => $wishlist->id,
-            "user" => [
-                "id" => $wishlist->client->id,
-                "name" =>$wishlist->client->name,
-            ],
-            "product_size_id" => $wishlist->product_size_id,
-            "product_color_size_id" => $wishlist->product_color_size_id,
-            "product" => [
-                "id" =>  $wishlist->product->id,
-                "title" => $wishlist->product->title,
-                "slug" => $wishlist->product->slug,
-                "price_soles" => $wishlist->product->price_soles,
-                "price_usd" => $wishlist->product->price_usd,
-                "imagen" =>  env("APP_URL")."storage/".$wishlist->product->imagen,
-            ],
-        ]]);
+        return response([
+            "message" => 200,
+            "wishlist" => [
+                "id" => $wishlist->id,
+                "user" => [
+                    "id" => $wishlist->client->id,
+                    "name" => $wishlist->client->name,
+                ],
+                "product_size_id" => $wishlist->product_size_id,
+                "product_color_size_id" => $wishlist->product_color_size_id,
+                "product" => [
+                    "id" => $wishlist->product->id,
+                    "title" => $wishlist->product->title,
+                    "slug" => $wishlist->product->slug,
+                    "price_soles" => $wishlist->product->price_soles,
+                    "price_usd" => $wishlist->product->price_usd,
+                    "imagen" => env("APP_URL") . "/storage/" . $wishlist->product->imagen,
+                ],
+            ]
+        ]);
     }
 
     /**

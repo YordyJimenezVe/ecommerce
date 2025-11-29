@@ -20,27 +20,27 @@ class ProfileController extends Controller
     {
         $user = auth('api')->user();
 
-        $address = AddressUser::where("user_id",$user->id)->orderBy("id","desc")->get();
+        $address = AddressUser::where("user_id", $user->id)->orderBy("id", "desc")->get();
 
-        $orders = Sale::where("user_id",$user->id)->orderBy("id","desc")->get();
+        $orders = Sale::where("user_id", $user->id)->orderBy("id", "desc")->get();
 
-        $sales_details = SaleDetail::whereHas("sale",function($q) use($user) {
-            $q->where("user_id",$user->id);
-        })->with(["review","product","sale"])->orderBy("sale_id","desc")->get();
+        $sales_details = SaleDetail::whereHas("sale", function ($q) use ($user) {
+            $q->where("user_id", $user->id);
+        })->with(["review", "product", "sale"])->orderBy("sale_id", "desc")->get();
 
         // $wishlists = Wishlist::where("user_id",auth('api')->user()->id)->orderBy("id","desc")->get();
         return response()->json([
             "user" => [
-              "id" => $user->id,
-              "name" => $user->name,
-              "surname" => $user->surname,
-              "email" => $user->email,
-              "birthday" => $user->birthday ? Carbon::parse($user->birthday)->format("Y-m-d") : NULL,
-              "gender" => $user->gender,
-              "avatar" => $user->avatar ? env("APP_URL")."storage/".$user->avatar : null,
-              "phone" => $user->phone,
+                "id" => $user->id,
+                "name" => $user->name,
+                "surname" => $user->surname,
+                "email" => $user->email,
+                "birthday" => $user->birthday ? Carbon::parse($user->birthday)->format("Y-m-d") : NULL,
+                "gender" => $user->gender,
+                "avatar" => $user->avatar ? env("APP_URL") . "/storage/" . $user->avatar : null,
+                "phone" => $user->phone,
             ],
-            "address" => $address->map(function($addres) {
+            "address" => $address->map(function ($addres) {
                 return [
                     "id" => $addres->id,
                     "full_name" => $addres->full_name,
@@ -55,7 +55,7 @@ class ProfileController extends Controller
                 ];
             }),
             "orders" => SaleOCollection::make($orders),
-            "reviews" => $sales_details->map(function($sale_detail) {
+            "reviews" => $sales_details->map(function ($sale_detail) {
                 return [
                     "id" => $sale_detail->id,
                     "n_transaccion" => $sale_detail->sale->n_transaccion,
@@ -63,7 +63,7 @@ class ProfileController extends Controller
                     "product" => [
                         "id" => $sale_detail->product_id,
                         "title" => $sale_detail->product->title,
-                        "imagen" => env("APP_URL")."storage/".$sale_detail->product->imagen,
+                        "imagen" => env("APP_URL") . "/storage/" . $sale_detail->product->imagen,
                     ],
                     "total" => $sale_detail->total,
                     "currency_payment" => $sale_detail->sale->currency_payment,
@@ -94,32 +94,34 @@ class ProfileController extends Controller
     public function profile_update(Request $request)
     {
         $user = auth('api')->user();
-        if($request->current_password){
-            if(!Hash::check($request->current_password, $user->password)){
+        if ($request->current_password) {
+            if (!Hash::check($request->current_password, $user->password)) {
                 return response()->json(["message" => 403, "message_text" => "LA CONTRASEÑA ACTUAL INGRESADA NO ES LA CORRECTA"]);
             }
         }
-        if($request->hasFile("imagen")){
-            if($user->avatar){
+        if ($request->hasFile("imagen")) {
+            if ($user->avatar) {
                 Storage::delete($user->avatar);
             }
-            $path = Storage::putFile("users",$request->file("imagen"));
+            $path = Storage::putFile("users", $request->file("imagen"));
             $request->request->add(["avatar" => $path]);
         }
         $users_m = User::find($user->id);
         $users_m->update($request->all());
 
-        return response()->json(["message" => 200 , "user" =>
-            [
-                "id" => $users_m->id,
-                "name" => $users_m->name,
-                "surname" => $users_m->surname,
-                "email" => $users_m->email,
-                "birthday" => $users_m->birthday ? Carbon::parse($users_m->birthday)->format("Y-m-d") : NULL,
-                "gender" => $users_m->gender,
-                "avatar" => $users_m->avatar ? env("APP_URL")."storage/".$users_m->avatar : null,
-                "phone" => $users_m->phone,
-            ]
+        return response()->json([
+            "message" => 200,
+            "user" =>
+                [
+                    "id" => $users_m->id,
+                    "name" => $users_m->name,
+                    "surname" => $users_m->surname,
+                    "email" => $users_m->email,
+                    "birthday" => $users_m->birthday ? Carbon::parse($users_m->birthday)->format("Y-m-d") : NULL,
+                    "gender" => $users_m->gender,
+                    "avatar" => $users_m->avatar ? env("APP_URL") . "/storage/" . $users_m->avatar : null,
+                    "phone" => $users_m->phone,
+                ]
         ]);
     }
 }

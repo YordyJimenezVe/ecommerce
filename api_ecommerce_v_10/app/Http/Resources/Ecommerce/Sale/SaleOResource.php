@@ -18,7 +18,7 @@ class SaleOResource extends JsonResource
             "id" => $this->resource->id,
             "user" => [
                 "id" => $this->resource->user->id,
-                "full_name" => $this->resource->user->name. ' '.$this->resource->user->surname,
+                "full_name" => $this->resource->user->name . ' ' . $this->resource->user->surname,
             ],
             "method_payment" => $this->resource->method_payment,
             "currency_total" => $this->resource->currency_total,
@@ -27,7 +27,7 @@ class SaleOResource extends JsonResource
             "price_dolar" => $this->resource->price_dolar,
             "n_transaccion" => $this->resource->n_transaccion,
             "created_at" => $this->resource->created_at->format("Y/m/d"),
-            "items" => $this->resource->sale_details->map(function($detail){
+            "items" => $this->resource->sale_details->map(function ($detail) {
                 return [
                     "id" => $detail->id,
                     "title" => $detail->product->title,
@@ -39,7 +39,7 @@ class SaleOResource extends JsonResource
                         "id" => $detail->product_size->id,
                         "name" => $detail->product_size->name
                     ] : NULL,
-                    "imagen" =>  env("APP_URL")."storage/".$detail->product->imagen,
+                    "imagen" => env("APP_URL") . "/storage/" . $detail->product->imagen,
                     "product_color_size_id" => $detail->product_color_size_id,
                     "product_color_size" => $detail->product_color_size ? [
                         "id" => $detail->product_color_size->id,

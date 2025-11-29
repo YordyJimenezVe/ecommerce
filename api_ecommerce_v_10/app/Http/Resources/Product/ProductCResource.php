@@ -26,31 +26,31 @@ class ProductCResource extends JsonResource
             "slug" => $this->resource->slug,
             "sku" => $this->resource->sku,
             "tags" => $this->resource->tags,
-            "tags_a" => $this->resource->tags ? explode(",",$this->resource->tags) : [],
+            "tags_a" => $this->resource->tags ? explode(",", $this->resource->tags) : [],
             "price_soles" => $this->resource->price_soles,
             "price_usd" => $this->resource->price_usd,
             "resumen" => $this->resource->resumen,
             "description" => $this->resource->description,
             "state" => $this->resource->state,
-            "imagen" => env("APP_URL")."storage/".$this->resource->imagen,
+            "imagen" => env("APP_URL") . "/storage/" . $this->resource->imagen,
             "stock" => $this->resource->stock,
             "checked_inventario" => $this->resource->type_inventario,
-            "images" => $this->resource->images->map(function($img){
+            "images" => $this->resource->images->map(function ($img) {
                 return [
                     "id" => $img->id,
                     "file_name" => $img->file_name,
-                    "imagen" => env("APP_URL")."storage/".$img->imagen,
+                    "imagen" => env("APP_URL") . "/storage/" . $img->imagen,
                     "size" => $img->size,
                     "type" => $img->type,
                 ];
             }),
 
-            "sizes" => $this->resource->sizes->map(function($size){
+            "sizes" => $this->resource->sizes->map(function ($size) {
                 return [
                     "id" => $size->id,
                     "name" => $size->name,
                     "total" => $size->product_size_colors->sum("stock"),
-                    "variaciones" => $size->product_size_colors->map(function($var){
+                    "variaciones" => $size->product_size_colors->map(function ($var) {
                         return [
                             "id" => $var->id,
                             "product_color_id" => $var->product_color_id,

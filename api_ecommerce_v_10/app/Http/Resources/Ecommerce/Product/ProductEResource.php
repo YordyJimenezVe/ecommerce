@@ -16,14 +16,14 @@ class ProductEResource extends JsonResource
     {
         // logica de descuento
         $discount_g = null;
-        if($this->resource->discount_p && $this->resource->discount_c){
-            $discount_g =$this->resource->discount_p;
-        }else{
-            if($this->resource->discount_p && !$this->resource->discount_c){
-                $discount_g =$this->resource->discount_p;
-            }else{
-                if(!$this->resource->discount_p && $this->resource->discount_c){
-                    $discount_g =$this->resource->discount_c;
+        if ($this->resource->discount_p && $this->resource->discount_c) {
+            $discount_g = $this->resource->discount_p;
+        } else {
+            if ($this->resource->discount_p && !$this->resource->discount_c) {
+                $discount_g = $this->resource->discount_p;
+            } else {
+                if (!$this->resource->discount_p && $this->resource->discount_c) {
+                    $discount_g = $this->resource->discount_c;
                 }
             }
         }
@@ -42,7 +42,7 @@ class ProductEResource extends JsonResource
             "price_usd" => $this->resource->price_usd,
             "resumen" => $this->resource->resumen,
             "description" => $this->resource->description,
-            "imagen" => env("APP_URL")."storage/".$this->resource->imagen,
+            "imagen" => env("APP_URL") . "/storage/" . $this->resource->imagen,
             "stock" => $this->resource->stock,
             "checked_inventario" => $this->resource->type_inventario,
             "reviews_count" => $this->resource->reviews_count,
@@ -50,21 +50,21 @@ class ProductEResource extends JsonResource
             // "discount_p" => $this->resource->discount_p,
             // "discount_c" => $this->resource->discount_c,
             "discount_g" => $discount_g,
-            "images" => $this->resource->images->map(function($img){
+            "images" => $this->resource->images->map(function ($img) {
                 return [
                     "id" => $img->id,
                     "file_name" => $img->file_name,
-                    "imagen" => env("APP_URL")."storage/".$img->imagen,
+                    "imagen" => env("APP_URL") . "/storage/" . $img->imagen,
                     "size" => $img->size,
                     "type" => $img->type,
                 ];
             }),
-            "sizes" => $this->resource->sizes->map(function($size){
+            "sizes" => $this->resource->sizes->map(function ($size) {
                 return [
                     "id" => $size->id,
                     "name" => $size->name,
                     "total" => $size->product_size_colors->sum("stock"),
-                    "variaciones" => $size->product_size_colors->map(function($var){
+                    "variaciones" => $size->product_size_colors->map(function ($var) {
                         return [
                             "id" => $var->id,
                             "product_color_id" => $var->product_color_id,

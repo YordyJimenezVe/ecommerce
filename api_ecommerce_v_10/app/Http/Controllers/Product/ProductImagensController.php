@@ -42,12 +42,12 @@ class ProductImagensController extends Controller
     public function store(Request $request)
     {
         $file = $request->file("file");
-        if($request->hasFile("file")){
+        if ($request->hasFile("file")) {
             $extension = $file->getClientOriginalExtension();
             $size = $file->getSize();
             $nombre = $file->getClientOriginalName();
 
-            $path = Storage::putFile("productos",$file);
+            $path = Storage::putFile("productos", $file);
             $imagen = ProductImage::create([
                 "product_id" => $request->product_id,
                 "file_name" => $nombre,
@@ -61,7 +61,7 @@ class ProductImagensController extends Controller
             "imagen" => [
                 "id" => $imagen->id,
                 "file_name" => $imagen->file_name,
-                "imagen" => env("APP_URL")."storage/".$imagen->imagen,
+                "imagen" => env("APP_URL") . "/storage/" . $imagen->imagen,
                 "size" => $imagen->size,
                 "type" => $imagen->type,
             ]
@@ -111,7 +111,7 @@ class ProductImagensController extends Controller
     public function destroy($id)
     {
         $imagen = ProductImage::findOrFail($id);
-        if($imagen->imagen){
+        if ($imagen->imagen) {
             Storage::delete($imagen->imagen);
         }
         $imagen->delete();

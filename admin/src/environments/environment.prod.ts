@@ -5,7 +5,7 @@ export const environment = {
   isMockEnabled: false,
   apiUrl: 'api',
   // apiUrl: 'mysite.com/api',
-  URL_BACKEND: 'http://api.cursos-udemy.site/',
-  URL_SERVICIOS: 'http://api.cursos-udemy.site/api',
-  URL_FROTEND: 'http://admin.cursos-udemy.site',
+  URL_BACKEND: 'http://98.92.53.173/',
+  URL_SERVICIOS: 'http://98.92.53.173/api',
+  URL_FROTEND: 'http://98.92.53.173/admin',
 };

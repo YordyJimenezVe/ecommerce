@@ -46,9 +46,9 @@ jobs:
             echo "${{ secrets.ENV_LARAVEL }}" > .env
             
             # Run Commands (Suppressing Deprecation Warnings)
-            php -d error_reporting="E_ALL & ~E_DEPRECATED" artisan migrate --force
             php -d error_reporting="E_ALL & ~E_DEPRECATED" artisan config:clear
             php -d error_reporting="E_ALL & ~E_DEPRECATED" artisan cache:clear
+            php -d error_reporting="E_ALL & ~E_DEPRECATED" artisan migrate --force
             php -d error_reporting="E_ALL & ~E_DEPRECATED" artisan route:clear
             php -d error_reporting="E_ALL & ~E_DEPRECATED" artisan view:clear
             php -d error_reporting="E_ALL & ~E_DEPRECATED" artisan storage:link

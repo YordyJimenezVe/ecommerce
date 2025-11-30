@@ -128,7 +128,7 @@ jobs:
           key: ${{ secrets.AWS_SSH_KEY }}
           script: |
             # Permissions Fix
-            sudo chown -R ec2-user:nginx /var/www/sora
+            sudo chown -R ec2-user:apache /var/www/sora
             sudo chmod -R 775 /var/www/sora/api/storage
             sudo chmod -R 775 /var/www/sora/api/bootstrap/cache
             

@@ -1,0 +1,41 @@
+name: Deploy Admin
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'admin/**'
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy Admin
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14' # Older Angular (v11) usually needs Node 14/16
+
+      - name: 📦 Install Dependencies
+        working-directory: ./admin
+        run: npm install
+
+      - name: 🏗️ Build Project
+        working-directory: ./admin
+        run: npm run build -- --configuration production
+
+      - name: 📂 Sync files (FTP)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./admin/dist/
+          server-dir: /admin/
+          exclude: |
+            **/.git*
+            **/.git*/**

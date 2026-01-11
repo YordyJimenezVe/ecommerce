@@ -43,7 +43,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./api_ecommerce_v_10/
-          server-dir: /api/
+          server-dir: /megarys.com/yordyjimenez/api/
           exclude: |
             **/.git*
             **/.git*/**

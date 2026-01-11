@@ -36,7 +36,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./admin/dist/
-          server-dir: /admin/
+          server-dir: /megarys.com/yordyjimenez/admin/
           exclude: |
             **/.git*
             **/.git*/**

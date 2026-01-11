@@ -23,7 +23,7 @@ jobs:
 
       - name: 📦 Install Dependencies
         working-directory: ./admin
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: 🏗️ Build Project
         working-directory: ./admin

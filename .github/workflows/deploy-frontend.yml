@@ -23,7 +23,7 @@ jobs:
 
       - name: 📦 Install Dependencies
         working-directory: ./fronted_ecommerce
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: 🏗️ Build Project
         working-directory: ./fronted_ecommerce

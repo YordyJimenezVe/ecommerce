@@ -27,7 +27,7 @@ jobs:
 
       - name: 🏗️ Build Project
         working-directory: ./fronted_ecommerce
-        run: npm run build -- --configuration production
+        run: npm run build -- --configuration production --base-href /yordyjimenez/
 
       - name: 📂 Sync files (FTP)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4

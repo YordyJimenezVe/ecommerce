@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'fronted_ecommerce/**'
+  workflow_dispatch:
 
 jobs:
   web-deploy:

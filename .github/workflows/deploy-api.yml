@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'api_ecommerce_v_10/**'
+  workflow_dispatch:
 
 jobs:
   web-deploy:

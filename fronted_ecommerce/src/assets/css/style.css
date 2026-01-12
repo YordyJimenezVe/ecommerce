@@ -1,7 +1,6 @@
 /*
-    Theme Name: RAFCART - Multipurpose eCommerce HTML Template
-    Author: rsl.ahmed383@gmail.com
-    Support: rsl.ahmed383@gmail.com
+    Theme Name: MEGARYS - Multipurpose eCommerce HTML Template
+    Author: Yordy Jimenez
     Description: Multipurpose eCommerce HTML templete
     Version: 1.0
 */
@@ -14,7 +13,7 @@ body {
     font-weight: 400;
     font-size: 16px;
     line-height: 26px;
-    color: #2B2D42;
+    color: #002663;
     overflow-x: hidden;
 }
 
@@ -31,14 +30,14 @@ a {
     -webkit-transition: .3s;
     -o-transition: .3s;
     transition: .3s;
-    color: #fd3d57;
+    color: #F5A200;
 }
 a:hover{
-    color: #f38493;
+    color: #f7b233;
 }
 textarea:focus {
-    -webkit-box-shadow: 0px 0px 2px #fd3d57ad !important;
-            box-shadow: 0px 0px 2px #fd3d57ad !important;
+    -webkit-box-shadow: 0px 0px 2px #f5a200ad !important;
+            box-shadow: 0px 0px 2px #f5a200ad !important;
 }
 h1,
 h2,
@@ -72,11 +71,11 @@ ul {
 }
 
 .text-color {
-    color: #FD3D57 !important;
+    color: #F5A200 !important;
 }
 
 .bg-color {
-    background-color: #FD3D57 !important;
+    background-color: #F5A200 !important;
 }
 
 .shadow_sm {
@@ -114,18 +113,18 @@ ul {
 }
 
 .default_link {
-    color: #2B2D42;
+    color: #002663;
     -webkit-transition: .3s;
     -o-transition: .3s;
     transition: .3s;
 }
 
 .default_link:hover {
-    color: #FD3D57;
+    color: #F5A200;
 }
 
 .text_black {
-    color: #2B2D42;
+    color: #002663;
 }
 
 .section_padding {
@@ -140,8 +139,8 @@ ul {
     padding-top: 56px;
 }
 input:focus, textarea:focus {
-    -webkit-box-shadow: 0px 0px 2px #fd3d57ad !important;
-            box-shadow: 0px 0px 2px #fd3d57ad !important;
+    -webkit-box-shadow: 0px 0px 2px #f5a200ad !important;
+            box-shadow: 0px 0px 2px #f5a200ad !important;
 }
 
 /* Preloader */
@@ -198,14 +197,14 @@ header {
 }
 
 .search {
-    border: 1px solid #FD3D57;
+    border: 1px solid #F5A200;
     border-radius: 5px;
     width: 675px;
 }
 
 .search_category {
     width: 145px;
-    border-right: 1px solid #FD3D57;
+    border-right: 1px solid #F5A200;
     background: #fff;
     border-radius: 6px 0 0 6px;
 }
@@ -277,11 +276,11 @@ header {
 
 .search_subimt button {
     border: none;
-    background-color: #FD3D57;
+    background-color: #F5A200;
     width: 100%;
     display: block;
     padding: 10px 15px;
-    color: white;
+    color: #002663; /* Changed to dark blue for contrast on orange */
     font-size: 16px;
     font-weight: 500;
     border-radius: 0 5px 5px 0;
@@ -304,7 +303,7 @@ a.single_sresult_product:hover {
     display: block;
     position: relative;
     font-size: 24px;
-    color: #2b2d42;
+    color: #002663;
 }
 
 .header_icon a.icon_wrp span.icon img {
@@ -322,12 +321,12 @@ a.single_sresult_product:hover {
     position: relative;
     margin-left: 20px;
     display: block;
-    color: #2B2D42;
+    color: #002663;
     padding: 20px 0;
 }
 
 .header_icon a.icon_wrp:hover {
-    color: #FD3D57;
+    color: #F5A200;
 }
 
 
@@ -336,13 +335,13 @@ a.single_sresult_product:hover {
     right: -8px;
     top: 13px;
     font-size: 11px;
-    background: #fd3d57;
+    background: #F5A200;
     border-radius: 50%;
     width: 18px;
     height: 18px;
     line-height: 18px;
     text-align: center;
-    color: white;
+    color: #002663;
 }
 
 .header_icon a.icon_wrp.wishlist .pops {
@@ -351,12 +350,12 @@ a.single_sresult_product:hover {
 
 /* navbar */
 nav {
-    background-color: #2B2D42;
+    background-color: #002663;
 }
 
 .all_category {
     width: 200px;
-    background-color: #FD3D57;
+    background-color: #F5A200;
     position: relative;
 }
 
@@ -365,12 +364,14 @@ nav {
 }
 
 .all_category .bars .icon_text {
+    color: #002663; /* Dark text on orange background */
     font-size: 16px;
 }
 
 .all_category .bars .icon {
     font-size: 18px;
     margin-right: 10px;
+    color: #002663; /* Dark icon on orange background */
 }
 
 .nav_bar {
@@ -430,13 +431,13 @@ nav {
     font-size: 15px;
     display: block;
     padding: 1px 16px;
-    color: #2b2d42;
+    color: #002663;
     border-left: 2px solid #fff;
     white-space: nowrap;
 }
 
 .nav_bar .subnav li:hover a {
-    color: #fd3d57;
+    color: #F5A200;
 }
 
 .nav_bar > li.withsubs > a > span {
@@ -480,7 +481,7 @@ nav {
     padding: 10px 15px;
     width: 100%;
     text-decoration: none;
-    color: #2b2d42;
+    color: #002663;
     padding-left: 25px;
     border-bottom: 1px dotted #C8C8CE;
     cursor: pointer;
@@ -593,7 +594,7 @@ nav {
 }
 
 .ac_links a:hover {
-    color: #fd3d57;
+    color: #F5A200;
 }
 
 .ac_links .myac img {
@@ -657,7 +658,7 @@ nav {
 }
 
 .mega_categories a:hover {
-    color: #FD3D57;
+    color: #F5A200;
 }
 
 .mega_menu_wrap:first-child {
@@ -729,7 +730,7 @@ nav {
 }
 
 .single_hero_slider.bg-3 {
-    background: rgba(253, 61, 87, 0.19);
+    background: rgba(245, 162, 0, 0.19);
 }
 
 /* features area */
@@ -759,7 +760,7 @@ nav {
 
 .single_feature {
     min-height: 90px;
-    border: 1px solid #fd3d57;
+    border: 1px solid #F5A200;
     border-radius: 3px;
 }
 
@@ -785,7 +786,7 @@ nav {
             transform: translateX(-50%);
     width: 120px;
     height: 2px;
-    background: #fd3d57;
+    background: #F5A200;
 }
 
 h2.section_title_3 {

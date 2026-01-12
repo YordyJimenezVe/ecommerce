@@ -27,7 +27,7 @@ jobs:
 
       - name: 🏗️ Build Project
         working-directory: ./fronted_ecommerce
-        run: npm run build -- --configuration production --base-href /yordyjimenez/
+        run: npm run build -- --configuration production --base-href /
 
       - name: 📂 Sync files (FTP)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -36,7 +36,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./fronted_ecommerce/dist/ecommerce/
-          server-dir: /megarys.com/yordyjimenez/
+          server-dir: /megarys.com/
           exclude: |
             **/.git*
             **/.git*/**

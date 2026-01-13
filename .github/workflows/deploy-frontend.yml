@@ -36,7 +36,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./fronted_ecommerce/dist/ecommerce/
-          server-dir: ./v2_deploy/
+          server-dir: ./
           exclude: |
             **/.git*
             **/.git*/**

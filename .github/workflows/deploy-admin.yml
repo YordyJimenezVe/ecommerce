@@ -12,7 +12,7 @@ on:
 jobs:
   web-deploy:
     name: 🎉 Deploy Admin
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
@@ -20,7 +20,7 @@ jobs:
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '14' # Older Angular (v11) usually needs Node 14/16
+          node-version: '14'
 
       - name: 📦 Install Dependencies
         working-directory: ./admin
@@ -29,6 +29,10 @@ jobs:
       - name: 🏗️ Build Project
         working-directory: ./admin
         run: npm run build -- --configuration production --base-href /admin/
+
+      - name: 🔍 Debug - List output files
+        working-directory: ./admin
+        run: ls -R dist/
 
       - name: 📂 Sync files (FTP)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4

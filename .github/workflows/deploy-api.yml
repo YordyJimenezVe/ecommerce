@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'api_ecommerce_v_10/**'
+      - '.github/workflows/deploy-api.yml'
   workflow_dispatch:
 
 jobs:

@@ -36,7 +36,11 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./fronted_ecommerce/dist/ecommerce/
+<<<<<<< Updated upstream
           server-dir: ./
+=======
+          server-dir: ./megarys.com/
+>>>>>>> Stashed changes
           exclude: |
             **/.git*
             **/.git*/**

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  URL_BACKEND: 'http://98.92.53.173/',
-  URL_SERVICIOS: 'http://98.92.53.173/api',
-  URL_FROTEND: 'http://98.92.53.173',
+  URL_BACKEND: 'https://megarys.com/',
+  URL_SERVICIOS: 'https://megarys.com/api',
+  URL_FROTEND: 'https://megarys.com',
 };

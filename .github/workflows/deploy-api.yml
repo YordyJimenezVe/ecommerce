@@ -11,7 +11,7 @@ on:
 
 jobs:
   web-deploy:
-    name: 🎉 Deploy API
+    name: 🎉 Deploy API (Manual Retry)
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code

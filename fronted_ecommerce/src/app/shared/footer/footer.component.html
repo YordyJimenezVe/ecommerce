@@ -14,10 +14,10 @@
                     </div>
                     <div class="col-12 col-md-6 col-lg-12">
                         <div class="footer_newslet">
-                            <h4>Newsletter</h4>
+                            <h4>Boletín</h4>
                             <form class="footernews_form">
-                                <input type="text" placeholder="Your email address">
-                                <button type="submit" class="default_btn">Subscribe</button>
+                                <input type="text" placeholder="Tu correo electrónico">
+                                <button type="submit" class="default_btn">Suscribirse</button>
                             </form>
                         </div>
                     </div>
@@ -27,22 +27,23 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="footer_menu">
-                            <h4 class="footer_title">My Account</h4>
-                            <a href="account-order-history.html">Orders</a>
-                            <a href="wish-list.html">Wishlist</a>
-                            <a href="track-order.html">Track Order</a>
-                            <a href="#">Manage Account</a>
-                            <a href="return-order.html">Return Order</a>
+                            <h4 class="footer_title">Mi cuenta</h4>
+                            <a routerLink="/perfil-del-cliente" [queryParams]="{selected_menu: 4}">Mis Pedidos</a>
+                            <a routerLink="/perfil-del-cliente" [queryParams]="{selected_menu: 6}">Lista de Deseos</a>
+                            <a href="#">Rastrear Pedido</a>
+                            <a routerLink="/perfil-del-cliente" [queryParams]="{selected_menu: 1}">Administrar
+                                Cuenta</a>
+                            <a href="#">Devoluciones</a>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="footer_menu">
-                            <h4 class="footer_title">Information</h4>
-                            <a href="about-us.html">About Us</a>
-                            <a href="return-policy.html">Return Policy</a>
-                            <a href="terms-condition.html">Terms & condition</a>
-                            <a href="privacy-policy.html">Privacy Policy</a>
-                            <a href="faq.html">FAQ</a>
+                            <h4 class="footer_title">Información</h4>
+                            <a href="#">Sobre Nosotros</a>
+                            <a href="#">Política de Devolución</a>
+                            <a href="#">Términos y condiciones</a>
+                            <a href="#">Política de Privacidad</a>
+                            <a href="#">Preguntas Frecuentes</a>
                         </div>
                     </div>
                 </div>
@@ -51,7 +52,7 @@
                 <div class="footer_download">
                     <div class="row">
                         <div class="col-lg-6 col-lg-12">
-                            <h4 class="footer_title">Contact</h4>
+                            <h4 class="footer_title">Contacto</h4>
                             <div class="footer_contact">
                                 <p>
                                     <span class="icn"><i class="las la-map-marker-alt"></i></span>
@@ -88,7 +89,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <p class="copyright_text">© MEGARYS - All Rights Reserved</p>
+                <p class="copyright_text">© MEGARYS - Todos los derechos reservados</p>
             </div>
             <div class="col-md-6">
                 <div class="payment_method">

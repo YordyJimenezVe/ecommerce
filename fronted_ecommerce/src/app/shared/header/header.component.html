@@ -10,83 +10,84 @@
 
             <ul class="nav_bar flex-grow-1">
                 <li class="withsubs">
-                    <a href="index-1.html">Home <span><i class="las la-angle-down"></i></span></a>
+                    <a href="index-1.html">{{ 'Home' | translate }} <span><i class="las la-angle-down"></i></span></a>
                     <ul class="subnav">
-                        <li><a href="index-1.html">Home page 1 </a></li>
+                        <li><a href="index-1.html">{{ 'Home' | translate }} 1 </a></li>
                         <li><a href="index-2.html">Home page 2</a></li>
                         <li><a href="index-3.html">Home page 3</a></li>
                     </ul>
                 </li>
                 <li class="withsubs">
-                    <a href="shop-list.html">Shop <span><i class="las la-angle-down"></i></span></a>
+                    <a href="shop-list.html">{{ 'Shop' | translate }} <span><i class="las la-angle-down"></i></span></a>
                     <ul class="subnav">
-                        <li><a href="shop-list.html">List view </a></li>
-                        <li><a href="shop-grid.html">Grid view</a></li>
-                        <li><a href="shop-grid-2.html">Grid view 2</a></li>
+                        <li><a href="shop-list.html">{{ 'List view' | translate }} </a></li>
+                        <li><a href="shop-grid.html">{{ 'Grid view' | translate }}</a></li>
+                        <li><a href="shop-grid-2.html">{{ 'Grid view' | translate }} 2</a></li>
 
-                        <li><a href="shopping-cart.html">Shopping cart</a></li>
-                        <li><a href="product-view.html">Product view</a></li>
+                        <li><a href="shopping-cart.html">{{ 'Shopping cart' | translate }}</a></li>
+                        <li><a href="product-view.html">{{ 'Product view' | translate }}</a></li>
                     </ul>
                 </li>
                 <li class="withsubs">
-                    <a href="shop-list.html">Pages <span><i class="las la-angle-down"></i></span></a>
+                    <a href="shop-list.html">{{ 'Pages' | translate }} <span><i
+                                class="las la-angle-down"></i></span></a>
                     <div class="subnav py-3 px-2 d-flex gx-4">
                         <div class="single_subnav">
-                            <h5 class="text_lg ps-3 mb-2">Others pages</h5>
+                            <h5 class="text_lg ps-3 mb-2">{{ 'Others pages' | translate }}</h5>
                             <ul>
-                                <li><a href="about-us.html">About us</a></li>
-                                <li><a href="contact-us.html">Contact us</a></li>
+                                <li><a href="about-us.html">{{ 'About us' | translate }}</a></li>
+                                <li><a href="contact-us.html">{{ 'Contact us' | translate }}</a></li>
 
-                                <li><a href="track-order.html">Track order</a></li>
+                                <li><a href="track-order.html">{{ 'Track order' | translate }}</a></li>
                                 <li><a href="faq.html">FAQ</a></li>
                                 <li><a href="404.html">404</a></li>
                             </ul>
                         </div>
                         <div class="single_subnav">
-                            <h5 class="text_lg ps-3 mb-2">Account pages</h5>
+                            <h5 class="text_lg ps-3 mb-2">{{ 'Account pages' | translate }}</h5>
                             <ul>
-                                <li><a href="account.html">My Account</a></li>
-                                <li><a href="login.html">Login</a></li>
-                                <li><a href="register.html">Register</a></li>
-                                <li><a href="forgot-password.html">Forgot password</a></li>
+                                <li><a href="account.html">{{ 'My Account' | translate }}</a></li>
+                                <li><a href="login.html">{{ 'Login' | translate }}</a></li>
+                                <li><a href="register.html">{{ 'Register' | translate }}</a></li>
+                                <li><a href="forgot-password.html">{{ 'Forgot password' | translate }}</a></li>
                             </ul>
                         </div>
                         <div class="single_subnav">
-                            <h5 class="text_lg ps-3 mb-2">Checkout page</h5>
+                            <h5 class="text_lg ps-3 mb-2">{{ 'Checkout page' | translate }}</h5>
                             <ul>
-                                <li><a href="checkout.html">Checkout</a></li>
-                                <li><a href="payment.html">Payment</a></li>
-                                <li><a href="wish-list.html">Wishlist</a></li>
-                                <li><a href="order-completed.html">Order complete</a></li>
+                                <li><a href="checkout.html">{{ 'Checkout' | translate }}</a></li>
+                                <li><a href="payment.html">{{ 'Payment' | translate }}</a></li>
+                                <li><a href="wish-list.html">{{ 'Wishlist' | translate }}</a></li>
+                                <li><a href="order-completed.html">{{ 'Order complete' | translate }}</a></li>
                             </ul>
                         </div>
                     </div>
                 </li>
-                <li><a href="contact-us.html">contact</a></li>
+                <li><a href="contact-us.html">{{ 'Contact' | translate }}</a></li>
                 <li class="tophead_items ms-auto">
                     <div class="me-3">
                         <ng-container *ngIf="!user">
-                            <a class="text-semibold me-0" routerLink="/auth/login">login</a><span
-                                class="text_xs">/</span><a class="text-semibold"
-                                routerLink="/auth/registro">Register</a>
+                            <a class="text-semibold me-0" routerLink="/auth/login">{{ 'Login' | translate }}</a><span
+                                class="text_xs">/</span><a class="text-semibold" routerLink="/auth/registro">{{
+                                'Register' | translate }}</a>
                         </ng-container>
                         <ng-container *ngIf="user">
-                            <a class="text-semibold me-0" href="/perfil-del-cliente?selected_menu=1">Hola, {{ user.name
+                            <a class="text-semibold me-0" href="/perfil-del-cliente?selected_menu=1">{{ 'Hello' |
+                                translate }}, {{ user.name
                                 }}</a>
                         </ng-container>
                     </div>
                     <div>
-                        <select class="nice_select">
-                            <option>Language</option>
-                            <option>English</option>
-                            <option>Franch</option>
+                        <select class="nice_select" (change)="changeLanguage($event)">
+                            <option value="es">{{ 'Spanish' | translate }}</option>
+                            <option value="en">{{ 'English' | translate }}</option>
                         </select>
                     </div>
                     <div class="ms-3">
-                        <select class="nice_select">
-                            <option>Currency</option>
-                            <option>Dollar</option>
-                            <option>Euro</option>
+                        <select class="nice_select" (change)="changeTheme($event)">
+                            <option value="default">Default</option>
+                            <option value="dark">Dark</option>
+                            <option value="red">Red</option>
                         </select>
                     </div>
                 </li>
@@ -113,7 +114,7 @@
                 </div>
                 <div class="sub_categories " [class.active]="isRouterActive()">
                     <h5 class="d-block position-relative d-lg-none subcats_title">
-                        All categories
+                        {{ 'All categories' | translate }}
                     </h5>
 
                     <ng-container *ngFor="let categorie of categories">
@@ -133,7 +134,7 @@
                 <div class="search d-flex">
                     <div class="search_category">
                         <select class="nice_select">
-                            <option value="">All category</option>
+                            <option value="">{{ 'All categories' | translate }}</option>
                             <option value="">Men</option>
                         </select>
                     </div>
@@ -143,7 +144,8 @@
                     </div>
                     <div class="search_subimt">
                         <button>
-                            <span class="d-none d-sm-inline-block" (click)="searchForEnter()">Buscar</span>
+                            <span class="d-none d-sm-inline-block" (click)="searchForEnter()">{{ 'Search' | translate
+                                }}</span>
                             <span class="d-sm-none d-inline-block"><i class="icon-search-left"></i></span>
                         </button>
                     </div>
@@ -184,7 +186,7 @@
                     <span class="icon">
                         <i class="icon-heart"></i>
                     </span>
-                    <span class="icon_text">Wish List</span>
+                    <span class="icon_text">{{ 'Wishlist' | translate }}</span>
                     <span class="pops">{{ listWish.length }}</span>
                 </a>
                 <div class="shopcart">
@@ -192,7 +194,7 @@
                         <span class="icon">
                             <i class="icon-cart"></i>
                         </span>
-                        <span class="icon_text">Cart</span>
+                        <span class="icon_text">{{ 'Cart' | translate }}</span>
                         <span class="pops">{{ listCarts.length }}</span>
                     </a>
                     <div class="shopcart_dropdown">
@@ -246,37 +248,37 @@
                         <span class="icon">
                             <i class="icon-user-line"></i>
                         </span>
-                        <span class="icon_text">Account</span>
+                        <span class="icon_text">{{ 'My Account' | translate }}</span>
                     </a>
                     <div class="myacc_cont">
                         <div class="ac_join">
-                            <p *ngIf="user">Bienvenido {{ user.name }}</p>
+                            <p *ngIf="user">{{ 'Welcome' | translate }} {{ user.name }}</p>
                             <!-- <p *ngIf="!user">Welcome to SORA Shop</p> -->
                             <div class="account_btn d-flex justify-content-between" *ngIf="!user">
-                                <a routerLink="/auth/registro" class="default_btn">UNIRTE</a>
-                                <a routerLink="/auth/login" class="default_btn second">INGRESAR</a>
+                                <a routerLink="/auth/registro" class="default_btn">{{ 'Register' | translate }}</a>
+                                <a routerLink="/auth/login" class="default_btn second">{{ 'Login' | translate }}</a>
                             </div>
                         </div>
                         <div class="ac_links" *ngIf="user">
                             <a href="/perfil-del-cliente?selected_menu=1" class="myac">
                                 <i class="lar la-id-card"></i>
-                                Mi cuenta
+                                {{ 'My Account' | translate }}
                             </a>
                             <a href="/perfil-del-cliente?selected_menu=4">
                                 <i class="las la-gift"></i>
-                                Mis Ordenes
+                                {{ 'Orders' | translate }}
                             </a>
                             <a href="/perfil-del-cliente?selected_menu=6">
                                 <i class="lar la-heart"></i>
-                                Mi Wishlist
+                                {{ 'Wishlist' | translate }}
                             </a>
                             <a routerLink="/carrito-de-compra">
                                 <i class="icon-cart"></i>
-                                Mi Carrito
+                                {{ 'Cart' | translate }}
                             </a>
                             <a href="#" onclick="return false;" *ngIf="user" (click)="logout()">
                                 <i class="las la-power-off"></i>
-                                Log out
+                                {{ 'Log out' | translate }}
                             </a>
                         </div>
                     </div>

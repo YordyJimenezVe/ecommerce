@@ -6,13 +6,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { CDetailProductComponent } from './c-detail-product/c-detail-product.component';
+import { TranslatePipe } from './pipes/translate.pipe';
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
-    CDetailProductComponent
+    CDetailProductComponent,
+    TranslatePipe
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { CDetailProductComponent } from './c-detail-product/c-detail-product.com
   exports: [
     HeaderComponent,
     FooterComponent,
-    CDetailProductComponent
+    CDetailProductComponent,
+    TranslatePipe
   ]
 })
 export class SharedModule { }

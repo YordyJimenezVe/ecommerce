@@ -13,8 +13,13 @@ body {
     font-weight: 400;
     font-size: 16px;
     line-height: 26px;
-    color: #002663;
+    color: var(--primary);
     overflow-x: hidden;
+}
+
+:root {
+    --primary: #002663;
+    --accent: #F5A200;
 }
 
 button:focus,

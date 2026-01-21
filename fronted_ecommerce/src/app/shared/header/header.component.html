@@ -79,13 +79,15 @@
                         </ng-container>
                     </div>
                     <div>
-                        <select class="nice_select" (change)="changeLanguage($event)">
+                        <select class="form-select" (change)="changeLanguage($event)"
+                            style="border: none; background-color: transparent; font-weight: 600;">
                             <option value="es">{{ 'Spanish' | translate }}</option>
                             <option value="en">{{ 'English' | translate }}</option>
                         </select>
                     </div>
                     <div class="ms-3">
-                        <select class="nice_select" (change)="changeTheme($event)">
+                        <select class="form-select" (change)="changeTheme($event)"
+                            style="border: none; background-color: transparent; font-weight: 600;">
                             <option value="default">Default</option>
                             <option value="dark">Dark</option>
                             <option value="red">Red</option>

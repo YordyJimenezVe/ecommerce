@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-faq',
-  template: `
+    selector: 'app-faq',
+    template: `
     <!-- breadcrumbs -->
     <div class="container py-4 flex items-center gap-3">
         <a routerLink="/" class="text-primary text-base">
@@ -28,7 +28,7 @@ import { Component, OnInit } from '@angular/core';
                         <details>
                             <summary class="font-medium cursor-pointer" style="color: var(--primary);">¿Cuánto tiempo tarda en llegar mi pedido?</summary>
                             <p class="mt-2 text-gray-600 text-sm pl-3">
-                                Los pedidos en Lima Metropolitana suelen entregarse en 24-48 horas hábiles. Para provincias, el tiempo estimado es de 3 a 5 días hábiles, dependiendo de la ubicación exacta.
+                                El tiempo de entrega y los costos de envío dependen de las empresas que publican los productos. Te recomendamos revisar la información específica en cada publicación.
                             </p>
                         </details>
                     </div>
@@ -50,7 +50,7 @@ import { Component, OnInit } from '@angular/core';
                         <details>
                             <summary class="font-medium cursor-pointer" style="color: var(--primary);">¿Qué métodos de pago aceptan?</summary>
                             <p class="mt-2 text-gray-600 text-sm pl-3">
-                                Aceptamos todas las tarjetas de crédito y débito (Visa, Mastercard, Amex), pagos a través de Yape, Plin y transferencias bancarias directas.
+                                Existen diversos medios de pago que varían según la empresa que publica el producto. Podrás ver las opciones disponibles al momento de realizar tu compra.
                             </p>
                         </details>
                     </div>
@@ -82,7 +82,7 @@ import { Component, OnInit } from '@angular/core';
         </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .text-primary { color: var(--primary) !important; }
     .border-primary { border-color: var(--primary) !important; }
     .cursor-pointer { cursor: pointer; }
@@ -97,6 +97,6 @@ import { Component, OnInit } from '@angular/core';
   `]
 })
 export class FaqComponent implements OnInit {
-  constructor() { }
-  ngOnInit(): void { }
+    constructor() { }
+    ngOnInit(): void { }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-terms-conditions',
-  template: `
+    selector: 'app-terms-conditions',
+    template: `
     <!-- breadcrumbs -->
     <div class="container py-4 flex items-center gap-3">
         <a routerLink="/" class="text-primary text-base">
@@ -48,24 +48,17 @@ import { Component, OnInit } from '@angular/core';
                 </ul>
             </div>
 
-            <div class="mb-4">
-                <h4 class="mb-2" style="color: var(--primary);">4. Productos y Precios</h4>
-                <p class="text-gray-600 text-justify">
-                    Los precios de nuestros productos están sujetos a cambios sin previo aviso. Nos reservamos el derecho de modificar o discontinuar el Servicio (o cualquier parte del contenido) en cualquier momento sin previo aviso.
-                    No seremos responsables ante ti ni ante terceros por ninguna modificación, cambio de precio, suspensión o interrupción del Servicio.
-                </p>
-            </div>
 
             <div class="mb-4">
-                <h4 class="mb-2" style="color: var(--primary);">5. Envíos y Devoluciones</h4>
+                <h4 class="mb-2" style="color: var(--primary);">4. Envíos y Devoluciones</h4>
                 <p class="text-gray-600 text-justify">
-                    Megarys se compromete a realizar los envíos en los plazos establecidos en nuestra política de envíos. Las devoluciones están sujetas a evaluación y deben cumplir con nuestras condiciones de retorno especificadas en la sección correspondiente.
+                    Megarys se compromete a realizar los envíos en los plazos establecidos en nuestra política de envíos. Las devoluciones están sujetas a los términos y condiciones de la empresa que publica el producto; dichas políticas deben estar detalladas en la descripción de cada producto.
                 </p>
             </div>
         </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .text-primary { color: var(--primary) !important; }
     .text-gray-600 { color: #4B5563; }
     .bg-white { background-color: #ffffff; }
@@ -76,6 +69,6 @@ import { Component, OnInit } from '@angular/core';
   `]
 })
 export class TermsConditionsComponent implements OnInit {
-  constructor() { }
-  ngOnInit(): void { }
+    constructor() { }
+    ngOnInit(): void { }
 }

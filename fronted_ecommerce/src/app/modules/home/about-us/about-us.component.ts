@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-about-us',
-  template: `
+    selector: 'app-about-us',
+    template: `
     <!-- breadcrumbs -->
     <div class="container py-4 flex items-center gap-3">
         <a routerLink="/" class="text-primary text-base">
@@ -20,12 +20,12 @@ import { Component, OnInit } from '@angular/core';
         <div class="container section_padding">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0">
-                    <img loading="lazy" src="assets/images/about-us.png" alt="about" class="w-100 rounded shadow-sm" style="min-height: 300px; background-color: #f0f0f0; object-fit: cover;" onerror="this.src='https://via.placeholder.com/600x400?text=Megarys+Team'">
+                    <img loading="lazy" src="assets/images/about_us_team_v2.png" alt="about" class="w-100 rounded shadow-sm" style="min-height: 300px; background-color: #f0f0f0; object-fit: cover;" onerror="this.src='https://via.placeholder.com/600x400?text=Megarys+Team'">
                 </div>
                 <div class="col-lg-6">
                     <h2 class="text-3xl font-medium mb-4 text-uppercase" style="color: var(--primary);">Nuestra Historia</h2>
                     <p class="text-gray-600 mb-4 leading-relaxed">
-                        Fundada en 2024, Megarys nació con una visión simple: hacer que el comercio electrónico sea accesible, rápido y confiable para todos en Perú. Lo que comenzó como un pequeño emprendimiento familiar se ha convertido en uno de los destinos de compras en línea más prometedores del país.
+                        Fundada en 2026, Megarys nace con una visión simple: hacer que el comercio electrónico sea accesible, rápido y confiable para todos en Perú. Lo que comenzó como una idea de emprendimiento se ha convertido en uno de los destinos de compras en línea más prometedores del país.
                     </p>
                     <p class="text-gray-600 mb-4 leading-relaxed">
                         Nos dedicamos a ofrecer productos de alta calidad a precios competitivos, desde tecnología de punta hasta moda y artículos para el hogar. Nuestra pasión por la excelencia nos impulsa a mejorar continuamente nuestra plataforma y servicios.
@@ -72,7 +72,7 @@ import { Component, OnInit } from '@angular/core';
     </div>
     <!-- ./about -->
   `,
-  styles: [`
+    styles: [`
     .text-primary { color: var(--primary) !important; }
     .text-gray-600 { color: #4B5563; }
     .text-gray-500 { color: #6B7280; }
@@ -87,6 +87,6 @@ import { Component, OnInit } from '@angular/core';
   `]
 })
 export class AboutUsComponent implements OnInit {
-  constructor() { }
-  ngOnInit(): void { }
+    constructor() { }
+    ngOnInit(): void { }
 }

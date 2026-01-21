@@ -16,6 +16,15 @@ body {
     color: var(--text-color);
     background-color: var(--bg-color);
     overflow-x: hidden;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark Mode & Global Logo Fix (Invert to White) */
+body.white .logo img,
+body.dark .logo img,
+body.header-dark .logo img,
+.mobile_logo img {
+    filter: brightness(0) invert(1);
 }
 
 :root {
@@ -123,7 +132,7 @@ ul {
 }
 
 .text_p {
-    color: #464545 !important;
+    color: var(--text-color) !important;
 }
 
 .default_link {
@@ -774,7 +783,7 @@ nav {
 
 .feature_content p {
     font-size: 13px;
-    color: #6B6B6B;
+    color: var(--text-color);
     margin: 0;
     line-height: 1;
 }
@@ -3299,7 +3308,7 @@ span.sidebarclose {
 }
 
 .topr_content a {
-    color: #2b2d42;
+    color: var(--text-color);
 }
 
 .topr_content a:hover {
@@ -3317,6 +3326,13 @@ span.sidebarclose {
     background-color: #f3f3f3;
     padding: 30px 20px;
     border-radius: 5px 5px 0 0;
+}
+
+body.white .sna_img,
+body.dark .sna_img {
+    background-color: var(--bg-color);
+    border: 1px solid var(--accent);
+    border-bottom: none;
 }
 
 .sna_img img.prd_img {
@@ -3412,6 +3428,12 @@ span.sidebarclose {
     background-color: #f3f3f3;
 }
 
+body.white .download_bg,
+body.dark .download_bg {
+    background-color: var(--bg-color);
+    border: 1px solid var(--accent);
+}
+
 .download_cont {
     padding-top: 90px;
     padding-bottom: 105px;
@@ -3437,6 +3459,13 @@ form.subscribe_form input {
     border-right: none;
     font-size: 14px;
     padding: 11px 20px;
+}
+
+body.white form.subscribe_form input,
+body.dark form.subscribe_form input {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border-color: var(--accent);
 }
 
 .subscribe_form button {
@@ -4207,7 +4236,7 @@ label.upload_img:hover {
 }
 
 .contact_form .footer_contact p {
-    color: #464545;
+    color: var(--text-color);
 }
 
 .contact_form textarea {

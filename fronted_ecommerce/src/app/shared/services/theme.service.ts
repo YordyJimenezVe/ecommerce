@@ -68,6 +68,15 @@ export class ThemeService {
 
     setTheme(themeName: string) {
         const theme = this.themes[themeName] || this.themes['default'];
+
+        // Remove all previous theme classes
+        Object.keys(this.themes).forEach(key => {
+            document.body.classList.remove(key);
+        });
+
+        // Add current theme class
+        document.body.classList.add(themeName);
+
         Object.keys(theme).forEach(key => {
             document.documentElement.style.setProperty(key, theme[key]);
         });

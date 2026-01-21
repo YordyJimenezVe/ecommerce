@@ -23,8 +23,86 @@ body {
 body.white .logo img,
 body.dark .logo img,
 body.header-dark .logo img,
+/* Dark Mode & Global Logo Fix (Invert to White) */
+body.white .logo img,
+body.dark .logo img,
+body.header-dark .logo img,
 .mobile_logo img {
     filter: brightness(0) invert(1);
+}
+
+/* Header Links Fix for Dark Mode */
+body.white .nav_bar>li>a,
+body.white .tophead_items a,
+body.dark .nav_bar>li>a,
+body.dark .tophead_items a {
+    color: var(--text-color);
+}
+
+body.white .nav_bar>li>a:hover,
+body.dark .nav_bar>li>a:hover {
+    color: var(--accent);
+}
+
+/* Sidebar Icons & Text Fix for Dark Mode */
+body.white .sub_categories .singlecats .txt,
+body.white .sub_categories .singlecats .img_wrp i,
+body.dark .sub_categories .singlecats .txt,
+body.dark .sub_categories .singlecats .img_wrp i {
+    color: var(--text-color);
+}
+
+body.white .sub_categories .singlecats .img_wrp img,
+body.dark .sub_categories .singlecats .img_wrp img {
+    filter: brightness(0) invert(1);
+}
+
+body.white .sub_categories .singlecats:hover .txt,
+body.white .sub_categories .singlecats:hover .img_wrp i,
+body.dark .sub_categories .singlecats:hover .txt,
+body.dark .sub_categories .singlecats:hover .img_wrp i {
+    color: var(--accent);
+}
+
+/* Select Input Fix for Dark Mode (Force readable text) */
+body.white select,
+body.white .nice-select,
+body.dark select,
+body.dark .nice-select {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-color: var(--accent);
+}
+
+body.white .nice-select .current,
+body.dark .nice-select .current {
+    color: var(--text-color);
+}
+
+body.white .nice-select .list,
+body.dark .nice-select .list {
+    background-color: var(--bg-color);
+}
+
+body.white .nice-select .option,
+body.dark .nice-select .option {
+    color: var(--text-color);
+}
+
+body.white .nice-select .option:hover,
+body.white .nice-select .option.focus,
+body.white .nice-select .option.selected.focus,
+body.dark .nice-select .option:hover {
+    background-color: var(--accent);
+    color: #fff;
+    /* Ensure contrast on hover */
+}
+
+/* Specifically for search category select if needed */
+body.white .search_category .nice-select,
+body.dark .search_category .nice-select {
+    border: none;
+    /* Match original style if it had no border */
 }
 
 :root {

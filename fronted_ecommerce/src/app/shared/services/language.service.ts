@@ -42,7 +42,8 @@ export class LanguageService {
             'Log out': 'Cerrar sesión',
             'Theme': 'Tema',
             'English': 'Inglés',
-            'Spanish': 'Español'
+            'Spanish': 'Español',
+            'FAQ': 'Preguntas Frecuentes'
         },
         'en': {
             'Home': 'Home',
@@ -76,7 +77,8 @@ export class LanguageService {
             'Log out': 'Log out',
             'Theme': 'Theme',
             'English': 'English',
-            'Spanish': 'Spanish'
+            'Spanish': 'Spanish',
+            'FAQ': 'FAQ'
         }
     };
 

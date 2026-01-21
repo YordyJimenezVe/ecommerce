@@ -4,6 +4,10 @@ import { HomeInitialComponent } from './home-initial/home-initial.component';
 import { HomeComponent } from './home.component';
 import { LandingProductDetailComponent } from './landing-product-detail/landing-product-detail.component';
 import { ListsFilterProductsComponent } from './lists-filter-products/lists-filter-products.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { FaqComponent } from './faq/faq.component';
 
 const routes: Routes = [
   {
@@ -22,6 +26,10 @@ const routes: Routes = [
         path: 'lista-de-productos-totales',
         component: ListsFilterProductsComponent,
       },
+      { path: 'sobre-nosotros', component: AboutUsComponent },
+      { path: 'terminos-y-condiciones', component: TermsConditionsComponent },
+      { path: 'politica-de-privacidad', component: PrivacyPolicyComponent },
+      { path: 'preguntas-frecuentes', component: FaqComponent },
     ]
   }
 ];

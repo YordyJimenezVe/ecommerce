@@ -35,11 +35,12 @@
                         <div class="single_subnav">
                             <h5 class="text_lg ps-3 mb-2">{{ 'Others pages' | translate }}</h5>
                             <ul>
-                                <li><a href="about-us.html">{{ 'About us' | translate }}</a></li>
-                                <li><a href="contact-us.html">{{ 'Contact us' | translate }}</a></li>
+                                <li><a routerLink="/sobre-nosotros">{{ 'About us' | translate }}</a></li>
+                                <li><a routerLink="/contact-us">{{ 'Contact us' | translate }}</a></li>
+                                <!-- Assuming contact component exists or route is just placeholder -->
 
-                                <li><a href="track-order.html">{{ 'Track order' | translate }}</a></li>
-                                <li><a href="faq.html">FAQ</a></li>
+                                <!-- <li><a href="track-order.html">{{ 'Track order' | translate }}</a></li> -->
+                                <li><a routerLink="/preguntas-frecuentes">{{ 'FAQ' | translate }}</a></li>
                                 <li><a href="404.html">404</a></li>
                             </ul>
                         </div>

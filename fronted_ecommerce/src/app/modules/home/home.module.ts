@@ -7,6 +7,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { LandingProductDetailComponent } from './landing-product-detail/landing-product-detail.component';
 import { HomeInitialComponent } from './home-initial/home-initial.component';
 import { ListsFilterProductsComponent } from './lists-filter-products/lists-filter-products.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { FaqComponent } from './faq/faq.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -16,7 +20,12 @@ import { RouterModule } from '@angular/router';
     HomeComponent,
     LandingProductDetailComponent,
     HomeInitialComponent,
+    HomeInitialComponent,
     ListsFilterProductsComponent,
+    AboutUsComponent,
+    TermsConditionsComponent,
+    PrivacyPolicyComponent,
+    FaqComponent,
 
   ],
   imports: [

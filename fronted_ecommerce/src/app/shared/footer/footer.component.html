@@ -30,20 +30,21 @@
                             <h4 class="footer_title">Mi cuenta</h4>
                             <a routerLink="/perfil-del-cliente" [queryParams]="{selected_menu: 4}">Mis Pedidos</a>
                             <a routerLink="/perfil-del-cliente" [queryParams]="{selected_menu: 6}">Lista de Deseos</a>
-                            <a href="#">Rastrear Pedido</a>
+                            <!-- <a href="#">Rastrear Pedido</a> -->
                             <a routerLink="/perfil-del-cliente" [queryParams]="{selected_menu: 1}">Administrar
                                 Cuenta</a>
+                            <!-- <a href="#">Devoluciones</a> -->
                             <a href="#">Devoluciones</a>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="footer_menu">
                             <h4 class="footer_title">Información</h4>
-                            <a href="#">Sobre Nosotros</a>
-                            <a href="#">Política de Devolución</a>
-                            <a href="#">Términos y condiciones</a>
-                            <a href="#">Política de Privacidad</a>
-                            <a href="#">Preguntas Frecuentes</a>
+                            <a routerLink="/sobre-nosotros">Sobre Nosotros</a>
+                            <!-- <a href="#">Política de Devolución</a> -->
+                            <a routerLink="/terminos-y-condiciones">Términos y condiciones</a>
+                            <a routerLink="/politica-de-privacidad">Política de Privacidad</a>
+                            <a routerLink="/preguntas-frecuentes">Preguntas Frecuentes</a>
                         </div>
                     </div>
                 </div>

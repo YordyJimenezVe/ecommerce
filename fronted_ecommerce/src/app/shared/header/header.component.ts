@@ -105,12 +105,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   changeTheme(event: any) {
     const theme = event.target.value;
-    if (theme === 'default') {
-      this.themeService.setTheme('#002663', '#F5A200');
-    } else if (theme === 'dark') {
-      this.themeService.setTheme('#1a1a1a', '#ff9800');
-    } else if (theme === 'red') {
-      this.themeService.setTheme('#b71c1c', '#ff5252');
-    }
+    this.themeService.setTheme(theme);
   }
 }

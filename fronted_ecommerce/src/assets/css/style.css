@@ -5285,26 +5285,26 @@ nav.home-2 {
     border-right: 2px solid #fff !important;
 }
 
-/* Ensure Dropdown List and OPTIONS are Readable (Black text on White bg) V14 */
-/* Broader selector: Any nice-select inside header, independent of specific container classes */
-header .nice-select .list,
-header .nice-select .list .option,
-header .nice-select .list li,
-header .nice-select .list *,
-header .nice-select ul.list *,
-.tophead_items .nice-select .list * {
+/* Ensure Dropdown List and OPTIONS are Readable (Black text on White bg) V15 - GLOBAL FIX */
+/* Removed 'header' restriction. Applies to ALL nice-selects to ensure visibility. */
+.nice-select .list,
+.nice-select .list .option,
+.nice-select .list li,
+.nice-select .list *,
+.nice-select ul.list *,
+ul.list li.option {
     color: #000 !important;
     background-color: #fff !important;
 }
 
 /* Ensure Hover/Selected state in dropdown is also readable - Gray bg, Black text */
-header .nice-select .list .option:hover,
-header .nice-select .list .option.selected,
-header .nice-select .list .option.focus,
-header .nice-select ul.list li:hover,
-header .nice-select ul.list li.selected,
-header .nice-select ul.list li.focus,
-header .nice-select .list *:hover {
+.nice-select .list .option:hover,
+.nice-select .list .option.selected,
+.nice-select .list .option.focus,
+.nice-select ul.list li:hover,
+.nice-select ul.list li.selected,
+.nice-select ul.list li.focus,
+.nice-select .list *:hover {
     color: #000 !important;
     background-color: #f6f6f6 !important;
 }

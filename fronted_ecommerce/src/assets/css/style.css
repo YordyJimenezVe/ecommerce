@@ -96,7 +96,7 @@ body.dark .nice-select .option:hover {
 
 body.white .nice-select .current,
 body.dark .nice-select .current {
-    color: var(--text-color);
+    color: var(--text-color) !important;
 }
 
 body.white .nice-select .list,

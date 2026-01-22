@@ -1,12 +1,93 @@
-:host {
-  width: 100%;
-  @media (min-width: 992px) {
-    .login-form {
-      width: 100%;
-      max-width: 450px;
+// Variables
+$primary: #002663;
+$accent: #F5A200;
+$bg-color: #f3f6f9;
 
-      .mat-form-field {
-        width: 100%;
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  // Background can be set here or inherited, ensuring a clean backdrop
+  background: linear-gradient(135deg, #002663 0%, #001a45 100%);
+  width: 100%;
+
+  .login-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .login-content {
+      background: #ffffff;
+      padding: 3rem 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
+    }
+
+    .login-logo {
+      max-width: 180px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+
+    .login-title {
+      color: $primary;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+
+    // Button Brand Override
+    .btn-megarys-primary {
+      background-color: $accent;
+      color: #fff;
+      border: none;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: darken($accent, 10%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 162, 0, 0.3);
+      }
+
+      &:disabled {
+        background-color: lighten($accent, 20%);
+        transform: none;
+      }
+    }
+
+    // Footer styles
+    .login-footer {
+      margin-top: 2rem;
+      text-align: center;
+
+      a {
+        color: rgba(255, 255, 255, 0.8) !important;
+        font-weight: 500;
+
+        &:hover {
+          color: $accent !important;
+          text-decoration: none;
+        }
+      }
+
+      span {
+        color: rgba(255, 255, 255, 0.6) !important;
+      }
+    }
+  }
+
+  // Mobile Responsiveness
+  @media (max-width: 576px) {
+    .login-container {
+      padding: 1rem;
+
+      .login-content {
+        padding: 2rem 1.5rem;
       }
     }
   }

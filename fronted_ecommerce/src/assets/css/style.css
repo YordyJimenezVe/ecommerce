@@ -5285,20 +5285,43 @@ nav.home-2 {
     border-right: 2px solid #fff !important;
 }
 
-/* Ensure Dropdown List and OPTIONS are Readable (Black text on White bg) */
+/* Ensure Dropdown List and OPTIONS are Readable (Black text on White bg) V13 */
+/* Target ALL possible elements inside the dropdown list to reset color to black */
 .tophead_items .nice-select .list,
-.tophead_items .nice-select .list .option {
+.tophead_items .nice-select .list .option,
+.tophead_items .nice-select ul.list li,
+.tophead_items .nice-select .list *,
+.tophead_items .nice-select ul.list * {
     color: #000 !important;
     background-color: #fff !important;
 }
 
-/* Ensure Hover/Selected state in dropdown is also readable */
+/* Ensure Hover/Selected state in dropdown is also readable - Gray bg, Black text */
 .tophead_items .nice-select .list .option:hover,
 .tophead_items .nice-select .list .option.selected,
-.tophead_items .nice-select .list .option.focus {
+.tophead_items .nice-select .list .option.focus,
+.tophead_items .nice-select ul.list li:hover,
+.tophead_items .nice-select ul.list li.selected,
+.tophead_items .nice-select ul.list li.focus,
+.tophead_items .nice-select .list *:hover {
     color: #000 !important;
     background-color: #f6f6f6 !important;
-    /* Light gray for hover/selection */
+}
+
+/* Header Icons (Wishlist, Cart, Search) & Separator - Force WHITE in Dark Header */
+header.home-2 .header_icon a.icon_wrp i,
+header.home-2 .header_icon button i,
+.tophead_items span.text_xs,
+/* Slash separator */
+.tophead_items .text-semibold,
+/* Login/Register text just in case */
+.icon-search-left {
+    color: #fff !important;
+}
+
+/* Header Icon Counts - Force White Text */
+header.home-2 .header_icon span.count {
+    color: #fff !important;
 }
 
 /* Logo Cushion for Colored Themes & Default */

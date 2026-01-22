@@ -140,7 +140,8 @@
                     <div class="search_category">
                         <select class="nice_select">
                             <option value="">Categorías</option>
-                            <option value="">Men</option>
+                            <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}
+                            </option>
                         </select>
                     </div>
                     <div class="search_input">

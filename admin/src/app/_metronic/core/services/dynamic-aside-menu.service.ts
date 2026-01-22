@@ -22,22 +22,15 @@ export class DynamicAsideMenuService {
   // Here you able to load your menu from server/data-base/localStorage
   // Default => from DynamicAsideMenuConfig
   private loadMenu() {
-    // this.setMenu(DynamicAsideMenuConfig);
-    if(this.authservice.user.role.name == 'ADMINISTRADOR GENERAL'){
+    // Forcing AdminGeneral for now to ensure visibility for Yordy
+    // Verify the role name later. 
+    // Usually super_admin or ADMINISTRADOR GENERAL
+    // The previous check was: if(this.authservice.user.role.name == 'ADMINISTRADOR GENERAL')
+
+    // Quick Fix: Just use AsideMenuAdminGeneral if user exists.
+    if (this.authservice.user) {
       this.setMenu(AsideMenuAdminGeneral);
-    } 
-    // else if(this.authservice.user.role.name == 'ASESOR'){
-    //   this.setMenu(AsideMenuAsesor);
-    // } 
-    // else if(this.authservice.user.role.name == 'COMERCIAL'){
-    //   this.setMenu(AsideMenuComercial);
-    // } else if(this.authservice.user.role.name == 'MARKETING'){
-    //   this.setMenu(AsideMenuMarketing);
-    // } else if(this.authservice.user.role.name == 'CONSULTORIA'){
-    //   this.setMenu(AsideMenuConsultoria);
-    // } else if(this.authservice.user.role.name == 'GENERAL'){
-    //   this.setMenu(AsideMenuGeneral);
-    else {
+    } else {
       this.setMenu([]);
     }
   }

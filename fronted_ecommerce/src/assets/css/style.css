@@ -24,11 +24,15 @@ body.white .logo img,
 body.dark .logo img,
 body.header-dark .logo img,
 /* Dark Mode & Global Logo Fix (Invert to White) */
+/* REMOVED FILTER INVERT, USING BACKGROUND CUSHION INSTEAD FOR BETTER "M" VISIBILITY */
 body.white .logo img,
 body.dark .logo img,
 body.header-dark .logo img,
 .mobile_logo img {
-    filter: brightness(0) invert(1);
+    /* filter: brightness(0) invert(1); REMOVE THIS */
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px;
+    border-radius: 4px;
 }
 
 /* Header Links Fix for Dark Mode */
@@ -72,6 +76,22 @@ body.dark .nice-select {
     background-color: var(--bg-color);
     color: var(--text-color);
     border-color: var(--accent);
+}
+
+body.white .nice-select .list,
+body.dark .nice-select .list {
+    background-color: var(--bg-color) !important;
+}
+
+body.white .nice-select .option,
+body.dark .nice-select .option {
+    color: var(--text-color) !important;
+}
+
+body.white .nice-select .option:hover,
+body.dark .nice-select .option:hover {
+    background-color: var(--accent) !important;
+    color: #fff !important;
 }
 
 body.white .nice-select .current,
@@ -5215,4 +5235,21 @@ span.remove_cart:hover {
 .wishlist .cart_img img {
     width: 80px;
     height: 80px;
+}
+/* DEFAULT THEME FIXES (Nav Bar & Text) */
+/* Override the yellow accent background for nav in Home-2 */
+nav.home-2 {
+    background: var(--nav-bg) !important;
+}
+.home-2 .nav_bar > li > a {
+    color: #fff !important;
+}
+.home-2 .nav_bar > li > a:hover {
+    color: var(--accent) !important;
+}
+.home-2 .header_icon a.icon_wrp span, .home-2 .tophead_items .nice-select .current, .home-2 .tophead_items a {
+    color: #fff !important;
+}
+.home-2 .tophead_items .nice-select .list {
+    color: #000;
 }

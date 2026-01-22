@@ -5261,6 +5261,12 @@ nav.home-2 {
     /* White Text */
 }
 
+/* Ensure the arrow in the select is also white (if it uses a pseudo-element border) */
+.home-2 .nice-select:after {
+    border-bottom: 2px solid #fff !important;
+    border-right: 2px solid #fff !important;
+}
+
 .home-2 .tophead_items .nice-select .list {
     color: #000;
 }

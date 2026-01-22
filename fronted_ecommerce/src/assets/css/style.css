@@ -5277,3 +5277,34 @@ header.home-2 .logo img {
     padding: 5px;
     border-radius: 4px;
 }
+
+/* THEME FIXES: Red, Blue, Green (White Text & Logo Cushion) */
+body.red .nav_bar>li>a,
+body.blue .nav_bar>li>a,
+body.green .nav_bar>li>a,
+body.red .header_icon a.icon_wrp span,
+body.blue .header_icon a.icon_wrp span,
+body.green .header_icon a.icon_wrp span,
+body.red .tophead_items .nice-select .current,
+body.blue .tophead_items .nice-select .current,
+body.green .tophead_items .nice-select .current,
+body.red .tophead_items a,
+body.blue .tophead_items a,
+body.green .tophead_items a {
+    color: #fff !important;
+}
+
+body.red .nice-select:after,
+body.blue .nice-select:after,
+body.green .nice-select:after {
+    border-bottom: 2px solid #fff !important;
+    border-right: 2px solid #fff !important;
+}
+
+body.red .logo img,
+body.blue .logo img,
+body.green .logo img {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px;
+    border-radius: 4px;
+}

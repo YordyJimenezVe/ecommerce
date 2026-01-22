@@ -5373,3 +5373,12 @@ nav.home-2 .all_category .bars .icon_text {
 nav.home-2 .nav_bar>li>a:hover {
     color: var(--accent) !important;
 }
+
+/* V18 Fix: Search Category Dropdown Visibility */
+/* Ensures options in the search bar category selector are black and readable */
+.search_category select option,
+.search_category .nice-select .list,
+.search_category .nice-select .list * {
+    color: #000 !important;
+    background-color: #fff !important;
+}

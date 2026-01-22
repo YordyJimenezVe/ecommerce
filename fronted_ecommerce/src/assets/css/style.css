@@ -5285,10 +5285,20 @@ nav.home-2 {
     border-right: 2px solid #fff !important;
 }
 
-/* Ensure Dropdown List is Readable (Black text on White bg) */
-.tophead_items .nice-select .list {
+/* Ensure Dropdown List and OPTIONS are Readable (Black text on White bg) */
+.tophead_items .nice-select .list,
+.tophead_items .nice-select .list .option {
     color: #000 !important;
     background-color: #fff !important;
+}
+
+/* Ensure Hover/Selected state in dropdown is also readable */
+.tophead_items .nice-select .list .option:hover,
+.tophead_items .nice-select .list .option.selected,
+.tophead_items .nice-select .list .option.focus {
+    color: #000 !important;
+    background-color: #f6f6f6 !important;
+    /* Light gray for hover/selection */
 }
 
 /* Logo Cushion for Colored Themes & Default */

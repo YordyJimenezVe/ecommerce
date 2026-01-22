@@ -110,6 +110,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'companies',
+        loadChildren: () =>
+          import('../modules/companies/companies.module').then(
+            (m) => m.CompaniesModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',

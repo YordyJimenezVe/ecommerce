@@ -5346,8 +5346,30 @@ header.home-2 .logo img {
 }
 
 /* Navigation Links White Text for Colored Themes */
-body.red .nav_bar>li>a,
-body.blue .nav_bar>li>a,
-body.green .nav_bar>li>a {
+/* REMOVED: Since we are making the navbar dark globally, we will handle text color in the global rule below */
+/* body.red .nav_bar>li>a, ... kept for reference but overridden */
+
+/* V17 Global Dark Gray Navbar (Two-Tone Effect) */
+/* Forces the bottom navbar to be Dark Gray for ALL themes */
+nav.home-2 {
+    background-color: #2b2b2b !important;
+    /* Dark Gray */
+}
+
+/* Ensure text and links in the dark navbar are White */
+nav.home-2 .nav_bar>li>a,
+nav.home-2 .tophead_items a,
+nav.home-2 .header_icon a,
+nav.home-2 .header_icon i,
+nav.home-2 .header_icon span,
+nav.home-2 .text-white,
+nav.home-2 .icon_text,
+nav.home-2 h5,
+nav.home-2 .all_category .bars .icon_text {
     color: #fff !important;
+}
+
+/* Keep hover effects visible (e.g., Primary/Accent color on hover) */
+nav.home-2 .nav_bar>li>a:hover {
+    color: var(--accent) !important;
 }

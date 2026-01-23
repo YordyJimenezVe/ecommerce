@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LiveEventsService } from '../../service/live-events.service';
+import { LiveEventsService } from '../service/live-events.service';
 
 @Component({
     selector: 'app-edit-live-event',

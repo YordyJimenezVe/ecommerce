@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { QuestionsService } from '../../service/questions.service';
+import { QuestionsService } from '../service/questions.service';
 
 @Component({
     selector: 'app-list-questions',

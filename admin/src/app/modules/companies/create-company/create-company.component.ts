@@ -42,9 +42,21 @@ export class CreateCompanyComponent implements OnInit {
         this.file_logo = $event.target.files[0];
     }
 
+    processProof($event: any) {
+        if ($event.target.files.length === 0) {
+            return;
+        }
+        this.file_proof = $event.target.files[0];
+    }
+
     save() {
         if (!this.name || !this.slug || !this.email_admin || !this.password_admin) {
             alert("Completa los campos obligatorios");
+            return;
+        }
+
+        if (this.payment_method !== 'free' && !this.file_proof) {
+            alert("Sube el comprobante de pago");
             return;
         }
 
@@ -55,6 +67,16 @@ export class CreateCompanyComponent implements OnInit {
         formData.append("password_admin", this.password_admin);
         if (this.description) formData.append("description", this.description);
         if (this.file_logo) formData.append("logo_file", this.file_logo);
+
+        // Membership Data
+        formData.append("membership_duration", this.membership_duration.toString());
+        formData.append("payment_method", this.payment_method);
+        if (this.payment_method === 'free') {
+            formData.append("reason", this.reason);
+        } else {
+            formData.append("payment_amount", this.payment_amount.toString());
+            if (this.file_proof) formData.append("payment_proof", this.file_proof);
+        }
 
         this._companyService.createCompany(formData).subscribe((resp: any) => {
             console.log(resp);

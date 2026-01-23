@@ -18,7 +18,7 @@ export const AsideMenuAdminGeneral = {
       name: "companies",
       bullet: 'dot',
       icon: 'flaticon2-architecture-and-city',
-      svg: './assets/media/svg/icons/Map/Office.svg',
+      svg: './assets/media/svg/icons/Home/Building.svg',
       page: '/companies',
       submenu: [
         {
@@ -37,7 +37,7 @@ export const AsideMenuAdminGeneral = {
       name: "live-events",
       bullet: 'dot',
       icon: 'flaticon2-architecture-and-city',
-      svg: './assets/media/svg/icons/Media/Movie-lane2.svg',
+      svg: './assets/media/svg/icons/Media/Movie-Lane2.svg',
       page: '/live-events',
       submenu: [
         {

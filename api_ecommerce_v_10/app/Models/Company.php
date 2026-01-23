@@ -17,10 +17,12 @@ class Company extends Model
         'email_contact',
         'social_links',
         'status',
+        'membership_expires_at',
     ];
 
     protected $casts = [
         'social_links' => 'array',
+        'membership_expires_at' => 'date',
     ];
 
     public function users()
@@ -33,5 +35,8 @@ class Company extends Model
         return $this->hasMany(LiveEvent::class);
     }
 
-    // In future: products, subcategories relations
+    public function payments()
+    {
+        return $this->hasMany(CompanyPayment::class);
+    }
 }

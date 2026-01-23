@@ -117,6 +117,20 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'live-events',
+        loadChildren: () =>
+          import('../modules/live-events/live-events.module').then(
+            (m) => m.LiveEventsModule
+          ),
+      },
+      {
+        path: 'questions',
+        loadChildren: () =>
+          import('../modules/questions/questions.module').then(
+            (m) => m.QuestionsModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',

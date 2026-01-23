@@ -19,6 +19,10 @@ use App\Http\Controllers\Ecommerce\Profile\ReviewController;
 use App\Http\Controllers\Ecommerce\Profile\ProfileController;
 use App\Http\Controllers\Product\ProductSizeColorsController;
 use App\Http\Controllers\Ecommerce\Client\AddressUserController;
+use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\ModerationController;
+use App\Http\Controllers\Tenant\LiveEventController;
+use App\Http\Controllers\Tenant\QuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,4 +130,16 @@ Route::group(["prefix" => "ecommerce"], function ($router) {
         Route::post("profile_update", [ProfileController::class, 'profile_update']);
         Route::resource("reviews", ReviewController::class);
     });
+});
+
+Route::group(['middleware' => ['auth:api', 'super.admin'], 'prefix' => 'admin'], function () {
+    Route::resource('companies', CompanyController::class);
+    Route::post('companies/{id}/status', [ModerationController::class, 'toggleCompanyStatus']);
+    Route::post('products/{id}/status', [ModerationController::class, 'toggleProductStatus']);
+});
+
+Route::group(['middleware' => ['auth:api', 'tenant'], 'prefix' => 'tenant'], function () {
+    Route::resource('live-events', LiveEventController::class);
+    Route::get('questions', [QuestionController::class, 'index']);
+    Route::post('questions/{id}/answer', [QuestionController::class, 'answer']);
 });

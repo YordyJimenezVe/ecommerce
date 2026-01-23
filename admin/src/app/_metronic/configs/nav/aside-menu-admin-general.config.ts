@@ -32,6 +32,40 @@ export const AsideMenuAdminGeneral = {
       ]
     },
     {
+      title: 'Eventos en Vivo',
+      root: true,
+      name: "live-events",
+      bullet: 'dot',
+      icon: 'flaticon2-architecture-and-city',
+      svg: './assets/media/svg/icons/Media/Movie-lane2.svg',
+      page: '/live-events',
+      submenu: [
+        {
+          title: 'Eventos en Vivo',
+          page: '/live-events/list'
+        },
+        {
+          title: 'Programar Evento',
+          page: '/live-events/create'
+        }
+      ]
+    },
+    {
+      title: 'Preguntas (Q&A)',
+      root: true,
+      name: "questions",
+      bullet: 'dot',
+      icon: 'flaticon2-architecture-and-city',
+      svg: './assets/media/svg/icons/Communication/Chat6.svg',
+      page: '/questions',
+      submenu: [
+        {
+          title: 'Preguntas Clientes',
+          page: '/questions/list'
+        }
+      ]
+    },
+    {
       title: 'Usuarios',
       root: true,
       name: "users",

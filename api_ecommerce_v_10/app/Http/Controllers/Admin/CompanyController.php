@@ -29,18 +29,36 @@ class CompanyController extends Controller
             'name' => 'required|string|max:255',
             'email_admin' => 'required|email|unique:users,email',
             'password_admin' => 'required|min:6',
-            'slug' => 'required|unique:companies,slug'
+            'slug' => 'required|unique:companies,slug',
+            'membership_duration' => 'required|in:1,3,6,12', // Months
+            'payment_method' => 'required|in:transfer,cash,free',
         ]);
+
+        // Calculate Expiration
+        $expiresAt = now()->addMonths((int) $request->membership_duration);
 
         // 1. Create Company
         $company = Company::create([
             'name' => $request->name,
             'slug' => Str::slug($request->slug),
             'email_contact' => $request->email_admin, // Default contact is admin email
-            'status' => 'active'
+            'status' => 'active',
+            'membership_expires_at' => $expiresAt,
+            'logo' => $request->logo,
         ]);
 
-        // 2. Create Company Admin User
+        // 2. Create Payment Record
+        $company->payments()->create([
+            'amount' => $request->payment_method == 'free' ? 0 : $request->payment_amount,
+            'payment_proof' => $request->payment_proof,
+            'payment_method' => $request->payment_method,
+            'reason' => $request->reason,
+            'start_date' => now(),
+            'end_date' => $expiresAt,
+            'type' => 'initial'
+        ]);
+
+        // 3. Create Company Admin User
         $user = User::create([
             'name' => 'Admin ' . $request->name,
             'email' => $request->email_admin,

@@ -17,6 +17,14 @@ export class CreateCompanyComponent implements OnInit {
     file_logo: any = null;
     description: any = null;
 
+    // Membership Fields
+    membership_duration: number = 1;
+    payment_method: string = 'free';
+    payment_amount: number = 0;
+    payment_proof: any = null;
+    file_proof: any = null;
+    reason: string = '';
+
     isLoading: any;
 
     constructor(

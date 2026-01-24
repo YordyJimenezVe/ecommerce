@@ -131,6 +131,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'system',
+        loadChildren: () =>
+          import('../modules/system/system.module').then(
+            (m) => m.SystemModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',

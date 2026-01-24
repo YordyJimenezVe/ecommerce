@@ -136,6 +136,7 @@ Route::group(['middleware' => ['auth:api', 'super.admin'], 'prefix' => 'admin'],
     Route::resource('companies', CompanyController::class);
     Route::post('companies/{id}/status', [ModerationController::class, 'toggleCompanyStatus']);
     Route::post('products/{id}/status', [ModerationController::class, 'toggleProductStatus']);
+    Route::post('system/reset-data', [\App\Http\Controllers\Admin\SystemController::class, 'resetDatabase']);
 });
 
 Route::group(['middleware' => ['auth:api', 'tenant'], 'prefix' => 'tenant'], function () {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Company;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -59,13 +59,25 @@ class CompanyController extends Controller
         ]);
 
         // 3. Create Company Admin User
+        $role = \App\Models\Role::firstOrCreate(['name' => 'ADMINISTRADOR DE EMPRESA']);
+
         $user = User::create([
             'name' => 'Admin ' . $request->name,
             'email' => $request->email_admin,
             'password' => Hash::make($request->password_admin),
-            'role' => 'company_admin',
-            'company_id' => $company->id
+            'role_id' => $role->id,
+            'role' => 'company_admin', // Ensure string column is set
+            'type_user' => 2, // Admin user
+            // 'company_id' => $company->id // Uncomment when migration is added
         ]);
+
+        // If the users table has company_id, we can update it. 
+        // For now, I will assume we need to add the column via migration.
+        // But to prevent crash if column exists:
+        if (\Schema::hasColumn('users', 'company_id')) {
+            $user->company_id = $company->id;
+            $user->save();
+        }
 
         return response()->json([
             'message' => 'Company created successfully',

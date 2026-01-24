@@ -8,6 +8,9 @@ const emptyMenuConfig = {
   items: []
 };
 
+import { AsideMenuSuperAdmin } from '../../configs/nav/aside-menu-super-admin.config';
+import { AsideMenuCompanyAdmin } from '../../configs/nav/aside-menu-company-admin.config';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,14 +25,12 @@ export class DynamicAsideMenuService {
   // Here you able to load your menu from server/data-base/localStorage
   // Default => from DynamicAsideMenuConfig
   private loadMenu() {
-    // Forcing AdminGeneral for now to ensure visibility for Yordy
-    // Verify the role name later. 
-    // Usually super_admin or ADMINISTRADOR GENERAL
-    // The previous check was: if(this.authservice.user.role.name == 'ADMINISTRADOR GENERAL')
-
-    // Quick Fix: Just use AsideMenuAdminGeneral if user exists.
     if (this.authservice.user) {
-      this.setMenu(AsideMenuAdminGeneral);
+      if (this.authservice.user.role.name == 'ADMINISTRADOR GENERAL') {
+        this.setMenu(AsideMenuSuperAdmin);
+      } else {
+        this.setMenu(AsideMenuCompanyAdmin);
+      }
     } else {
       this.setMenu([]);
     }

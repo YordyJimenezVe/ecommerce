@@ -184,5 +184,21 @@ export const AsideMenuAdminGeneral = {
         }
       ]
     },
+    { section: 'Sistema' },
+    {
+      title: 'Configuracion',
+      root: true,
+      name: "system",
+      bullet: 'dot',
+      icon: 'flaticon2-gear',
+      svg: './assets/media/svg/icons/Code/Settings4.svg',
+      page: '/system',
+      submenu: [
+        {
+          title: 'Base de Datos',
+          page: '/system/config'
+        }
+      ]
+    },
   ]
 }

@@ -20,8 +20,19 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'surname', 'type_user' , 'state' , 'role_id' , 'email', 'password', 'avatar','birthday',
-        'gender','phone'
+        'name',
+        'surname',
+        'type_user',
+        'state',
+        'role_id',
+        'email',
+        'password',
+        'avatar',
+        'birthday',
+        'gender',
+        'phone',
+        'company_id',
+        'role'
     ];
 
     /**
@@ -36,7 +47,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function setPasswordAttribute($password)
     {
-        if($password){
+        if ($password) {
             $this->attributes["password"] = bcrypt($password);
         }
     }
@@ -68,13 +79,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(AddressUser::class);
     }
-    public function scopefilterAdvance($query,$state,$search)
+    public function scopefilterAdvance($query, $state, $search)
     {
-        if($state){
-            $query->where("state",$state);
+        if ($state) {
+            $query->where("state", $state);
         }
-        if($search){
-            $query->where("name","like","%".$search."%")->orWhere("surname","like","%".$search."%");
+        if ($search) {
+            $query->where("name", "like", "%" . $search . "%")->orWhere("surname", "like", "%" . $search . "%");
         }
         return $query;
     }

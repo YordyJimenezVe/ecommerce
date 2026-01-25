@@ -26,9 +26,23 @@ export class DynamicAsideMenuService {
   // Default => from DynamicAsideMenuConfig
   private loadMenu() {
     if (this.authservice.user) {
-      const roleName = this.authservice.user.role.name ? this.authservice.user.role.name.toUpperCase() : '';
-      // Check for ID 1 or name 'ADMINISTRADOR GENERAL'
-      if (this.authservice.user.role.id === 1 || roleName === 'ADMINISTRADOR GENERAL') {
+      const userRole = this.authservice.user.role;
+      let isSuperAdmin = false;
+
+      // Case 1: Role is a String
+      if (typeof userRole === 'string') {
+        if (userRole.toUpperCase() === 'ADMINISTRADOR GENERAL') {
+          isSuperAdmin = true;
+        }
+      }
+      // Case 2: Role is an Object
+      else if (typeof userRole === 'object' && userRole !== null) {
+        if (userRole.id === 1 || (userRole.name && userRole.name.toUpperCase() === 'ADMINISTRADOR GENERAL')) {
+          isSuperAdmin = true;
+        }
+      }
+
+      if (isSuperAdmin) {
         this.setMenu(AsideMenuSuperAdmin);
       } else {
         this.setMenu(AsideMenuCompanyAdmin);

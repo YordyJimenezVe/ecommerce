@@ -31,6 +31,21 @@ export const AsideMenuSuperAdmin = {
                 }
             ]
         },
+        {
+            title: 'Sliders',
+            root: true,
+            name: "sliders",
+            bullet: 'dot',
+            icon: 'flaticon2-user-outline-symbol',
+            svg: './assets/media/svg/icons/Design/Image.svg',
+            page: '/sliders',
+            submenu: [
+                {
+                    title: 'Listar Sliders',
+                    page: '/sliders/lista'
+                }
+            ]
+        },
 
         { section: 'Sistema' },
         {

@@ -37,14 +37,22 @@ class CompanyController extends Controller
         // Calculate Expiration
         $expiresAt = now()->addMonths((int) $request->membership_duration);
 
-        // 1. Create Company
+        // 1. Upload Logo
+        $path = $request->file('logo_file');
+        if ($path) {
+            $logo = $path->store('companies', 'public');
+        } else {
+            $logo = 'companies/default-logo.png'; // Or null
+        }
+
+        // 2. Create Company
         $company = Company::create([
             'name' => $request->name,
             'slug' => Str::slug($request->slug),
             'email_contact' => $request->email_admin, // Default contact is admin email
             'status' => 'active',
             'membership_expires_at' => $expiresAt,
-            'logo' => $request->logo,
+            'logo' => $logo,
         ]);
 
         // 2. Create Payment Record

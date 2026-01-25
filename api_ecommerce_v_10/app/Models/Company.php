@@ -10,7 +10,7 @@ class Company extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
+        'name', // Enforce sync
         'slug',
         'logo',
         'description',

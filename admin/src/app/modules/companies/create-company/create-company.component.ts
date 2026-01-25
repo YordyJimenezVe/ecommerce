@@ -81,6 +81,13 @@ export class CreateCompanyComponent implements OnInit {
         this._companyService.createCompany(formData).subscribe((resp: any) => {
             console.log(resp);
             this.router.navigate(['/companies/list']);
+        }, (err: any) => {
+            console.error(err);
+            if (err.error && err.error.message) {
+                alert(err.error.message); // Basic alert, ideally use Toastr/Swal
+            } else {
+                alert("Ocurrió un error al registrar la empresa.");
+            }
         })
     }
 }

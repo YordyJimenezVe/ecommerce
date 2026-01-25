@@ -31,21 +31,7 @@ export const AsideMenuSuperAdmin = {
                 }
             ]
         },
-        {
-            title: 'Usuarios',
-            root: true,
-            name: "users",
-            bullet: 'dot',
-            icon: 'flaticon2-user-outline-symbol',
-            svg: './assets/media/svg/icons/General/User.svg',
-            page: '/users',
-            submenu: [
-                {
-                    title: 'Gestion Usuarios',
-                    page: '/users/list'
-                }
-            ]
-        },
+
         { section: 'Sistema' },
         {
             title: 'Configuracion',

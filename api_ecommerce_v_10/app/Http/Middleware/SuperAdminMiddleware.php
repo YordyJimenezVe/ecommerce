@@ -23,13 +23,14 @@ class SuperAdminMiddleware
             return response()->json(['message' => 'Unauthenticated.'], 401);
         }
 
-        // Hardcoded Superuser Check as requested
-        if ($user->email === 'Yordyalejandro13@gmail.com') {
+        // Hardcoded Superuser Check (Case Insensitive)
+        if (strtolower($user->email) === 'yordyalejandro13@gmail.com') {
             return $next($request);
         }
 
         // Role based check (fallback)
-        if ($user->role === 'super_admin') {
+        // Accepts 'super_admin' OR 'ADMINISTRADOR GENERAL' (from manual DB update)
+        if ($user->role === 'super_admin' || $user->role === 'ADMINISTRADOR GENERAL') {
             return $next($request);
         }
 

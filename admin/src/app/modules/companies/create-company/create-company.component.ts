@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../service/companies.service';
 import { Router } from '@angular/router';
+import { Toaster } from 'ngx-toast-notifications';
 
 @Component({
     selector: 'app-create-company',
@@ -30,6 +31,7 @@ export class CreateCompanyComponent implements OnInit {
     constructor(
         public _companyService: CompaniesService,
         public router: Router,
+        public toaster: Toaster,
     ) { }
 
     ngOnInit(): void {
@@ -51,12 +53,12 @@ export class CreateCompanyComponent implements OnInit {
 
     save() {
         if (!this.name || !this.slug || !this.email_admin || !this.password_admin) {
-            alert("Completa los campos obligatorios");
+            this.toaster.open({ text: "Completa los campos obligatorios", caption: 'Validación', type: 'danger' });
             return;
         }
 
         if (this.payment_method !== 'free' && !this.file_proof) {
-            alert("Sube el comprobante de pago");
+            this.toaster.open({ text: "Sube el comprobante de pago", caption: 'Validación', type: 'danger' });
             return;
         }
 
@@ -80,13 +82,14 @@ export class CreateCompanyComponent implements OnInit {
 
         this._companyService.createCompany(formData).subscribe((resp: any) => {
             console.log(resp);
+            this.toaster.open({ text: "La empresa se registró correctamente", caption: 'Éxito', type: 'success' });
             this.router.navigate(['/companies/list']);
         }, (err: any) => {
             console.error(err);
             if (err.error && err.error.message) {
-                alert(err.error.message); // Basic alert, ideally use Toastr/Swal
+                this.toaster.open({ text: err.error.message, caption: 'Error', type: 'danger' });
             } else {
-                alert("Ocurrió un error al registrar la empresa.");
+                this.toaster.open({ text: "Ocurrió un error al registrar la empresa.", caption: 'Error', type: 'danger' });
             }
         })
     }

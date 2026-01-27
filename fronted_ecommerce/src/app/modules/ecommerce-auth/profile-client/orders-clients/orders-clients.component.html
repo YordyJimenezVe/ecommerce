@@ -1,41 +1,54 @@
 <div class="acorder_wrapper">
-  <ng-container *ngFor="let order of listOrders">
-    <div class="single_prof_recorder mt-0 mb-4 shadow_sm">
-        <div class="prorder_img">
-          <ng-container *ngFor="let item of order.items">
-            <img loading="lazy"  [src]="item.imagen" alt="product">
-          </ng-container>
+    <ng-container *ngFor="let order of listOrders">
+        <div class="single_prof_recorder mt-0 mb-4 shadow_sm">
+            <div class="prorder_img">
+                <ng-container *ngFor="let item of order.items">
+                    <img loading="lazy" [src]="item.imagen" alt="product">
+                </ng-container>
 
-            <!-- <img loading="lazy"  src="assets/images/tv.png" alt="product"> -->
+                <!-- <img loading="lazy"  src="assets/images/tv.png" alt="product"> -->
+            </div>
+            <div class="prorder_btn">
+                <!-- <a href="account-order-details.html">View Order</a> -->
+            </div>
+            <div class="prorder_txt prorder_odnumber">
+                <h5>N° Transacción: </h5>
+                <p>{{ order.n_transaccion }}</p>
+            </div>
+            <div class="prorder_txt prorder_purchased">
+                <h5>Fecha</h5>
+                <p>{{ order.created_at }}</p>
+            </div>
+            <div class="prorder_txt prorder_qnty d-none d-sm-block">
+                <h5>Cantidad</h5>
+                <p>x{{ order.cantidad }}</p>
+            </div>
+            <div class="prorder_txt prorder_total">
+                <h5>Total</h5>
+                <p>{{ order.total }} {{ order.currency_payment }}</p>
+            </div>
+            <div class="prorder_txt prorder_status">
+                <h5 class="d-none d-md-block">Metodo:</h5>
+                <!-- <h5 class="d-block d-md-none"><span class="text_md me-2">Qty: x3</span> $120</h5> -->
+                <p class="text-color">{{ order.method_payment }}</p>
+            </div>
+            <div class="prorder_txt prorder_status">
+                <h5 class="d-none d-md-block">Estado</h5>
+                <ng-container *ngIf="order.payment_status == 'PAID_PENDING'">
+                    <p class="text-warning">Pendiente de Revisión</p>
+                </ng-container>
+                <ng-container *ngIf="order.payment_status == 'PAID_APPROVED'">
+                    <p class="text-success">Aprobado</p>
+                </ng-container>
+                <ng-container *ngIf="order.payment_status == 'PAID_REJECTED'">
+                    <p class="text-danger">Rechazado</p>
+                    <small class="text-danger d-block">{{ order.rejection_reason }}</small>
+                </ng-container>
+            </div>
         </div>
-        <div class="prorder_btn">
-            <!-- <a href="account-order-details.html">View Order</a> -->
-        </div>
-        <div class="prorder_txt prorder_odnumber">
-            <h5>N° Transacción: </h5>
-            <p>{{ order.n_transaccion }}</p>
-        </div>
-        <div class="prorder_txt prorder_purchased">
-            <h5>Fecha</h5>
-            <p>{{ order.created_at }}</p>
-        </div>
-        <div class="prorder_txt prorder_qnty d-none d-sm-block">
-            <h5>Cantidad</h5>
-            <p>x{{ order.cantidad }}</p>
-        </div>
-        <div class="prorder_txt prorder_total">
-            <h5>Total</h5>
-            <p>{{ order.total }} {{ order.currency_payment }}</p>
-        </div>
-        <div class="prorder_txt prorder_status">
-            <h5 class="d-none d-md-block">Metodo:</h5>
-            <!-- <h5 class="d-block d-md-none"><span class="text_md me-2">Qty: x3</span> $120</h5> -->
-            <p class="text-color">{{ order.method_payment }}</p>
-        </div>
-    </div>
-  </ng-container>
+    </ng-container>
 
-  <!-- <div class="single_prof_recorder mt-0 mb-4 shadow_sm">
+    <!-- <div class="single_prof_recorder mt-0 mb-4 shadow_sm">
       <div class="prorder_img">
           <img loading="lazy"  src="assets/images/headphone-3.png" alt="product">
           <img loading="lazy"  src="assets/images/headphone-3.png" alt="product">

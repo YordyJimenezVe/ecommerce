@@ -1,0 +1,65 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Configuración de Métodos de Pago</h3>
+        </div>
+        <div class="card-toolbar">
+            <button type="button" class="btn btn-primary" (click)="saveConfig()">Guardar Configuración</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- PAYPAL -->
+        <div class="form-group row">
+            <label class="col-3 col-form-label">PayPal</label>
+            <div class="col-9">
+                <div class="checkbox-inline mb-2">
+                    <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="payment_methods.paypal.is_active" />
+                        <span></span>
+                        Activo
+                    </label>
+                </div>
+                <input class="form-control mb-2" type="text" placeholder="Client ID"
+                    [(ngModel)]="payment_methods.paypal.client_id" [disabled]="!payment_methods.paypal.is_active" />
+                <input class="form-control" type="text" placeholder="Secret ID"
+                    [(ngModel)]="payment_methods.paypal.secret_id" [disabled]="!payment_methods.paypal.is_active" />
+            </div>
+        </div>
+        <div class="separator separator-dashed my-5"></div>
+
+        <!-- PAGO MOVIL -->
+        <div class="form-group row">
+            <label class="col-3 col-form-label">Pago Móvil</label>
+            <div class="col-9">
+                <div class="checkbox-inline mb-2">
+                    <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="payment_methods.mobile.is_active" />
+                        <span></span>
+                        Activo
+                    </label>
+                </div>
+                <textarea class="form-control" rows="3" placeholder="Detalles (Banco, Teléfono, CI)"
+                    [(ngModel)]="payment_methods.mobile.details"
+                    [disabled]="!payment_methods.mobile.is_active"></textarea>
+            </div>
+        </div>
+        <div class="separator separator-dashed my-5"></div>
+
+        <!-- TRANSFERENCIA -->
+        <div class="form-group row">
+            <label class="col-3 col-form-label">Transferencia Bancaria</label>
+            <div class="col-9">
+                <div class="checkbox-inline mb-2">
+                    <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="payment_methods.transfer.is_active" />
+                        <span></span>
+                        Activo
+                    </label>
+                </div>
+                <textarea class="form-control" rows="3" placeholder="Detalles (Banco, Nro Cuenta, Beneficiario, RIF/CI)"
+                    [(ngModel)]="payment_methods.transfer.details"
+                    [disabled]="!payment_methods.transfer.is_active"></textarea>
+            </div>
+        </div>
+    </div>
+</div>

@@ -164,5 +164,37 @@ export const AsideMenuCompanyAdmin = {
                 }
             ]
         },
+        { section: 'Configuración' },
+        {
+            title: 'Pagos',
+            root: true,
+            name: "pagos",
+            bullet: 'dot',
+            icon: 'flaticon2-settings',
+            svg: './assets/media/svg/icons/General/Settings-1.svg',
+            page: '/payment-config', // Adjust route in routing module later
+            submenu: [
+                {
+                    title: 'Métodos de Pago',
+                    page: '/companies/payment-configs'
+                }
+            ]
+        },
+        { section: 'Facturación' },
+        {
+            title: 'Revisión de Pagos',
+            root: true,
+            name: "billing",
+            bullet: 'dot',
+            icon: 'flaticon-price-tag',
+            svg: './assets/media/svg/icons/Shopping/Credit-card.svg',
+            page: '/billing',
+            submenu: [
+                {
+                    title: 'Pagos Pendientes',
+                    page: '/billing/review-payments'
+                }
+            ]
+        }
     ]
 };

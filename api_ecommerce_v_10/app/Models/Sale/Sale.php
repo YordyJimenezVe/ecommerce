@@ -17,7 +17,10 @@ class Sale extends Model
         "currency_payment",
         "total",
         "price_dolar",
-        "n_transaccion"
+        "n_transaccion",
+        "payment_proof",
+        "payment_status", // PAID_PENDING, PAID_APPROVED, PAID_REJECTED
+        "rejection_reason"
     ];
 
     public function setCreatedAtAttribute($value)
@@ -47,24 +50,24 @@ class Sale extends Model
         return $this->hasMany(SaleDetail::class);
     }
 
-    public function scopefilterAdvance($query,$search,$categorie_id,$start_date,$end_date)
+    public function scopefilterAdvance($query, $search, $categorie_id, $start_date, $end_date)
     {
-        if($search){
-            $query->whereHas("user",function($q) use($search) {
-                $q->where("name","like","%".$search."%")->orWhere("surname","like","%".$search."%")->orWhere("email","like","%".$search."%");
+        if ($search) {
+            $query->whereHas("user", function ($q) use ($search) {
+                $q->where("name", "like", "%" . $search . "%")->orWhere("surname", "like", "%" . $search . "%")->orWhere("email", "like", "%" . $search . "%");
             });
         }
 
-        if($categorie_id){
-            $query->whereHas("sale_details",function($q) use($categorie_id) {
-                $q->whereHas("product",function($subq) use($categorie_id) {
-                    $subq->where("categorie_id",$categorie_id);
+        if ($categorie_id) {
+            $query->whereHas("sale_details", function ($q) use ($categorie_id) {
+                $q->whereHas("product", function ($subq) use ($categorie_id) {
+                    $subq->where("categorie_id", $categorie_id);
                 });
             });
         }
 
-        if($start_date && $end_date){
-            $query->whereBetween("created_at",[$start_date,$end_date]);
+        if ($start_date && $end_date) {
+            $query->whereBetween("created_at", [$start_date, $end_date]);
         }
 
         return $query;

@@ -16,6 +16,7 @@ export class CreateCompanyComponent implements OnInit {
     password_admin: any = null;
     logo: any = null;
     file_logo: any = null;
+    logo_preview: any = null;
     description: any = null;
 
     // Membership Fields
@@ -42,6 +43,12 @@ export class CreateCompanyComponent implements OnInit {
             return;
         }
         this.file_logo = $event.target.files[0];
+
+        let reader = new FileReader();
+        reader.readAsDataURL(this.file_logo);
+        reader.onload = (e: any) => {
+            this.logo_preview = e.target.result;
+        }
     }
 
     processProof($event: any) {

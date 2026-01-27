@@ -137,6 +137,23 @@ Route::group(['middleware' => ['auth:api', 'super.admin'], 'prefix' => 'admin'],
     Route::post('companies/{id}/status', [ModerationController::class, 'toggleCompanyStatus']);
     Route::post('products/{id}/status', [ModerationController::class, 'toggleProductStatus']);
     Route::post('system/reset-data', [\App\Http\Controllers\Admin\SystemController::class, 'resetDatabase']);
+
+    // Admin Billing Routes (Super Admin or Platform Admin)
+    Route::get('billing/orders', [\App\Http\Controllers\Admin\BillingController::class, 'index']);
+    Route::post('billing/orders/{id}/approve', [\App\Http\Controllers\Admin\BillingController::class, 'approve']);
+    Route::post('billing/orders/{id}/reject', [\App\Http\Controllers\Admin\BillingController::class, 'reject']);
+});
+
+// Company Admin Routes
+Route::group(['middleware' => ['auth:api'], 'prefix' => 'company_admin'], function () {
+    Route::resource('payment-config', \App\Http\Controllers\Admin\CompanyPaymentConfigController::class);
+});
+
+// System Routes for Notifications
+Route::group(['middleware' => ['auth:api'], 'prefix' => 'system'], function () {
+    Route::get('notifications', [\App\Http\Controllers\System\NotificationController::class, 'index']);
+    Route::post('notifications/read/{id}', [\App\Http\Controllers\System\NotificationController::class, 'markAsRead']);
+    Route::post('notifications/read-all', [\App\Http\Controllers\System\NotificationController::class, 'markAllAsRead']);
 });
 
 Route::group(['middleware' => ['auth:api', 'tenant'], 'prefix' => 'tenant'], function () {

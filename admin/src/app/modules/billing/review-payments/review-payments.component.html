@@ -1,0 +1,95 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Revisión de Pagos Manuales</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                <thead>
+                    <tr class="text-left">
+                        <th>Orden #</th>
+                        <th>Cliente</th>
+                        <th>Monto</th>
+                        <th>Método</th>
+                        <th>Comprobante</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sale of sales">
+                        <td>{{ sale.id }}</td>
+                        <td>{{ sale.user.name }} {{ sale.user.surname }}<br><small>{{ sale.user.email }}</small></td>
+                        <td>{{ sale.total }} {{ sale.currency_payment }}</td>
+                        <td>{{ sale.method_payment }}</td>
+                        <td>
+                            <a href="javascript:;" (click)="viewProof(sale)"
+                                class="btn btn-sm btn-light-primary font-weight-bolder text-uppercase mr-2">Ver</a>
+                        </td>
+                        <td>
+                            <span class="label label-lg label-light-primary label-inline font-weight-bold py-4">{{
+                                sale.payment_status }}</span>
+                        </td>
+                        <td>
+                            <button (click)="approve(sale)" class="btn btn-icon btn-light-success btn-sm mr-2"
+                                title="Aprobar">
+                                <i class="flaticon2-check-mark"></i>
+                            </button>
+                            <button (click)="reject(sale)" class="btn btn-icon btn-light-danger btn-sm"
+                                title="Rechazar">
+                                <i class="flaticon2-cross"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="sales.length === 0">
+                        <td colspan="7" class="text-center">No hay pagos pendientes.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Proof -->
+<div class="modal fade" id="proofModal" tabindex="-1" role="dialog" [ngClass]="{'show d-block': showModal}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Comprobante de Pago</h5>
+                <button type="button" class="close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img [src]="selectedSale?.payment_proof ? URL_BACKEND + selectedSale.payment_proof : ''"
+                    class="img-fluid" alt="Comprobante">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Reject -->
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" [ngClass]="{'show d-block': showRejectModal}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Rechazar Pago</h5>
+                <button type="button" class="close" (click)="closeRejectModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Motivo del Rechazo</label>
+                    <textarea class="form-control" rows="3" [(ngModel)]="rejection_reason"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeRejectModal()">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="confirmReject()">Rechazar Orden</button>
+            </div>
+        </div>
+    </div>
+</div>

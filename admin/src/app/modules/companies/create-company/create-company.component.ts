@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CompaniesService } from '../service/companies.service';
 import { Router } from '@angular/router';
 import { Toaster } from 'ngx-toast-notifications';
@@ -33,6 +33,7 @@ export class CreateCompanyComponent implements OnInit {
         public _companyService: CompaniesService,
         public router: Router,
         public toaster: Toaster,
+        public cdr: ChangeDetectorRef,
     ) { }
 
     ngOnInit(): void {
@@ -45,10 +46,11 @@ export class CreateCompanyComponent implements OnInit {
         this.file_logo = $event.target.files[0];
 
         let reader = new FileReader();
-        reader.readAsDataURL(this.file_logo);
         reader.onload = (e: any) => {
             this.logo_preview = e.target.result;
+            this.cdr.detectChanges();
         }
+        reader.readAsDataURL(this.file_logo);
     }
 
     processProof($event: any) {

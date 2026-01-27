@@ -22,6 +22,7 @@ export class CompaniesService {
             map((resp: any) => {
                 resp.companies = resp.companies.map((company: any) => {
                     if (company.logo) {
+                        console.log('DEBUG: Accessing logo with backend:', URL_BACKEND);
                         company.logo = URL_BACKEND + 'storage/' + company.logo;
                     }
                     return company;

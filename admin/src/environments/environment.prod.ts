@@ -5,7 +5,7 @@ export const environment = {
   isMockEnabled: false,
   apiUrl: 'api',
   // apiUrl: 'mysite.com/api',
-  URL_BACKEND: 'https://megarys.com/',
+  URL_BACKEND: 'https://megarys.com/api/',
   URL_SERVICIOS: 'https://megarys.com/api',
   URL_FROTEND: 'https://megarys.com/admin',
 };

@@ -24,6 +24,12 @@ export class ListCompaniesComponent implements OnInit {
     listCompanies() {
         this.isLoading = this._companyService.listCompanies().subscribe((resp: any) => {
             this.companies = resp.companies;
+        }, (error) => {
+            console.error('Error fetching companies:', error);
+            if (error.status === 401) {
+                // Handle unauthorized error, possibly redirect or show message
+                // this.auth.logout(); // Optional: Auto logout if session invalid
+            }
         })
     }
 

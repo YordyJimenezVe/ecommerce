@@ -48,31 +48,31 @@ export class AuthService implements OnDestroy {
     this.loadstorage();
   }
 
-  loadstorage(){
-    if(localStorage.getItem("token")){
+  loadstorage() {
+    if (localStorage.getItem("token")) {
       this.token = localStorage.getItem("token");
       this.user = JSON.parse(localStorage.getItem("user"));
-    }else{
-      this.user=null;
+    } else {
+      this.user = null;
       this.token = '';
     }
   }
   // public methods
   isLogued() {
-    return ( this.token.length > 5 ) ? true : false;
+    return (this.token.length > 5) ? true : false;
   }
-login(email: string, password: string) {
+  login(email: string, password: string) {
     this.isLoadingSubject.next(true);
     let url = URL_SERVICIOS + "/users/login";
-    console.log({email, password})
-    return this.http.post(url,{email, password}).pipe(
+    console.log({ email, password })
+    return this.http.post(url, { email, password }).pipe(
       map((auth: any) => {
         console.log(auth)
-          if(auth.access_token){
-            return this.setAuthFromLocalStorage(auth);
-          }else{
-            return auth;
-          }
+        if (auth.access_token) {
+          return this.setAuthFromLocalStorage(auth);
+        } else {
+          return auth;
+        }
       }),
       // switchMap(() => this.getUserByToken()),
       catchError((err) => {
@@ -82,7 +82,7 @@ login(email: string, password: string) {
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
-logout() {
+  logout() {
     // localStorage.removeItem(this.authLocalStorageToken);
     this.user = null;
     this.token = '';
@@ -97,10 +97,10 @@ logout() {
   private setAuthFromLocalStorage(auth: any): boolean {
     // store auth accessToken/refreshToken/epiresIn in local storage to keep user logged in between page refreshes
     if (auth.access_token && auth.user) {
-      localStorage.setItem('token', auth.access_token );
+      localStorage.setItem('token', auth.access_token);
       localStorage.setItem('user', JSON.stringify(auth.user));
-      this.user = auth.access_token;
-      this.token = auth.user;
+      this.user = auth.user;
+      this.token = auth.access_token;
       return true;
     }
     return false;

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { URL_SERVICIOS } from 'src/app/config/config';
+import { URL_SERVICIOS, URL_BACKEND } from 'src/app/config/config';
 import { AuthService } from '../../auth';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +18,17 @@ export class CompaniesService {
     listCompanies() {
         let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.token });
         let URL = URL_SERVICIOS + "/admin/companies";
-        return this.http.get(URL, { headers: headers });
+        return this.http.get(URL, { headers: headers }).pipe(
+            map((resp: any) => {
+                resp.companies = resp.companies.map((company: any) => {
+                    if (company.logo) {
+                        company.logo = URL_BACKEND + 'storage/' + company.logo;
+                    }
+                    return company;
+                });
+                return resp;
+            })
+        );
     }
 
     createCompany(data: any) {

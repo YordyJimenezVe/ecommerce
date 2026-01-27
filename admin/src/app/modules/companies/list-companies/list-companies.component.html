@@ -10,6 +10,9 @@
         </div>
     </div>
     <div class="card-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <span class="spinner spinner-primary ml-5"></span>
+        </ng-container>
         <!-- begin: Table -->
         <div class="table-responsive angular-bootstrap-table">
             <table class="table table-head-custom table-vertical-center overflow-hidden">
@@ -33,7 +36,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="symbol symbol-50 flex-shrink-0 mr-4">
                                     <div class="symbol-label"
-                                        [style.backgroundImage]="'url(' + (company.logo ? company.logo : './assets/media/users/default.jpg') + ')'">
+                                        [style.backgroundImage]="'url(' + (company.logo ? URL_BACKEND + 'storage/' + company.logo : './assets/media/users/default.jpg') + ')'">
                                     </div>
                                 </div>
                                 <div>

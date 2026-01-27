@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../service/companies.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { URL_BACKEND } from 'src/app/config/config';
 
 @Component({
     selector: 'app-list-companies',
@@ -10,7 +11,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class ListCompaniesComponent implements OnInit {
 
     companies: any = [];
-    isLoading: any;
+    isLoading$: any;
+    URL_BACKEND: any = URL_BACKEND;
 
     constructor(
         public _companyService: CompaniesService,
@@ -18,18 +20,14 @@ export class ListCompaniesComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        this.isLoading$ = this._companyService.isLoading$;
         this.listCompanies();
     }
 
     listCompanies() {
-        this.isLoading = this._companyService.listCompanies().subscribe((resp: any) => {
+        this._companyService.listCompanies().subscribe((resp: any) => {
+            console.log(resp);
             this.companies = resp.companies;
-        }, (error) => {
-            console.error('Error fetching companies:', error);
-            if (error.status === 401) {
-                // Handle unauthorized error, possibly redirect or show message
-                // this.auth.logout(); // Optional: Auto logout if session invalid
-            }
         })
     }
 

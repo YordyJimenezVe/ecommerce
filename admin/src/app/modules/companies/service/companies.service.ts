@@ -1,34 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { URL_SERVICIOS, URL_BACKEND } from 'src/app/config/config';
 import { AuthService } from '../../auth';
-import { map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CompaniesService {
+    isLoading$: Observable<boolean>;
+    isLoadingSubject: BehaviorSubject<boolean>;
 
     constructor(
         public http: HttpClient,
         public auth: AuthService,
-    ) { }
+    ) {
+        this.isLoadingSubject = new BehaviorSubject<boolean>(false);
+        this.isLoading$ = this.isLoadingSubject.asObservable();
+    }
 
     listCompanies() {
+        this.isLoadingSubject.next(true);
         let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.token });
         let URL = URL_SERVICIOS + "/admin/companies";
         return this.http.get(URL, { headers: headers }).pipe(
-            map((resp: any) => {
-                resp.companies = resp.companies.map((company: any) => {
-                    if (company.logo) {
-                        console.log('DEBUG: Accessing logo with backend:', URL_BACKEND);
-                        company.logo = URL_BACKEND + 'storage/' + company.logo;
-                    }
-                    return company;
-                });
-                return resp;
-            })
+            finalize(() => this.isLoadingSubject.next(false))
         );
     }
 

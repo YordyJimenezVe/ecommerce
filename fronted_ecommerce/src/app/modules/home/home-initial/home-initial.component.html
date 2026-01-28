@@ -3,31 +3,27 @@
     <div class="home_2_hero">
         <div class="container">
             <div class="hero_slider_active">
-                <!-- <ng-container *ngFor="let slider of sliders"> -->
-                <!-- STATIC BANNER FOR PC GAMER TEST -->
-                <div class="single_hero_slider bg-3"
-                    style="background-image: url('assets/images/gaming_pc_banner.png'); background-size: cover; background-position: center;">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-lg-6 col-sm-7">
-                                <div class="hero_content text-center text-sm-start"
-                                    style="background: rgba(0,0,0,0.85); padding: 30px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
-                                    <p class="text-white" style="font-weight: bold; font-size: 1.2rem;">¡Solo por hoy
-                                        hasta 50% de descuento!</p>
-                                    <h1 class="text-white" style="text-shadow: 2px 2px 4px #000;">PC Gamer en Venta</h1>
-                                    <h3 class="text-white mb-3">Victus AMD Ryzen 5 - RTX 4050 144Hz</h3>
-                                    <div class="hero_btn">
-                                        <a class="default_btn rounded" href="shop-grid.html">Comprar Ahora</a>
+                <ng-container *ngFor="let slider of sliders">
+                    <div class="single_hero_slider bg-3"
+                        [style.backgroundImage]="'url('+URL_BACKEND+'storage/'+slider.imagen+')'"
+                        style="background-size: cover; background-position: center;">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 col-sm-7">
+                                    <div class="hero_content text-center text-sm-start"
+                                        style="background: rgba(0,0,0,0.5); padding: 30px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
+                                        <h1 class="text-white" style="text-shadow: 2px 2px 4px #000;">{{ slider.name }}
+                                        </h1>
+                                        <div class="hero_btn" *ngIf="slider.url">
+                                            <a class="default_btn rounded" [href]="slider.url" target="_blank">Ver
+                                                Ahora</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <!-- Image background is used, so no foreground image needed unless requested specific product cutout -->
-                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- </ng-container> -->
+                </ng-container>
 
                 <!-- <div class="single_hero_slider bg-1">
                   <div class="container">

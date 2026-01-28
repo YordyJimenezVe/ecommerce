@@ -4,24 +4,12 @@
         <div class="container">
             <div class="hero_slider_active">
                 <ng-container *ngFor="let slider of sliders">
-                    <div class="single_hero_slider bg-3"
-                        [style.backgroundImage]="'url('+URL_BACKEND+'storage/'+slider.imagen+')'"
-                        style="background-size: cover; background-position: center;">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6 col-sm-7">
-                                    <div class="hero_content text-center text-sm-start"
-                                        style="background: rgba(0,0,0,0.5); padding: 30px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
-                                        <h1 class="text-white" style="text-shadow: 2px 2px 4px #000;">{{ slider.name }}
-                                        </h1>
-                                        <div class="hero_btn" *ngIf="slider.url">
-                                            <a class="default_btn rounded" [href]="slider.url" target="_blank">Ver
-                                                Ahora</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="single_hero_slider">
+                        <a [href]="slider.url ? slider.url : 'javascript:void(0)'"
+                            [target]="slider.url ? '_blank' : '_self'" style="display: block;">
+                            <img [src]="URL_BACKEND + 'storage/' + slider.imagen" [alt]="slider.name"
+                                style="width: 100%; height: auto; display: block;">
+                        </a>
                     </div>
                 </ng-container>
 

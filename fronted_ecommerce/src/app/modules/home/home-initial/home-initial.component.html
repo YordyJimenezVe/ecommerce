@@ -8,7 +8,7 @@
                         <a [href]="slider.url ? slider.url : 'javascript:void(0)'"
                             [target]="slider.url ? '_blank' : '_self'" style="display: block;">
                             <img [src]="slider.imagen.indexOf('http') == 0 ? slider.imagen : URL_BACKEND + '/storage/' + slider.imagen"
-                                [alt]="slider.name" style="width: 100%; height: auto; display: block;">
+                                [alt]="slider.name" class="slider-img">
                         </a>
                     </div>
                 </ng-container>

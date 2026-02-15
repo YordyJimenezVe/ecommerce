@@ -20,7 +20,11 @@ export class ConfigurationComponent implements OnInit {
                 alert(resp.message);
                 window.location.reload();
             }, (error) => {
-                alert("Error: " + error.message);
+                if (error.error && error.error.message) {
+                    alert("Error Backend: " + error.error.message);
+                } else {
+                    alert("Error: " + error.message);
+                }
             })
         }
     }

@@ -15,7 +15,7 @@ class SystemController extends Controller
             DB::table('products')->truncate();
             DB::table('product_images')->truncate();
             DB::table('product_sizes')->truncate();
-            DB::table('product_size_colors')->truncate();
+            DB::table('product_color_sizes')->truncate();
             DB::table('cart_shops')->truncate();
             DB::table('sales')->truncate();
             DB::table('sale_details')->truncate();

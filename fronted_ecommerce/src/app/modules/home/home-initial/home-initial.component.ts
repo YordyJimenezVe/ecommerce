@@ -3,6 +3,7 @@ import { AuthService } from '../../auth-profile/_services/auth.service';
 import { CartShopsService } from '../_services/cart-shops.service';
 import { HomeService } from '../_services/home.service';
 import { URL_BACKEND } from 'src/app/config/config';
+import { LanguageService } from 'src/app/shared/services/language.service';
 
 declare var $: any;
 declare function initPageEcommerce([]): any;
@@ -24,11 +25,18 @@ export class HomeInitialComponent implements OnInit {
 
   product_selected_modal: any;
 
+  currentLang: string = 'es';
+
   constructor(
     public _homeService: HomeService,
     public _authService: AuthService,
     public _cartService: CartShopsService,
-  ) { }
+    public languageService: LanguageService
+  ) {
+    this.languageService.currentLang$.subscribe((lang: string) => {
+      this.currentLang = lang;
+    });
+  }
 
   ngOnInit(): void {
 

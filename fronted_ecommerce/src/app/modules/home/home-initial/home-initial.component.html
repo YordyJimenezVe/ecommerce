@@ -265,18 +265,6 @@
     </div>
 </section>
 
-<!-- ad banner -->
-<div class="ad_banner_area section_padding_b">
-    <div class="container">
-        <a href="#">
-
-            <picture>
-                <source media="(min-width: 768px)" srcset="assets/images/megarys_banner_desktop.png">
-                <img loading="lazy" class="w-100" src="assets/images/megarys_banner_mobile.png" alt="ad">
-            </picture>
-        </a>
-    </div>
-</div>
 
 <!-- recomended -->
 <section class="new_arrive section_padding_b">
@@ -638,14 +626,48 @@
     </div>
 </section>
 
-<!-- newsletter row -->
-<section class="container-lg megarys_newsletter_row section_padding_b">
-    <div class="newsletter_content">
-        <h2>{{ currentLang == 'es' ? 'Suscríbete a nuestro boletín' : 'Subscribe to our newsletter' }}</h2>
-        <form action="#" class="newsletter_form_simple">
-            <input type="email" [placeholder]="currentLang == 'es' ? 'Tu correo electrónico' : 'Your email address'">
-            <button type="submit">{{ currentLang == 'es' ? 'Suscribirse' : 'Subscribe' }}</button>
-        </form>
+<!-- premium experience newsletter -->
+<section class="container-lg premium_experience section_padding_b">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="experience_img">
+                    <img loading="lazy" src="assets/images/gaming_pc_banner.png" class="w-100 rounded-20 shadow-lg">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="experience_card">
+                    <h2 class="title_3">{{ currentLang == 'es' ? 'VIVE LA EXPERIENCIA' : 'LIVE THE EXPERIENCE' }} <span
+                            class="highlight_text">MEGARYS</span></h2>
+                    <p class="mb-4">{{ currentLang == 'es' ? 'Únete a nuestra comunidad y recibe ofertas exclusivas,
+                        lanzamientos anticipados y lo mejor en tecnología directamente en tu correo.' : 'Join our
+                        community and receive exclusive offers, early launches, and the best in technology directly in
+                        your email.' }}</p>
+
+                    <form action="#" class="premium_newsletter">
+                        <input type="email"
+                            [placeholder]="currentLang == 'es' ? 'Tu correo electrónico' : 'Your email address'">
+                        <button type="submit" class="premium_btn">{{ currentLang == 'es' ? 'Unirme' : 'Join Now'
+                            }}</button>
+                    </form>
+
+                    <div class="value_props">
+                        <div class="prop_item">
+                            <i class="las la-shipping-fast"></i>
+                            <span>{{ currentLang == 'es' ? 'Envío Rápido' : 'Fast Shipping' }}</span>
+                        </div>
+                        <div class="prop_item">
+                            <i class="las la-headset"></i>
+                            <span>{{ currentLang == 'es' ? 'Soporte 24/7' : '24/7 Support' }}</span>
+                        </div>
+                        <div class="prop_item">
+                            <i class="las la-certificate"></i>
+                            <span>{{ currentLang == 'es' ? 'Garantía Total' : 'Total Warranty' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

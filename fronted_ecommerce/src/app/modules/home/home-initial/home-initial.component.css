@@ -5,60 +5,101 @@
     display: block;
 }
 
-/* Simple Megarys Newsletter Row */
-.megarys_newsletter_row {
-    background-color: var(--primary);
-    padding: 60px 0;
+/* Premium Experience Section */
+.premium_experience {
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    overflow: hidden;
     margin-bottom: 56px;
-    border-radius: 15px;
+    padding: 40px 0;
 }
 
-.newsletter_content {
-    text-align: center;
-    color: #fff;
+.experience_img img {
+    transition: transform 0.5s ease;
 }
 
-.newsletter_content h2 {
-    color: #fff;
-    margin-bottom: 30px;
+.experience_img:hover img {
+    transform: scale(1.02);
+}
+
+.experience_card {
+    padding: 40px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.title_3 {
     font-size: 28px;
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 15px;
 }
 
-.newsletter_form_simple {
+.highlight_text {
+    color: var(--accent);
+}
+
+.premium_newsletter {
     display: flex;
-    max-width: 600px;
-    margin: 0 auto;
     gap: 10px;
+    margin-bottom: 30px;
 }
 
-.newsletter_form_simple input {
+.premium_newsletter input {
     flex-grow: 1;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    border: 1px solid #ddd;
     padding: 12px 20px;
-    border-radius: 5px;
+    border-radius: 8px;
     outline: none;
 }
 
-.newsletter_form_simple input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.newsletter_form_simple button {
-    background-color: var(--accent);
-    color: #002663;
+.premium_btn {
+    background: var(--primary);
+    color: #fff;
     border: none;
-    padding: 12px 30px;
-    border-radius: 5px;
+    padding: 12px 25px;
+    border-radius: 8px;
     font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
+    transition: background 0.3s;
 }
 
-.newsletter_form_simple button:hover {
-    background-color: #fff;
+.premium_btn:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.value_props {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.prop_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #666;
+    text-align: center;
+}
+
+.prop_item i {
+    font-size: 24px;
+    color: var(--accent);
+}
+
+.rounded-20 {
+    border-radius: 20px !important;
+}
+
+@media (max-width: 991px) {
+    .experience_card {
+        margin-top: 0;
+        padding: 25px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -66,12 +107,7 @@
         height: 200px;
     }
 
-    .newsletter_form_simple {
+    .premium_newsletter {
         flex-direction: column;
-        padding: 0 20px;
-    }
-
-    .megarys_newsletter_row {
-        padding: 40px 0;
     }
 }

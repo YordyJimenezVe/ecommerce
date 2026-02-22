@@ -271,8 +271,8 @@
         <a href="#">
 
             <picture>
-                <source media="(min-width: 768px)" srcset="assets/images/offer-3.jpg">
-                <img loading="lazy" class="w-100" src="assets/images/offer-mobile-3.jpg" alt="ad">
+                <source media="(min-width: 768px)" srcset="assets/images/megarys_banner_desktop.png">
+                <img loading="lazy" class="w-100" src="assets/images/megarys_banner_mobile.png" alt="ad">
             </picture>
         </a>
     </div>
@@ -638,34 +638,38 @@
     </div>
 </section>
 
-<!-- download app -->
-<section class="download_wrap section_padding_b">
+<!-- premium experience -->
+<section class="container-lg premium_experience section_padding_b">
     <div class="container">
-        <div class="download_bg">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="download_left">
-                        <img loading="lazy" src="assets/images/iphone-12.png" class="w-100">
-                    </div>
+        <div class="row align-items-center">
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="experience_img">
+                    <img loading="lazy" src="assets/images/gaming_pc_banner.png" class="w-100 rounded-20 shadow-lg">
                 </div>
-                <div class="col-lg-5 px-5 px-lg-0">
-                    <div class="download_cont">
-                        <h2 class="title_2 text-capitalize mb-3">{{ currentLang == 'es' ? '¡Descarga la aplicación SORA
-                            ahora!' : 'Download SORA App Now!' }}</h2>
-                        <p class="mb-4">{{ currentLang == 'es' ? 'Compra rápida y fácilmente con nuestra aplicación.
-                            Obtén un enlace para descargar la aplicación en tu teléfono' : 'Shopping fastly and easily
-                            more with our app. Get a link to download the app on your phone' }}</p>
-                        <form action="#" class="subscribe_form">
-                            <input type="text" placeholder="Email Address">
-                            <button type="submit">{{ currentLang == 'es' ? 'Suscribirse' : 'Subscribe' }}</button>
-                        </form>
-                        <div class="download_links">
-                            <a href="#" class="me-3">
-                                <img loading="lazy" src="assets/images/download-1.png" alt="download">
-                            </a>
-                            <a href="#">
-                                <img loading="lazy" src="assets/images/download-2.png" alt="download">
-                            </a>
+            </div>
+            <div class="col-lg-6">
+                <div class="experience_card">
+                    <h2 class="title_3">{{ currentLang == 'es' ? 'VIVE LA EXPERIENCIA' : 'LIVE THE EXPERIENCE' }} <span
+                            class="highlight_text">MEGARYS</span></h2>
+                    <p class="mb-4">{{ currentLang == 'es' ? 'Únete a nuestra comunidad y recibe ofertas exclusivas, lanzamientos anticipados y lo mejor en tecnología directamente en tu correo.' : 'Join our community and receive exclusive offers, early launches, and the best in technology directly in your email.' }}</p>
+
+                    <form action="#" class="premium_newsletter">
+                        <input type="email" [placeholder]="currentLang == 'es' ? 'Tu correo electrónico' : 'Your email address'">
+                        <button type="submit" class="premium_btn">{{ currentLang == 'es' ? 'Unirme' : 'Join Now' }}</button>
+                    </form>
+
+                    <div class="value_props">
+                        <div class="prop_item">
+                            <i class="las la-shipping-fast"></i>
+                            <span>{{ currentLang == 'es' ? 'Envío Rápido' : 'Fast Shipping' }}</span>
+                        </div>
+                        <div class="prop_item">
+                            <i class="las la-headset"></i>
+                            <span>{{ currentLang == 'es' ? 'Soporte 24/7' : '24/7 Support' }}</span>
+                        </div>
+                        <div class="prop_item">
+                            <i class="las la-certificate"></i>
+                            <span>{{ currentLang == 'es' ? 'Garantía Total' : 'Total Warranty' }}</span>
                         </div>
                     </div>
                 </div>

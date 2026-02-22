@@ -638,43 +638,6 @@
     </div>
 </section>
 
-<!-- Immersive Megarys Hero -->
-<section class="container-lg megarys_immersive_hero">
-    <div class="hero_content_glass">
-        <h2 class="luxury_title">
-            {{ currentLang == 'es' ? 'Descubre el' : 'Discover the' }}
-            <span class="accent_word">Universo Megarys</span>
-        </h2>
-
-        <p class="hero_description">
-            {{ currentLang == 'es' ? 'Toda la innovación y potencia en un solo lugar. Únete a la élite tecnológica y sé
-            el primero en conocer nuestras ofertas exclusivas.' : 'All the innovation and power in one place. Join the
-            tech elite and be the first to know about our exclusive offers.' }}
-        </p>
-
-        <form action="#" class="newsletter_minimal">
-            <input type="email"
-                [placeholder]="currentLang == 'es' ? 'Tu correo electrónico premium' : 'Your premium email address'">
-            <button type="submit" class="luxury_btn">{{ currentLang == 'es' ? 'Unirme Ahora' : 'Join Now' }}</button>
-        </form>
-
-        <div class="trust_badges">
-            <div class="badge_item">
-                <i class="las la-shipping-fast"></i>
-                <span>{{ currentLang == 'es' ? 'Envío Prioritario' : 'Priority Shipping' }}</span>
-            </div>
-            <div class="badge_item">
-                <i class="las la-check-circle"></i>
-                <span>{{ currentLang == 'es' ? 'Calidad Certificada' : 'Certified Quality' }}</span>
-            </div>
-            <div class="badge_item">
-                <i class="las la-headset"></i>
-                <span>{{ currentLang == 'es' ? 'Soporte VIP' : 'VIP Support' }}</span>
-            </div>
-        </div>
-    </div>
-</section>
-
 <div class="product_quickview">
     <ng-container *ngIf="product_selected_modal">
         <app-c-detail-product [product_selected_modal]="product_selected_modal"></app-c-detail-product>

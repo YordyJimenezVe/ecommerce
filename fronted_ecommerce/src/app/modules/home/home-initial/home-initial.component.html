@@ -638,6 +638,17 @@
     </div>
 </section>
 
+<!-- newsletter row -->
+<section class="container-lg megarys_newsletter_row section_padding_b">
+    <div class="newsletter_content">
+        <h2>{{ currentLang == 'es' ? 'Suscríbete a nuestro boletín' : 'Subscribe to our newsletter' }}</h2>
+        <form action="#" class="newsletter_form_simple">
+            <input type="email" [placeholder]="currentLang == 'es' ? 'Tu correo electrónico' : 'Your email address'">
+            <button type="submit">{{ currentLang == 'es' ? 'Suscribirse' : 'Subscribe' }}</button>
+        </form>
+    </div>
+</section>
+
 <div class="product_quickview">
     <ng-container *ngIf="product_selected_modal">
         <app-c-detail-product [product_selected_modal]="product_selected_modal"></app-c-detail-product>

@@ -5,8 +5,73 @@
     display: block;
 }
 
+/* Simple Megarys Newsletter Row */
+.megarys_newsletter_row {
+    background-color: var(--primary);
+    padding: 60px 0;
+    margin-bottom: 56px;
+    border-radius: 15px;
+}
+
+.newsletter_content {
+    text-align: center;
+    color: #fff;
+}
+
+.newsletter_content h2 {
+    color: #fff;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.newsletter_form_simple {
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+    gap: 10px;
+}
+
+.newsletter_form_simple input {
+    flex-grow: 1;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.newsletter_form_simple input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.newsletter_form_simple button {
+    background-color: var(--accent);
+    color: #002663;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.newsletter_form_simple button:hover {
+    background-color: #fff;
+}
+
 @media (max-width: 768px) {
     .slider-img {
         height: 200px;
+    }
+
+    .newsletter_form_simple {
+        flex-direction: column;
+        padding: 0 20px;
+    }
+
+    .megarys_newsletter_row {
+        padding: 40px 0;
     }
 }

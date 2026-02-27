@@ -1,0 +1,60 @@
+<div class="suspended-page">
+    <div class="suspended-card">
+        <!-- Animated Warning Icon -->
+        <div class="icon-wrapper">
+            <div class="icon-pulse"></div>
+            <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 9V13M12 17H12.01M10.29 3.86L1.82 18C1.64 18.3 1.55 18.65 1.55 19C1.55 19.55 1.78 20.08 2.18 20.46C2.58 20.84 3.12 21.05 3.68 21.05H20.32C20.88 21.05 21.42 20.84 21.82 20.46C22.22 20.08 22.45 19.55 22.45 19C22.45 18.65 22.36 18.3 22.18 18L13.71 3.86C13.53 3.56 13.27 3.32 12.96 3.15C12.65 2.98 12.3 2.9 11.95 2.9C11.6 2.9 11.25 2.98 10.94 3.15C10.63 3.32 10.37 3.56 10.19 3.86L10.29 3.86Z"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Text Content -->
+        <div class="suspended-content">
+            <h1 class="suspended-title">Cuenta Suspendida</h1>
+            <p class="suspended-message">
+                Tu acceso a las funciones administrativas ha sido <strong>restringido temporalmente</strong>.
+                Esto puede deberse al vencimiento de tu membresía o a una revisión de tu cuenta.
+            </p>
+            <div class="suspended-divider"></div>
+            <p class="suspended-subtitle">
+                Contacta a nuestro equipo de soporte para resolver esta situación y reactivar tu cuenta.
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="suspended-actions">
+            <a href="mailto:soporte@megarys.com" class="btn-support">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4Z"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Contactar Soporte
+            </a>
+            <button (click)="logout()" class="btn-logout">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M9 21H5C4.47 21 3.96 20.79 3.59 20.41C3.21 20.04 3 19.53 3 19V5C3 4.47 3.21 3.96 3.59 3.59C3.96 3.21 4.47 3 5 3H9M16 17L21 12L16 7M21 12H9"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Cerrar Sesión
+            </button>
+        </div>
+
+        <!-- Support Code -->
+        <div class="suspended-footer">
+            <span>Código de soporte: <strong>SUS-{{ today }}</strong></span>
+        </div>
+    </div>
+
+    <!-- Background Decorations -->
+    <div class="decoration decoration-1"></div>
+    <div class="decoration decoration-2"></div>
+    <div class="decoration decoration-3"></div>
+</div>

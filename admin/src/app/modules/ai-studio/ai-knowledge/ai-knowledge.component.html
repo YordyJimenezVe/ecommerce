@@ -1,0 +1,99 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header border-0 py-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label font-weight-bolder text-dark">Base de Conocimiento IA</span>
+            <span class="text-muted mt-3 font-weight-bold font-size-sm">Gestiona lo que la IA debe aprender</span>
+            <span class="badge badge-danger" *ngIf="knowledges.length > 0">REGISTROS: {{ knowledges.length }}</span>
+            <span class="badge badge-warning" *ngIf="knowledges.length === 0">SIN REGISTROS</span>
+        </h3>
+    </div>
+    <div class="card-body py-0">
+        <!-- FORMULARIO -->
+        <div class="bg-light p-5 rounded mb-10 border">
+            <h5 class="mb-5">{{ selected_id ? 'Editar' : 'Agregar Nuevo' }} Conocimiento</h5>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label>Pregunta / Consulta / Título</label>
+                        <input type="text" class="form-control" [(ngModel)]="question"
+                            placeholder="Ejem: ¿Cuál es el horario de atención?">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label>Respuesta (Contexto)</label>
+                        <textarea class="form-control" [(ngModel)]="answer" rows="2"
+                            placeholder="Describa la respuesta que la IA debe dar"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group mb-0">
+                        <label>Empresa (Opcional)</label>
+                        <select class="form-control" [(ngModel)]="company_id">
+                            <option [ngValue]="null">Global (Todos)</option>
+                            <option *ngFor="let comp of companies" [ngValue]="comp.id">{{ comp.name }}</option>
+                        </select>
+                    </div>
+                    <div class="mt-2">
+                        <label class="checkbox checkbox-outline checkbox-success">
+                            <input type="checkbox" [(ngModel)]="is_admin_only" />
+                            <span></span>
+                            <small class="p-1">Es privado de Admin?</small>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <button (click)="reset()" class="btn btn-secondary mr-2" *ngIf="selected_id">Cancelar</button>
+                <button (click)="save()" class="btn btn-primary" [disabled]="isSaving">
+                    <i class="fa fa-save"></i> {{ selected_id ? 'Actualizar' : 'Guardar' }}
+                </button>
+            </div>
+        </div>
+
+        <!-- LISTADO -->
+        <div class="table-responsive">
+            <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                <thead>
+                    <tr class="text-left text-uppercase">
+                        <th style="min-width: 200px">Pregunta</th>
+                        <th style="min-width: 300px">Respuesta</th>
+                        <th style="min-width: 150px">Empresa</th>
+                        <th class="text-right" style="min-width: 100px">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of knowledges">
+                        <td class="font-weight-bolder">{{ item?.question || 'Sin pregunta' }}</td>
+                        <td class="text-muted">
+                            {{ (item?.answer && item.answer.length > 100) ? (item.answer |
+                            slice:0:100)+'...':(item?.answer || 'Sin respuesta') }}
+                        </td>
+                        <td>
+                            <span class="label label-inline label-light-primary mr-1" *ngIf="item?.company">{{
+                                item.company.name || 'Empresa' }}</span>
+                            <span class="label label-inline label-light-success mr-1"
+                                *ngIf="!item?.company">Global</span>
+                            <span class="label label-inline label-light-danger" *ngIf="item?.is_admin_only">Admin
+                                Only</span>
+                        </td>
+                        <td class="text-right">
+                            <button (click)="edit(item)" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
+                                title="Editar">
+                                <i class="fa fa-edit text-primary"></i>
+                            </button>
+                            <button (click)="delete(item)" class="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
+                                title="Eliminar">
+                                <i class="fa fa-trash text-danger"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center py-10" *ngIf="isLoading">
+            <div class="spinner spinner-primary spinner-lg mr-15"></div>
+        </div>
+    </div>
+</div>

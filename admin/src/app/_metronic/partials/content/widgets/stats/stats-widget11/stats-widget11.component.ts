@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LayoutService } from '../../../../../core';
 
 @Component({
@@ -7,6 +7,8 @@ import { LayoutService } from '../../../../../core';
 })
 export class StatsWidget11Component implements OnInit {
   @Input() cssClass;
+  @Input() title: string = '';
+  @Input() value: any = '';
   @Input() symbolShape;
   @Input() baseColor;
   chartOptions: any = {};

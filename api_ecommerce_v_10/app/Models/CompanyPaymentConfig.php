@@ -12,7 +12,7 @@ class CompanyPaymentConfig extends Model
 
     protected $fillable = [
         'company_id',
-        'method_type', // PAYPAL, STRIPE, MANUAL
+        'method_type', // PAYPAL, STRIPE, YAPE, PLIN, MANUAL, BCP, BBVA, INTERBANK, CREDIT_CARD
         'configuration', // JSON
         'is_active',
     ];

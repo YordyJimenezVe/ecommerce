@@ -5,6 +5,8 @@ import { CompaniesComponent } from './companies.component';
 import { ListCompaniesComponent } from './list-companies/list-companies.component';
 import { CreateCompanyComponent } from './create-company/create-company.component';
 import { EditCompanyComponent } from './edit-company/edit-company.component';
+import { CompanyManagementComponent } from './components/company-management/company-management.component';
+import { PaymentConfigsComponent } from './payment-configs/payment-configs.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule, NgbModalModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +18,9 @@ import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
         CompaniesComponent,
         ListCompaniesComponent,
         CreateCompanyComponent,
-        EditCompanyComponent
+        EditCompanyComponent,
+        CompanyManagementComponent,
+        PaymentConfigsComponent
     ],
     imports: [
         CommonModule,

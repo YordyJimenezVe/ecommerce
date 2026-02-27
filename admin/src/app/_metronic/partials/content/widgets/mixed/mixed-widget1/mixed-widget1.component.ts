@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LayoutService } from '../../../../../core';
 
 @Component({
@@ -6,7 +6,8 @@ import { LayoutService } from '../../../../../core';
   templateUrl: './mixed-widget1.component.html',
 })
 export class MixedWidget1Component implements OnInit {
-  chartOptions: any = {};
+  @Input() chartOptions: any = {};
+  @Input() stats: any = {};
   fontFamily = '';
   colorsGrayGray500 = '';
   colorsGrayGray200 = '';
@@ -24,7 +25,9 @@ export class MixedWidget1Component implements OnInit {
   }
 
   ngOnInit(): void {
-    this.chartOptions = this.getChartOptions();
+    if (!this.chartOptions || Object.keys(this.chartOptions).length === 0) {
+      this.chartOptions = this.getChartOptions();
+    }
   }
 
   getChartOptions() {

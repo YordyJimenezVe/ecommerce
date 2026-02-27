@@ -74,8 +74,25 @@
                 <select class="form-control" name="payment_method" [(ngModel)]="payment_method">
                     <option value="free">Gratuito</option>
                     <option value="cash">Efectivo</option>
-                    <option value="transfer">Transferencia</option>
+                    <option value="transfer">Transferencia Directa</option>
+                    <option value="yape">Yape</option>
+                    <option value="plin">Plin</option>
+                    <option value="bcp">BCP (Transferencia)</option>
+                    <option value="bbva">BBVA (Transferencia)</option>
+                    <option value="interbank">Interbank (Transferencia)</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="credit_card">Tarjeta de Crédito</option>
                 </select>
+                <div class="mt-2 ml-1">
+                    <span class="text-muted cursor-pointer" [ngSwitch]="payment_method" (click)="showPaymentHelp()">
+                        <i class="fa fa-question-circle text-primary"></i>
+                        <span *ngSwitchCase="'yape'"> ¿Cómo pagar con Yape?</span>
+                        <span *ngSwitchCase="'plin'"> ¿Cómo pagar con Plin?</span>
+                        <span *ngSwitchCase="'paypal'"> ¿Cómo configurar PayPal?</span>
+                        <span *ngSwitchCase="'credit_card'"> ¿Cómo integrar Tarjetas?</span>
+                        <span *ngSwitchDefault> Detalles del método</span>
+                    </span>
+                </div>
             </div>
         </div>
 

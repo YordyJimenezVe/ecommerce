@@ -9,11 +9,13 @@ import { LanguageService } from '../services/language.service';
 export class FooterComponent implements OnInit {
 
   currentLang: string = 'es';
+  currentYear: number;
 
   constructor(public languageService: LanguageService) {
     this.languageService.currentLang$.subscribe((lang: string) => {
       this.currentLang = lang;
     });
+    this.currentYear = new Date().getFullYear();
   }
 
   ngOnInit(): void {

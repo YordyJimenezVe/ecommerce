@@ -1,0 +1,96 @@
+<div class="premium-dashboard" *ngIf="stats">
+    <!-- Welcome Header -->
+    <div class="welcome-header d-flex align-items-center justify-content-between">
+        <div>
+            <h1>Panel de Análisis Operativo</h1>
+            <p>Métricas y reportes de la plataforma central</p>
+        </div>
+        <div class="glass-card p-4 d-flex align-items-center">
+            <span class="symbol symbol-40 mr-3">
+                <span class="symbol-label status-paid">
+                    <i class="flaticon-pie-chart text-primary"></i>
+                </span>
+            </span>
+            <div>
+                <div class="text-dark-75 font-weight-bolder">Hoy</div>
+                <div class="text-muted font-weight-bold">{{ today | date:'dd MMM, yyyy' }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analyst KPI Cards -->
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-purple metric-card">
+                <div class="metric-label">Usuarios Verificados</div>
+                <div class="metric-value">{{ stats.total_users || 0 }}</div>
+                <div class="metric-subtext">Cuentas creadas</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-blue metric-card">
+                <div class="metric-label">Empresas Afil.</div>
+                <div class="metric-value">{{ stats.total_companies || 0 }}</div>
+                <div class="metric-subtext">Tiendas operativas</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-orange metric-card">
+                <div class="metric-label">Tickets Abiertos</div>
+                <div class="metric-value">{{ stats.total_messages || 0 }}</div>
+                <div class="metric-subtext">Evaluación de soporte</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-green metric-card">
+                <div class="metric-label">Flujo Ventas Global</div>
+                <div class="metric-value">${{ stats.total_sales || 0 }}</div>
+                <div class="metric-subtext">Rendimiento financiero general</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="row mt-5">
+        <!-- Growth Chart -->
+        <div class="col-xl-8 mb-5">
+            <div class="glass-card p-7 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-7">
+                    <h3 class="font-weight-bolder text-dark m-0">Análisis Comparativo (Mensual)</h3>
+                    <span class="label label-lg label-light-primary label-inline font-weight-bold">Ingresos</span>
+                </div>
+                <div class="chart-container" style="min-height: 500px;">
+                    <app-mixed-widget1 chartColor="primary" [chartOptions]="chartOptions"
+                        [stats]="stats"></app-mixed-widget1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 mb-5">
+            <div class="glass-card p-7 h-100 bg-light-primary">
+                <h3 class="font-weight-bolder text-dark mb-7">Resumen de Evaluación</h3>
+                <p class="text-muted font-weight-bold">
+                    El rendimiento general muestra un ecosistema saludable, superando expectativas pasadas. Es
+                    recomendable evaluar el ticket medio de soporte vs ventas para reducir cuellos de botella.
+                </p>
+
+                <h4 class="font-weight-bolder text-dark mt-10 mb-5">Empresas Notables</h4>
+                <div class="d-flex align-items-center mb-5" *ngFor="let company of stats.recent_companies | slice:0:4">
+                    <div class="symbol symbol-40 symbol-light-primary mr-3">
+                        <span class="symbol-label">
+                            <i class="flaticon-businesswoman text-primary"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-dark-75 font-weight-bolder">{{ company.name }}</span>
+                        <span class="text-muted font-size-sm">Activo recientemente</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center py-20" *ngIf="isLoading">
+    <div class="spinner spinner-primary spinner-lg"></div>
+</div>

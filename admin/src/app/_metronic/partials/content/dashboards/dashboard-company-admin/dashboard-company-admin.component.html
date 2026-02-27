@@ -1,0 +1,198 @@
+<div class="premium-dashboard" *ngIf="stats && !isSuspended">
+    <!-- Welcome Header -->
+    <div class="welcome-header d-flex align-items-center justify-content-between">
+        <div>
+            <h1>Panel de Tu Tienda</h1>
+            <p>Resumen de rendimiento y operaciones</p>
+        </div>
+        <div class="glass-card p-4 d-flex align-items-center">
+            <span class="symbol symbol-40 mr-3">
+                <span class="symbol-label status-pending">
+                    <i class="flaticon-time-1 text-warning"></i>
+                </span>
+            </span>
+            <div>
+                <div class="text-dark-75 font-weight-bolder">Estado</div>
+                <div class="text-muted font-weight-bold">Sincronizado</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store KPI Cards -->
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-blue metric-card">
+                <div class="metric-label">Ventas Totales</div>
+                <div class="metric-value">${{ stats.total_sales || 0 }}</div>
+                <div class="metric-subtext">Ingresos acumulados</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-purple metric-card">
+                <div class="metric-label">Pedidos</div>
+                <div class="metric-value">{{ stats.total_orders || 0 }}</div>
+                <div class="metric-subtext">Transacciones procesadas</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-green metric-card">
+                <div class="metric-label">Clientes</div>
+                <div class="metric-value">{{ stats.total_users || 0 }}</div>
+                <div class="metric-subtext">Base de clientes propia</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-orange metric-card">
+                <div class="metric-label">Alertas Stock</div>
+                <div class="metric-value">{{ stats.stock_alerts || 0 }}</div>
+                <div class="metric-subtext">Productos bajo mínimo</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="row mt-5">
+        <!-- Sales Trend Chart -->
+        <div class="col-xl-8 mb-5">
+            <div class="glass-card p-7 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-7">
+                    <h3 class="font-weight-bolder text-dark m-0">Tendencia de Ventas (7 Días)</h3>
+                    <span class="label label-lg label-light-success label-inline font-weight-bold">Rendimiento
+                        Semanal</span>
+                </div>
+                <div class="chart-container" style="min-height: 500px;">
+                    <app-mixed-widget1 chartColor="success" [chartOptions]="chartOptions"
+                        [stats]="stats"></app-mixed-widget1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Status -->
+        <div class="col-xl-4 mb-5">
+            <div class="glass-card p-7 h-100">
+                <h3 class="font-weight-bolder text-dark mb-7">Estado de Inventario</h3>
+                <div class="d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-5">
+                        <span class="text-dark-75 font-weight-bold">Salud del Stock</span>
+                        <span class="text-muted font-weight-bold">{{ stats.stock_alerts > 0 ? 'Atención Requerida' :
+                            'Excelente' }}</span>
+                    </div>
+                    <div class="progress progress-xs mb-10 bg-light-danger">
+                        <div class="progress-bar bg-danger" role="progressbar"
+                            [style.width]="(stats.stock_alerts > 0 ? 30 : 100) + '%'" aria-valuenow="50"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+
+                    <div class="alert alert-custom alert-light-danger fade show mb-5" role="alert"
+                        *ngIf="stats.stock_alerts > 0">
+                        <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                        <div class="alert-text">Tienes {{ stats.stock_alerts }} productos con stock crítico.</div>
+                    </div>
+
+                    <!-- Top Products List -->
+                    <h4 class="font-weight-bolder text-dark mt-5 mb-5">Productos Estrella</h4>
+                    <div class="d-flex align-items-center mb-5" *ngFor="let product of stats.top_products">
+                        <div class="symbol symbol-40 symbol-light-info mr-3">
+                            <span class="symbol-label">
+                                <i class="flaticon-star text-info"></i>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span class="text-dark-75 font-weight-bolder">{{ product.title }}</span>
+                            <span class="text-muted font-size-sm">{{ product.sale_details_count }} Ventas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders Feed -->
+    <div class="row mt-5">
+        <div class="col-xl-12 mb-5">
+            <div class="glass-card p-7">
+                <div class="d-flex align-items-center justify-content-between mb-7">
+                    <h3 class="font-weight-bolder text-dark m-0">Últimos Pedidos Realizados</h3>
+                    <a href="#" class="btn btn-sm btn-light-primary font-weight-bold">Gestionar Pedidos</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-head-custom table-vertical-center borderless">
+                        <thead>
+                            <tr class="text-left">
+                                <th class="pl-0" style="min-width: 150px">Cliente</th>
+                                <th style="min-width: 100px">Monto</th>
+                                <th style="min-width: 100px">Estado</th>
+                                <th class="text-right" style="min-width: 100px">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let order of stats.recent_orders">
+                                <td class="pl-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="symbol symbol-40 symbol-light-success mr-3">
+                                            <span class="symbol-label font-weight-bold">
+                                                {{ order.user?.name.charAt(0) }}
+                                            </span>
+                                        </div>
+                                        <span
+                                            class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">
+                                            {{ order.user?.name }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="text-dark font-weight-bold">{{ order.total }} {{ order.currency_total
+                                        }}</span>
+                                </td>
+                                <td>
+                                    <span class="status-badge"
+                                        [ngClass]="{'status-paid': order.payment_status === 'PAID_APPROVED', 'status-pending': order.payment_status === 'PAID_PENDING'}">
+                                        {{ order.payment_status }}
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+                                        <i class="flaticon-eye text-primary"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr *ngIf="stats.recent_orders.length === 0">
+                                <td colspan="4" class="text-center text-muted py-10">Sin pedidos recientes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-custom gutter-b" *ngIf="isSuspended">
+    <div class="card-body p-15 text-center">
+        <div class="d-flex flex-center flex-column">
+            <div class="symbol symbol-120 symbol-light-danger mb-7">
+                <span class="symbol-label">
+                    <i class="flaticon-warning-sign text-danger icon-4x"></i>
+                </span>
+            </div>
+            <h1 class="text-dark font-weight-bolder mb-5" style="font-size: 2.5rem;">Cuenta Suspendida</h1>
+            <p class="text-muted font-weight-bold font-size-h4 mb-10 col-lg-8 mx-auto">
+                Tu acceso a las funciones administrativas ha sido restringido temporalmente.
+                Esto puede deberse al vencimiento de tu membresía o a una infracción de los términos de servicio.
+            </p>
+            <div class="d-flex flex-center">
+                <a href="mailto:soporte@megarys.com"
+                    class="btn btn-primary font-weight-bolder font-size-h6 px-10 py-4 mr-3">
+                    Contactar Soporte
+                </a>
+                <button (click)="logout()" class="btn btn-light-danger font-weight-bolder font-size-h6 px-10 py-4">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center py-20" *ngIf="isLoading">
+    <div class="spinner spinner-primary spinner-lg"></div>
+</div>

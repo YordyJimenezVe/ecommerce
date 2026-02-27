@@ -1,109 +1,148 @@
 <div class="row">
-  <div class="col-12">
-    <div class="row">
-      <div class="col-4">
-        <div class="shadow_sm p-2">
-          <div class="prof_info_title mb-0">
-              <h4>NUEVA DIRECCIÓN: </h4>
-              <a href="#" onclick="return false;" (click)="resetAddress()" style="font-size: x-large;">+</a>
-          </div>
-          <div class="prfo_info_cont">
-          </div>
-        </div>
-      </div>
+  <div class="col-12 mb-4">
+    <div class="d-flex justify-content-between align-items-center p-4 shadow-sm"
+      style="background: var(--bg-color, #fff); border-radius: 12px; border: 1px solid var(--border-color, rgba(0,0,0,0.05));">
+      <h4 class="m-0 font-weight-bolder" style="color: var(--text-color, #333);">{{ 'Saved Addresses' | translate }}
+      </h4>
+      <button class="btn btn-primary d-flex align-items-center gap-2" (click)="resetAddress()"
+        style="border-radius: 8px;">
+        <i class="las la-plus" style="font-size: 1.2rem;"></i> {{ 'Add New' | translate }}
+      </button>
     </div>
   </div>
+
   <div class="col-12">
     <div class="row">
       <ng-container *ngFor="let addrr of listAdrees;let i = index">
-        <div class="col-4">
-          <div class="single_prof_info shadow_sm">
-            <div class="prof_info_title">
-                <h4>Dirección: ({{ i + 1 }})</h4>
-                <a href="#" onclick="return false;" (click)="selectAddress(addrr)">Selec.</a>
+        <div class="col-lg-6 col-xl-4 mb-4">
+          <div class="single_prof_info shadow-sm p-4 h-100"
+            style="background: var(--bg-color, #fff); border-radius: 12px; border: 1px solid var(--border-color, rgba(0,0,0,0.05)); position: relative; transition: all 0.3s ease;">
+            <div class="d-flex justify-content-between align-items-start mb-3 border-bottom pb-2">
+              <h5 class="mb-0 text-dark font-weight-bold" style="font-size: 1rem;"><i
+                  class="las la-map-marker text-primary mr-1"></i> {{ 'Address' | translate }} #{{ i + 1 }}</h5>
+              <button class="btn btn-sm btn-outline-primary" (click)="selectAddress(addrr)"
+                style="border-radius: 6px;">{{ 'Select' | translate }}</button>
             </div>
-            <div class="prfo_info_cont">
-                <p class="text-semibold">{{ addrr.full_name + ' '+ addrr.full_surname}}</p>
-                <p>{{ addrr.direccion }}</p>
-                <p>{{ addrr.county_region }}</p>
-                <p>{{ addrr.phone }}</p>
-                <p>{{ addrr.email }}</p>
+            <div class="prfo_info_cont pt-2" style="font-size: 0.95rem; color: var(--text-color, #555);">
+              <p class="font-weight-bold mb-1 text-dark">{{ addrr.full_name + ' '+ addrr.full_surname}}</p>
+              <p class="mb-1"><i class="las la-road text-muted mr-2"></i> {{ addrr.direccion }}</p>
+              <p class="mb-1"><i class="las la-city text-muted mr-2"></i> {{ addrr.city ? addrr.city + ',' : '' }} {{
+                addrr.county_region }}</p>
+              <p class="mb-1"><i class="las la-phone text-muted mr-2"></i> {{ addrr.phone }}</p>
+              <p class="mb-0"><i class="las la-envelope text-muted mr-2"></i> {{ addrr.email }}</p>
             </div>
           </div>
         </div>
       </ng-container>
-
     </div>
   </div>
-  <div class="col-12 py-2">
-    <h4 class="shop_cart_title mb-4 px-3 d-fllex align-items-center justify-content-between">
-      <span>
-        Ubicación detallada:
-      </span>
-      <button class="btn btn-sm btn-danger" (click)="changeStatus()">+</button>
-    </h4>
-    <div class="billing_form" *ngIf="status_view">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="single_billing_inp">
-                    <label for="first_name">Nombres completos: <span>*</span></label>
-                    <input type="text" id="first_name" [(ngModel)]="full_name">
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="single_billing_inp">
-                    <label for="last_name">Apellidos completos: <span>*</span></label>
-                    <input type="text" id="last_name" [(ngModel)]="full_surname">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="single_billing_inp">
-                    <label for="company_name">Nombre de empresa: (Opcional)</label>
-                    <input type="text" id="company_name" [(ngModel)]="company_name">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="single_billing_inp">
-                    <label for="county_region">Pais/Region: <span>*</span></label>
-                    <input type="text" id="county_region" [(ngModel)]="county_region">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="single_billing_inp">
-                    <label for="street_addr">Dirección: <span>*</span></label>
-                    <input type="text" id="street_addr" [(ngModel)]="direccion">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="single_billing_inp">
-                    <label for="town_city">Ciudad: <span>*</span></label>
-                    <input type="text" id="town_city"  [(ngModel)]="city">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="single_billing_inp">
-                    <label for="zip_code">Codigo postal: <span>*</span></label>
-                    <input type="text" id="zip_code" [(ngModel)]="zip_code">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="single_billing_inp">
-                    <label for="phone_number">Numero telefonico: <span>*</span></label>
-                    <input type="text" id="phone_number" [(ngModel)]="phone">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="single_billing_inp">
-                    <label for="email_addr">Correo electronico: <span>*</span></label>
-                    <input type="text" id="email_addr" [(ngModel)]="email">
-                </div>
-            </div>
 
-            <div class="col-12">
-              <button class="btn btn-danger" (click)="save()" *ngIf="!address_selected"> AGREGAR DIRECCIÓN </button>
-              <button class="btn btn-danger" (click)="save()" *ngIf="address_selected"> EDITAR DIRECCIÓN </button>
+  <div class="col-12 mt-3" *ngIf="status_view">
+    <div class="p-4 shadow-sm"
+      style="background: var(--bg-color, #fff); border-radius: 16px; border: 1px solid var(--border-color, rgba(0,0,0,0.05));">
+      <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <h4 class="m-0 font-weight-bolder" style="color: var(--text-color, #333);">
+          <i class="las la-map-marked-alt text-primary mr-2"></i> {{ (address_selected ? 'Edit Address' : 'Address
+          Details') | translate }}
+        </h4>
+        <button class="btn btn-icon btn-sm btn-light h-auto" (click)="changeStatus()"><i
+            class="las la-times"></i></button>
+      </div>
+
+      <div class="billing_form">
+        <div class="row">
+          <div class="col-lg-6 mb-3">
+            <div class="single_billing_inp">
+              <label for="first_name" class="font-weight-500 mb-2"><i class="las la-user"
+                  style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'First Name' | translate }} <span
+                  class="text-danger">*</span></label>
+              <input type="text" id="first_name" class="form-control" [(ngModel)]="full_name"
+                style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
             </div>
+          </div>
+          <div class="col-lg-6 mb-3">
+            <div class="single_billing_inp">
+              <label for="last_name" class="font-weight-500 mb-2"><i class="las la-user-tag"
+                  style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Last Name' | translate }} <span
+                  class="text-danger">*</span></label>
+              <input type="text" id="last_name" class="form-control" [(ngModel)]="full_surname"
+                style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
+            </div>
+          </div>
+          <div class="col-12 mb-3">
+            <div class="single_billing_inp">
+              <label for="company_name" class="font-weight-500 mb-2"><i class="las la-building"
+                  style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Company Name (Optional)' |
+                translate }}</label>
+              <input type="text" id="company_name" class="form-control" [(ngModel)]="company_name"
+                style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
+            </div>
+          </div>
+          <div class="col-lg-6 mb-3">
+            <div class="single_billing_inp">
+              <label for="county_region" class="font-weight-500 mb-2"><i class="las la-globe"
+                  style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Country/Region' | translate }}
+                <span class="text-danger">*</span></label>
+              <input type="text" id="county_region" class="form-control" [(ngModel)]="county_region"
+                style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
+            </div>
+          </div>
+          <div class="col-lg-6 mb-3">
+            <div class="single_billing_inp">
+              <label for="town_city" class="font-weight-500 mb-2"><i class="las la-city"
+                  style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Town/City' | translate }} <span
+                  class="text-danger">*</span></label>
+              <input type="text" id="town_city" class="form-control" [(ngModel)]="city"
+                style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
+            </div>
+          </div>
+          <div class="col-12 mb-3">
+            <div class="single_billing_inp">
+              <label for="street_addr" class="font-weight-500 mb-2"><i class="las la-map-marker"
+                  style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Street Address' | translate }}
+                <span class="text-danger">*</span></label>
+              <input type="text" id="street_addr" class="form-control" [(ngModel)]="direccion"
+                style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
+            </div>
+          </div>
+
+          <div class="col-lg-4 mb-3">
+            <div class="single_billing_inp">
+              <label for="zip_code" class="font-weight-500 mb-2"><i class="las la-mail-bulk"
+                  style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Zip Code' | translate }} <span
+                  class="text-danger">*</span></label>
+              <input type="text" id="zip_code" class="form-control" [(ngModel)]="zip_code"
+                style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="single_billing_inp">
+              <label for="phone_number" class="font-weight-500 mb-2"><i class="las la-phone"
+                  style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Phone Number' | translate }}
+                <span class="text-danger">*</span></label>
+              <input type="text" id="phone_number" class="form-control" [(ngModel)]="phone"
+                style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="single_billing_inp">
+              <label for="email_addr" class="font-weight-500 mb-2"><i class="las la-envelope"
+                  style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Email Address' | translate }}
+                <span class="text-danger">*</span></label>
+              <input type="text" id="email_addr" class="form-control" [(ngModel)]="email"
+                style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
+            </div>
+          </div>
+
+          <div class="col-12 mt-4 pt-3 border-top">
+            <button class="btn btn-primary d-flex align-items-center gap-2" (click)="save()"
+              style="border-radius: 8px; padding: 12px 25px;">
+              <i class="las la-save" style="font-size: 1.25rem;"></i> {{ (address_selected ? 'SAVE CHANGES' : 'ADD
+              ADDRESS') | translate }}
+            </button>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 </div>

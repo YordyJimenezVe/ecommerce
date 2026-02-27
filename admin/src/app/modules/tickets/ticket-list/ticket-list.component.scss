@@ -1,0 +1,364 @@
+.tickets-page {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+
+    h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    p {
+        color: #64748b;
+        margin: 4px 0 0;
+    }
+}
+
+.btn-new-ticket,
+.btn-analytics {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #002663, #0052cc);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 38, 99, 0.3);
+        color: white;
+    }
+}
+
+.filters-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+
+    &.active,
+    &:hover {
+        background: #002663;
+        color: white;
+        border-color: #002663;
+    }
+}
+
+.filter-count {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 0 6px;
+    font-size: 11px;
+}
+
+// Modal
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.create-modal {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 550px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+
+    h3 {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: 700;
+    }
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #94a3b8;
+    padding: 4px 8px;
+    border-radius: 4px;
+
+    &:hover {
+        background: #f1f5f9;
+    }
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+
+    label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.875rem;
+        margin-bottom: 0.4rem;
+        color: #374151;
+    }
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    resize: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: #002663;
+        box-shadow: 0 0 0 3px rgba(0, 38, 99, 0.1);
+    }
+}
+
+.priority-options {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.priority-btn {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+
+    &.selected.priority-low {
+        background: #dcfce7;
+        border-color: #16a34a;
+        color: #15803d;
+    }
+
+    &.selected.priority-medium {
+        background: #fef9c3;
+        border-color: #ca8a04;
+        color: #92400e;
+    }
+
+    &.selected.priority-high {
+        background: #fee2e2;
+        border-color: #dc2626;
+        color: #991b1b;
+    }
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.btn-cancel {
+    padding: 0.625rem 1.25rem;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-submit {
+    padding: 0.625rem 1.5rem;
+    background: linear-gradient(135deg, #002663, #0052cc);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+// Ticket cards
+.tickets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+}
+
+.ticket-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: #002663;
+    }
+}
+
+.ticket-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.ticket-num {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    &.badge-open {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    &.badge-in_progress {
+        background: #fef9c3;
+        color: #b45309;
+    }
+
+    &.badge-closed {
+        background: #dcfce7;
+        color: #15803d;
+    }
+}
+
+.priority-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: auto;
+
+    &.dot-low {
+        background: #16a34a;
+    }
+
+    &.dot-medium {
+        background: #ca8a04;
+    }
+
+    &.dot-high {
+        background: #dc2626;
+    }
+}
+
+.ticket-subject {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 0.75rem;
+    line-height: 1.4;
+}
+
+.ticket-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+
+    span {
+        font-size: 0.78rem;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+}
+
+.ticket-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.survey-badge {
+    color: #f97316;
+    font-weight: 600;
+}
+
+.no-survey {
+    color: #94a3b8;
+}
+
+// Empty state
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #94a3b8;
+
+    i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    h3 {
+        color: #64748b;
+        margin-bottom: 0.5rem;
+    }
+}

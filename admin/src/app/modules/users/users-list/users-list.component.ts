@@ -18,13 +18,14 @@ export class UsersListComponent implements OnInit {
 
   totalPages = 1;
   currentPage = 1;
-  
-  state:any = '';
-  search:any = '';
 
-  users:any = [];
+  state: any = '';
+  search: any = '';
+  category: any = '';
+
+  users: any = [];
   constructor(
-    public fb:FormBuilder,
+    public fb: FormBuilder,
     public _userService: UsersService,
     public modelService: NgbModal,
   ) { }
@@ -34,8 +35,8 @@ export class UsersListComponent implements OnInit {
     this.allUsers();
   }
 
-  allUsers(page=1){
-    this._userService.allUsers(page,this.state,this.search).subscribe((resp:any) => {
+  allUsers(page = 1) {
+    this._userService.allUsers(page, this.state, this.search, this.category).subscribe((resp: any) => {
       console.log(resp);
       this.users = resp.users.data;
       this.totalPages = resp.total;
@@ -43,66 +44,71 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  reset(){
+  changeCategory(val) {
+    this.category = val;
+    this.allUsers();
+  }
+
+  reset() {
     this.state = '';
     this.search = '';
     this.allUsers();
   }
-  addUser(){
-    const modalRef = this.modelService.open(AddUsersComponent, {centered : true, size: 'md'});
+  addUser() {
+    const modalRef = this.modelService.open(AddUsersComponent, { centered: true, size: 'md' });
     modalRef.result.then(
       () => {
 
       },
       () => {
-        
+
       }
     )
-    modalRef.componentInstance.usersE.subscribe((resp:any) => {
+    modalRef.componentInstance.usersE.subscribe((resp: any) => {
       console.log(resp);
       resp.state = 1;
       this.users.unshift(resp);
     })
   }
 
-  editUser(user){
-    const modalRef = this.modelService.open(EditUsersComponent, {centered : true, size: 'md'});
+  editUser(user) {
+    const modalRef = this.modelService.open(EditUsersComponent, { centered: true, size: 'md' });
     modalRef.componentInstance.user_selected = user;
     modalRef.result.then(
       () => {
 
       },
       () => {
-        
+
       }
     )
-    modalRef.componentInstance.usersE.subscribe((resp:any) => {
+    modalRef.componentInstance.usersE.subscribe((resp: any) => {
       console.log(resp);
       let INDEX = this.users.findIndex(user => user.id == resp.id);
       this.users[INDEX] = resp;
     })
   }
 
-  delete(user){
-    const modalRef = this.modelService.open(DeleteUserComponent, {centered : true, size: 'md'});
+  delete(user) {
+    const modalRef = this.modelService.open(DeleteUserComponent, { centered: true, size: 'md' });
     modalRef.componentInstance.user_selected = user;
     modalRef.result.then(
       () => {
 
       },
       () => {
-        
+
       }
     )
-    modalRef.componentInstance.usersE.subscribe((resp:any) => {
+    modalRef.componentInstance.usersE.subscribe((resp: any) => {
       console.log(resp);
       let INDEX = this.users.findIndex(user => user.id == resp.id);
-      this.users.splice(INDEX,1);
+      this.users.splice(INDEX, 1);
     })
   }
 
 
-  loadPage(index){
+  loadPage(index) {
     this.allUsers(index);
   }
 }

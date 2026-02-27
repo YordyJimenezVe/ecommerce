@@ -1,0 +1,161 @@
+<div class="ticket-detail-page">
+
+    <!-- Header -->
+    <div class="ticket-header" *ngIf="ticket">
+        <div class="ticket-header-left">
+            <h2>
+                <span class="ticket-id">#{{ ticket.id }}</span>
+                {{ ticket.subject }}
+            </h2>
+            <div class="ticket-meta">
+                <span class="badge" [class.badge-open]="ticket.status === 'open'"
+                    [class.badge-in_progress]="ticket.status === 'in_progress'"
+                    [class.badge-closed]="ticket.status === 'closed'">
+                    {{ statusLabel[ticket.status] }}
+                </span>
+                <span class="meta-item"><i class="fas fa-tag"></i> {{ categoryLabel[ticket.category] }}</span>
+                <span class="meta-item"><i class="fas fa-clock"></i> {{ ticket.created_at | date:'dd/MM/yyyy HH:mm'
+                    }}</span>
+                <span class="meta-item" *ngIf="ticket.assigned_to">
+                    <i class="fas fa-user-tie"></i> {{ ticket.assigned_to?.name }} {{ ticket.assigned_to?.surname }}
+                </span>
+            </div>
+        </div>
+        <div class="ticket-header-right" *ngIf="isAdmin">
+            <button class="btn-assign" (click)="showAssign = !showAssign" *ngIf="ticket.status !== 'closed'">
+                <i class="fas fa-user-plus"></i> Asignar
+            </button>
+            <button class="btn-close-ticket" (click)="closeTicket()" *ngIf="ticket.status !== 'closed'"
+                [disabled]="closing">
+                <i class="fas fa-check-circle"></i> {{ closing ? 'Cerrando...' : 'Cerrar Ticket' }}
+            </button>
+        </div>
+    </div>
+
+    <!-- Assign panel -->
+    <div class="assign-panel" *ngIf="showAssign && isAdmin">
+        <select [(ngModel)]="selectedOperator" class="select-operator">
+            <option [ngValue]="null" disabled>Seleccionar operador...</option>
+            <option *ngFor="let op of operators" [ngValue]="op.id">{{ op.name }} {{ op.surname }}</option>
+        </select>
+        <button class="btn-confirm-assign" (click)="confirmAssign()">Confirmar</button>
+    </div>
+
+
+    <!-- Messages Thread -->
+    <div class="messages-thread" *ngIf="ticket">
+        <div class="message-bubble" *ngFor="let msg of ticket.messages" [class.bubble-staff]="msg.is_from_staff"
+            [class.bubble-client]="!msg.is_from_staff">
+            <div class="bubble-avatar">
+                <span>{{ msg.user?.name?.charAt(0) | uppercase }}</span>
+            </div>
+            <div class="bubble-body">
+                <div class="bubble-meta">
+                    <strong>{{ msg.is_from_staff ? '🎧 ' + msg.user?.name : '👤 ' + msg.user?.name }}</strong>
+                    <span>{{ msg.created_at | date:'dd/MM HH:mm' }}</span>
+                </div>
+                <div class="bubble-text">{{ msg.message }}</div>
+                <div class="bubble-attachments" *ngIf="msg.attachments?.length">
+                    <a *ngFor="let att of msg.attachments" [href]="storageUrl + att" target="_blank"
+                        class="attachment-link">
+                        <i class="fas fa-paperclip"></i> Archivo adjunto
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-messages" *ngIf="!ticket?.messages?.length">
+            <i class="fas fa-comments"></i>
+            <p>No hay mensajes aún</p>
+        </div>
+
+        <!-- anchor for scroll -->
+        <div #messagesEnd></div>
+    </div>
+
+    <!-- Reply Box (only if open) -->
+    <div class="reply-box" *ngIf="ticket?.status !== 'closed'">
+        <textarea [(ngModel)]="replyText"
+            placeholder="Escribe tu respuesta aquí... Puedes incluir URLs o información relevante." rows="4"
+            class="reply-textarea">
+    </textarea>
+        <div class="reply-footer">
+            <div class="attachment-section">
+                <label for="file-upload" class="attach-label">
+                    <i class="fas fa-image"></i> Adjuntar imagen/archivo
+                </label>
+                <input id="file-upload" type="file" multiple accept="image/*,.pdf,.docx,.txt"
+                    (change)="onFileSelect($event)" hidden>
+                <div class="preview-files" *ngIf="selectedFiles.length">
+                    <span *ngFor="let f of selectedFiles" class="file-chip">
+                        <i class="fas fa-file"></i> {{ f.name }}
+                    </span>
+                </div>
+            </div>
+            <button class="btn-send" (click)="sendReply()" [disabled]="sending || !replyText.trim()">
+                <i class="fas fa-paper-plane"></i>
+                {{ sending ? 'Enviando...' : 'Enviar Respuesta' }}
+            </button>
+        </div>
+    </div>
+
+    <!-- Closed notice -->
+    <div class="closed-notice" *ngIf="ticket?.status === 'closed'">
+        <i class="fas fa-lock"></i>
+        <span>Este ticket está cerrado.</span>
+        <button class="btn-survey" *ngIf="!ticket?.survey && !isAdmin" (click)="showSurvey = !showSurvey">
+            📝 Completar Encuesta
+        </button>
+    </div>
+
+    <!-- Survey Form -->
+    <div class="survey-form" *ngIf="showSurvey && !ticket?.survey">
+        <h3>📋 Encuesta de Satisfacción</h3>
+        <div class="survey-field">
+            <label>Nivel de atención recibida</label>
+            <div class="star-rating">
+                <button *ngFor="let s of starOptions" (click)="survey.attention_rating = s"
+                    [class.active]="s <= survey.attention_rating" class="star-btn">
+                    {{ s <= survey.attention_rating ? '★' : '☆' }} {{ ratingLabel[s] }} </button>
+            </div>
+        </div>
+        <div class="survey-field">
+            <label>¿Se resolvió tu situación?</label>
+            <div class="resolution-options">
+                <button (click)="survey.issue_resolved = true" [class.selected]="survey.issue_resolved === true"
+                    class="option-btn option-yes">
+                    ✅ Sí, se resolvió
+                </button>
+                <button (click)="survey.issue_resolved = false" [class.selected]="survey.issue_resolved === false"
+                    class="option-btn option-no">
+                    ❌ No se resolvió
+                </button>
+            </div>
+        </div>
+        <div class="survey-field">
+            <label>¿Qué crees que se puede mejorar? <span class="optional">(opcional)</span></label>
+            <textarea [(ngModel)]="survey.improvement_suggestion" rows="3" class="survey-textarea"
+                placeholder="Tu opinión nos ayuda a mejorar..."></textarea>
+        </div>
+        <button class="btn-submit-survey" (click)="submitSurvey()"
+            [disabled]="surveySubmitting || survey.attention_rating === 0 || survey.issue_resolved === null">
+            <i class="fas fa-check"></i> Enviar Encuesta
+        </button>
+    </div>
+
+    <!-- Survey completed -->
+    <div class="survey-completed" *ngIf="ticket?.survey">
+        <i class="fas fa-check-circle"></i>
+        <p>Encuesta enviada. ¡Gracias por tu opinión!</p>
+        <div class="survey-result">
+            <span>Atención: {{ ticket.survey.attention_rating }}/5 ⭐</span>
+            <span>Resuelto: {{ ticket.survey.issue_resolved ? '✅ Sí' : '❌ No' }}</span>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-state" *ngIf="loading">
+        <div class="spinner"></div>
+    </div>
+
+</div>

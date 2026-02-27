@@ -25,15 +25,15 @@ body.dark .logo img,
 body.header-dark .logo img,
 /* Dark Mode & Global Logo Fix (Invert to White) */
 /* REMOVED FILTER INVERT, USING BACKGROUND CUSHION INSTEAD FOR BETTER "M" VISIBILITY */
-body.white .logo img,
+/* REMOVED FILTER INVERT, USING PREMIUM CAPSULE IN HEADER COMPONENT */
+/* body.white .logo img,
 body.dark .logo img,
 body.header-dark .logo img,
 .mobile_logo img {
-    /* filter: brightness(0) invert(1); REMOVE THIS */
     background: rgba(255, 255, 255, 0.9);
     padding: 5px;
     border-radius: 4px;
-}
+} */
 
 /* Header Links Fix for Dark Mode */
 body.white .nav_bar>li>a,

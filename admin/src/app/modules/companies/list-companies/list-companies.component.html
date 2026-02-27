@@ -55,20 +55,29 @@
                         </td>
                         <td>{{ company.created_at | date:'dd/MM/yyyy' }}</td>
                         <td>
-                            <a [routerLink]="['/companies/edit', company.id]"
+                            <a [routerLink]="['/companies/edit', company.id]" title="Editar empresa"
                                 class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
-                                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'"
-                                    class="svg-icon svg-icon-md svg-icon-primary"></span>
+                                <i class="fa fa-edit text-primary"></i>
                             </a>
-                            <a (click)="delete(company)" class="btn btn-icon btn-light btn-hover-danger btn-sm mx-3">
-                                <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
-                                    class="svg-icon svg-icon-md svg-icon-danger"></span>
+                            <a (click)="openManagement(company)" title="Gestión 360°"
+                                class="btn btn-icon btn-light btn-hover-info btn-sm mx-3">
+                                <i class="fa fa-cog text-info"></i>
+                            </a>
+                            <a (click)="delete(company)" title="Eliminar empresa"
+                                class="btn btn-icon btn-light btn-hover-danger btn-sm mx-3">
+                                <i class="fa fa-trash text-danger"></i>
                             </a>
                             <a (click)="toggleStatus(company)"
                                 class="btn btn-icon btn-light btn-hover-warning btn-sm mx-3"
                                 title="Bloquear/Desbloquear">
                                 <i class="fa fa-ban"
                                     [ngClass]="{'text-success': company.status === 'suspended', 'text-warning': company.status === 'active'}"></i>
+                            </a>
+                            <a (click)="toggleFreeShipping(company)"
+                                class="btn btn-icon btn-light btn-hover-success btn-sm mx-3"
+                                [title]="company.free_shipping_authorized ? 'Desactivar Envío Gratis' : 'Autorizar Envío Gratis'">
+                                <i class="fa fa-truck"
+                                    [ngClass]="{'text-success': company.free_shipping_authorized, 'text-muted': !company.free_shipping_authorized}"></i>
                             </a>
                         </td>
                     </tr>

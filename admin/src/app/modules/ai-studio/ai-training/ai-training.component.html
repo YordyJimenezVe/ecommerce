@@ -1,0 +1,57 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header border-0 py-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label font-weight-bolder text-dark">Monitor y Entrenamiento IA</span>
+            <span class="text-muted mt-3 font-weight-bold font-size-sm">Historial de consultas y mejora continua</span>
+        </h3>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-head-custom table-vertical-center">
+                <thead>
+                    <tr class="text-left text-uppercase">
+                        <th style="min-width: 150px">Usuario</th>
+                        <th style="min-width: 250px">Consulta del Cliente</th>
+                        <th style="min-width: 250px">Respuesta de la IA</th>
+                        <th style="min-width: 100px">Estado</th>
+                        <th class="text-right" style="min-width: 120px">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let log of logs">
+                        <td>
+                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ log.user?.name ||
+                                'Anónimo' }}</span>
+                            <span class="text-muted font-weight-bold">{{ log.created_at | date:'dd/MM HH:mm' }}</span>
+                        </td>
+                        <td>
+                            <span class="text-muted font-weight-bold">{{ log?.query || 'Sin consulta' }}</span>
+                        </td>
+                        <td>
+                            <span class="text-primary font-weight-bold">
+                                {{ (log?.response && log.response.length > 80) ? (log.response |
+                                slice:0:80)+'...':(log?.response || 'Sin respuesta') }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="label label-inline"
+                                [ngClass]="{'label-light-danger': !log.was_answered, 'label-light-success': log.was_answered}">
+                                {{ log.was_answered ? 'Respondido' : 'No Entrenado' }}
+                            </span>
+                        </td>
+                        <td class="text-right">
+                            <button (click)="train(log)" class="btn btn-sm btn-light-primary font-weight-bolder px-4"
+                                *ngIf="!log.was_answered">
+                                Entrenar IA
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center py-10" *ngIf="isLoading">
+            <div class="spinner spinner-primary spinner-lg mr-15"></div>
+        </div>
+    </div>
+</div>

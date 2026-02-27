@@ -19,8 +19,18 @@ class CompanyController extends Controller
 
     public function index()
     {
-        $companies = Company::orderBy('created_at', 'desc')->get();
+        $companies = Company::orderBy('created_at', 'desc')->get()->map(function ($company) {
+            $company->is_expired = $company->membership_expires_at ? now()->gt($company->membership_expires_at) : false;
+            return $company;
+        });
         return response()->json(['companies' => $companies], 200);
+    }
+
+    public function show($id)
+    {
+        $company = Company::findOrFail($id);
+        $company->is_expired = $company->membership_expires_at ? now()->gt($company->membership_expires_at) : false;
+        return response()->json(['company' => $company], 200);
     }
 
     public function store(Request $request)
@@ -31,7 +41,7 @@ class CompanyController extends Controller
             'password_admin' => 'required|min:6',
             'slug' => 'required|unique:companies,slug',
             'membership_duration' => 'required|in:1,3,6,12', // Months
-            'payment_method' => 'required|in:transfer,cash,free',
+            'payment_method' => 'required|in:transfer,cash,free,yape,plin,bcp,bbva,interbank,paypal,credit_card',
             'logo_file' => 'nullable|image|max:10240', // 10MB
             'payment_proof' => 'nullable|file|max:10240',
         ]);
@@ -76,21 +86,19 @@ class CompanyController extends Controller
 
         $user = User::create([
             'name' => 'Admin ' . $request->name,
+            'surname' => 'Tenant',
             'email' => $request->email_admin,
-            'password' => Hash::make($request->password_admin),
+            'password' => $request->password_admin, // User model automatically hashes via mutator or casts
             'role_id' => $role->id,
-            'role' => 'company_admin', // Ensure string column is set
-            'type_user' => 2, // Admin user
-            // 'company_id' => $company->id // Uncomment when migration is added
+            'state' => 1,
+            'company_id' => $company->id
         ]);
 
-        // If the users table has company_id, we can update it. 
-        // For now, I will assume we need to add the column via migration.
-        // But to prevent crash if column exists:
-        if (\Schema::hasColumn('users', 'company_id')) {
-            $user->company_id = $company->id;
-            $user->save();
-        }
+        // 4. Log Action in Bitácora
+        $company->logAction('COMPANY_CREATED', 'Se registró la empresa ' . $company->name . ' con método de pago ' . $request->payment_method, [
+            'admin_user_id' => $user->id,
+            'membership_expires_at' => $expiresAt
+        ]);
 
         return response()->json([
             'message' => 'Company created successfully',
@@ -109,7 +117,7 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         $company = Company::findOrFail($id);
-        $company->delete(); // Soft delete
+        $company->delete(); // Physical delete (SoftDeletes removed from model)
         return response()->json(['message' => 'Company deleted']);
     }
 }

@@ -21,34 +21,19 @@ class BillingController extends Controller
         // Filter by payment status if needed, default PENDING
         $status = $request->payment_status ?? 'PAID_PENDING';
 
-        // Assuming billing admin can see sales from their company or all if superadmin? 
-        // For now, let's assume this is for the PLATFORM ADMIN or COMPANY ADMIN depending on the scope.
-        // The user requirement says "a la empresa le llegaran los captures". So it is per company.
-
         $user = auth()->user();
-        if (!$user->company_id) {
-            // Super Admin? Or logic for platform. 
-            // If multi-tenant, sales should filter by company products... 
-            // BUT `sales` table usually belongs to a user (customer). A sale might contain products from multiple companies?
-            // Checking Sale model structure... It belongs to User. SaleDetails belong to Product -> Company.
-            // This suggests a logic complexity: If a cart has items from multiple companies, who approves the "Transfer"?
-            // Usually, manual transfer implies paying THE PLATFORM or THE SPECIFIC COMPANY. 
-            // If the system is multi-vendor with direct payments to vendors, the Sale logic must handle splits or be per-vendor.
-            // Assuming for this task (as per previous context of "Ecommerce Template") it might be single-vendor or "Platform" handles payments.
-            // User said: "a la empresa le llegaran los captures".
 
-            // Let's assume for now the authenticated user (Company Admin) needs to see Sales containing THEIR products? 
-            // Or Sales made to their Company?
-            // Since I don't want to overengineer without checking `SaleDetail`, I will list ALL sales for now if SuperAdmin, 
-            // or try to filter by Company if feasible. 
-            // For safety/speed in this task: List all sales that have Manual Payment.
+        $query = Sale::where('payment_status', $status)
+            ->whereIn('method_payment', ['TRANSFERENCIA', 'PAGO_MOVIL', 'MANUAL_PAYMENT'])
+            ->with(['user', 'sale_details.product.company']);
+
+        if (!$user->hasPermission('view_global_sales') && $user->company_id) {
+            $query->whereHas("sale_details.product", function ($q) use ($user) {
+                $q->where("company_id", $user->company_id);
+            });
         }
 
-        $sales = Sale::where('payment_status', $status)
-            ->whereIn('method_payment', ['TRANSFERENCIA', 'PAGO_MOVIL']) // Adjust based on actual method names
-            ->with('user')
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
+        $sales = $query->orderBy('created_at', 'desc')->paginate(20);
 
         return response()->json([
             'sales' => $sales

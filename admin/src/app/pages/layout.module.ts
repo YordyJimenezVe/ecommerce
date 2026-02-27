@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { PagesRoutingModule } from './pages-routing.module';
 import {
@@ -21,6 +22,7 @@ import { CoreModule } from '../_metronic/core';
 import { SubheaderModule } from '../_metronic/partials/layout/subheader/subheader.module';
 import { AsideDynamicComponent } from './_layout/components/aside-dynamic/aside-dynamic.component';
 import { HeaderMenuDynamicComponent } from './_layout/components/header/header-menu-dynamic/header-menu-dynamic.component';
+import { NotificationsModule } from '../modules/notifications/notifications.module';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { HeaderMenuDynamicComponent } from './_layout/components/header/header-m
     NgbProgressbarModule,
     CoreModule,
     SubheaderModule,
+    RouterModule,
+    NotificationsModule,
   ],
 })
 export class LayoutModule { }

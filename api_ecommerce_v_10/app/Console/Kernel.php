@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('membership:check')->daily();
+        $schedule->command('app:send-birthday-emails')->dailyAt('08:00');
     }
 
     /**

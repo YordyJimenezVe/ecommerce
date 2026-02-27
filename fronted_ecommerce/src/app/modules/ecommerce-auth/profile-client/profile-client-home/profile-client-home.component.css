@@ -1,0 +1,111 @@
+/* Premium Profile Sidebar Styling */
+.my_account_wrap {
+    background: transparent;
+    padding-top: 40px;
+}
+
+.account_sidebar {
+    background: var(--bg-color, #ffffff);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.05));
+    transition: all 0.3s ease;
+}
+
+.account_profile {
+    padding: 30px 20px;
+    text-align: center;
+    background: var(--bg-color, #f8f9fa);
+    color: var(--text-color, #333);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.acprof_img {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.acprof_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.acprof_cont p {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: var(--text-color, #666);
+}
+
+.acprof_cont h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-color, #333);
+}
+
+.acprof_wrap {
+    padding: 10px 0;
+}
+
+.acprof_links {
+    border-bottom: 1px dashed var(--border-color, rgba(0, 0, 0, 0.1));
+    padding: 15px 0;
+}
+
+.acprof_links:last-child {
+    border-bottom: none;
+}
+
+.acprof_link_title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    padding: 0 25px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.acprof_link_title i {
+    font-size: 1.1rem;
+}
+
+.acprof_links a {
+    display: flex;
+    align-items: center;
+    padding: 10px 25px;
+    color: var(--text-color, #333);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.acprof_links a:hover {
+    background: rgba(137, 80, 252, 0.05);
+    color: var(--primary-color);
+    padding-left: 30px;
+}
+
+.acprof_links a.active {
+    background: #f89c0e !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    border-radius: 8px;
+    margin: 4px 10px;
+    padding-left: 15px;
+}
+
+.acprof_links a.active::before {
+    display: none;
+}

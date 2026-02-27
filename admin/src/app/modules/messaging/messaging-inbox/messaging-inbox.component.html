@@ -1,0 +1,91 @@
+<div class="row">
+    <!-- LISTADO DE CONVERSACIONES -->
+    <div class="col-md-4">
+        <div class="card card-custom gutter-b h-100">
+            <div class="card-header border-0 py-5 d-flex justify-content-between align-items-center">
+                <h3 class="card-title font-weight-bolder text-dark">Bandeja de Entrada</h3>
+                <button class="btn btn-sm btn-light-primary font-weight-bolder"
+                    (click)="showNewChatModal = !showNewChatModal; listUsers()">
+                    <i class="fa fa-plus"></i> Nuevo
+                </button>
+            </div>
+            <div class="card-body">
+                <!-- BUSCADOR DE USUARIOS -->
+                <div *ngIf="showNewChatModal" class="mb-5 p-3 bg-light rounded border">
+                    <h6 class="font-size-sm mb-3">Iniciar chat con:</h6>
+                    <div class="list-group list-group-flush">
+                        <button *ngFor="let u of allUsers" (click)="startNewChat(u)"
+                            class="list-group-item list-group-item-action text-left py-2 px-3 border-0 rounded mb-1">
+                            <span class="font-weight-bold">{{ u.name }} {{ u.surname }}</span>
+                            <span class="text-muted d-block font-size-xs">{{ u.email }}</span>
+                        </button>
+                    </div>
+                    <div *ngIf="allUsers.length === 0 && !isSearchingUsers"
+                        class="text-center font-size-xs text-muted mt-2">
+                        No se encontraron usuarios.
+                    </div>
+                </div>
+
+                <div class="navi navi-hover navi-active" *ngIf="!showNewChatModal">
+                    <div class="navi-item mb-2" *ngFor="let conv of conversations">
+                        <a (click)="selectConversation(conv)" class="navi-link rounded"
+                            [ngClass]="{'active': selectedConversation?.id === conv.id}">
+                            <div class="navi-text">
+                                <span class="d-block font-weight-bolder font-size-lg">{{ getUserToDisplay(conv)?.name }}
+                                    {{ getUserToDisplay(conv)?.surname }}</span>
+                                <span class="text-muted font-weight-bold">{{ conv.messages[0]?.message || 'Sin mensajes'
+                                    }}</span>
+                            </div>
+                            <span class="label label-light-primary label-inline font-weight-bold"
+                                *ngIf="conv.status === 'open'">Abierto</span>
+                        </a>
+                    </div>
+                </div>
+                <div *ngIf="conversations.length === 0" class="text-center text-muted py-10">
+                    No hay conversaciones activas.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="col-md-8">
+        <div class="card card-custom gutter-b h-100" *ngIf="selectedConversation">
+            <div class="card-header border-0 py-5">
+                <h3 class="card-title font-weight-bolder text-dark">
+                    Chat con {{ getUserToDisplay(selectedConversation)?.name }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="scroll-y p-5 bg-light rounded mb-5" style="height: 400px; overflow-y: auto;">
+                    <div *ngFor="let msg of messages" class="mb-4 d-flex"
+                        [ngClass]="{'justify-content-end': msg.sender_id === user.id}">
+                        <div class="p-3 rounded-lg max-w-75"
+                            [ngClass]="{'bg-primary text-white': msg.sender_id === user.id, 'bg-white border': msg.sender_id !== user.id}">
+                            {{ msg.message }}
+                            <div class="small mt-1 text-right"
+                                [ngClass]="{'text-white-50': msg.sender_id === user.id, 'text-muted': msg.sender_id !== user.id}">
+                                {{ msg.created_at | date:'HH:mm' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <input type="text" class="form-control mr-3" placeholder="Escribe un mensaje..."
+                        [(ngModel)]="newMessage" (keyup.enter)="send()">
+                    <button class="btn btn-primary btn-icon" (click)="send()" [disabled]="isSending || !newMessage">
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-custom gutter-b h-100 flex-center text-center py-20" *ngIf="!selectedConversation">
+            <div class="card-body">
+                <i class="fa fa-comments-o icon-4x text-muted mb-5"></i>
+                <h3 class="text-muted">Selecciona una conversación para comenzar</h3>
+            </div>
+        </div>
+    </div>
+</div>

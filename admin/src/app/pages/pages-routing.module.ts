@@ -131,10 +131,38 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'ai-studio',
+        loadChildren: () =>
+          import('../modules/ai-studio/ai-studio.module').then(
+            (m) => m.AiStudioModule
+          ),
+      },
+      {
+        path: 'messaging',
+        loadChildren: () =>
+          import('../modules/messaging/messaging.module').then(
+            (m) => m.MessagingModule
+          ),
+      },
+      {
         path: 'system',
         loadChildren: () =>
           import('../modules/system/system.module').then(
             (m) => m.SystemModule
+          ),
+      },
+      {
+        path: 'support',
+        loadChildren: () =>
+          import('../modules/tickets/tickets.module').then(
+            (m) => m.TicketsModule
+          ),
+      },
+      {
+        path: 'notifications',
+        loadChildren: () =>
+          import('../modules/notifications/notifications.module').then(
+            (m) => m.NotificationsModule
           ),
       },
       {

@@ -1,94 +1,98 @@
 <!-- breadcrumbs -->
-<div class="container">
-  <div class="breadcrumbs">
-      <a href="index-1.html"><i class="las la-home"></i></a>
-      <a href="account.html">Mi cuenta</a>
-      <a href="#" class="active">Información del perfil</a>
-  </div>
+<div class="container mt-4">
+    <div class="breadcrumbs p-3"
+        style="background: var(--bg-color, #fff); border-radius: 10px; border: 1px solid var(--border-color, rgba(0,0,0,0.05)); margin-bottom: 20px;">
+        <a routerLink="/"><i class="las la-home"></i></a>
+        <a href="#" onclick="return false;">{{ 'My Account' | translate }}</a>
+        <a href="#" class="active" style="color: var(--primary-color)">{{ 'Profile Information' | translate }}</a>
+    </div>
 </div>
 
 <!-- account wrapper -->
 <div class="my_account_wrap section_padding_b">
-  <div class="container">
-      <div class="row">
-          <!--  account sidebar  -->
-          <div class="col-lg-3">
-              <div class="account_sidebar">
-                  <div class="account_profile position-relative shadow_sm">
-                      <div class="acprof_img">
-                          <a href="account.html" *ngIf="user_selected">
-                              <img loading="lazy"  [src]="user_selected.avatar" alt="user">
-                          </a>
-                      </div>
-                      <div class="acprof_cont" *ngIf="user">
-                          <p>Hola,</p>
-                          <h4>{{ user.name + ' ' + user.surname }}</h4>
-                      </div>
-                      <div class="profile_hambarg d-lg-none d-block">
-                          <i class="las la-bars"></i>
-                      </div>
-                  </div>
-                  <div class="acprof_wrap shadow_sm">
-                      <div class="acprof_links">
-                          <a >
-                              <h4 class="acprof_link_title">
-                                  <i class="lar la-id-card"></i>
-                                  Manejo de cuenta
-                              </h4>
-                          </a>
-                          <a  href="#" onclick="return false;" (click)="selectedMenu(1)" [ngClass]="{'active': selectorMenu == 1}">Información Perfil</a>
-                          <a  href="#" onclick="return false;" (click)="selectedMenu(2)" [ngClass]="{'active': selectorMenu == 2}">Manejo de direcciones</a>
-                          <a  href="#" onclick="return false;" (click)="selectedMenu(3)" [ngClass]="{'active': selectorMenu == 3}">Cambio de contraseña</a>
-                      </div>
-                      <div class="acprof_links">
-                          <a >
-                                 <h4 class="acprof_link_title">
-                                 <i class="las la-gift"></i>
-                                  Mi Historico de orden
-                              </h4>
-                          </a>
-                          <a href="#" onclick="return false;" (click)="selectedMenu(4)" [ngClass]="{'active': selectorMenu == 4}">Mis Ordenes</a>
-                          <!-- <a href="account-order-cancel.html">My Cancellations</a> -->
-                          <a href="#" onclick="return false;" (click)="selectedMenu(5)" [ngClass]="{'active': selectorMenu == 5}">Mi Reviews</a>
-                      </div>
-                      <!-- <div class="acprof_links">
-                          <a href="account-payment-methods.html">
-                             <h4 class="acprof_link_title">
-                                  <i class="lar la-credit-card"></i>
-                                  Payments Methods
-                              </h4>
-                          </a>
-                          <a href="account-voucher.html">Voucher</a>
-                      </div> -->
-                      <div class="acprof_links">
-                          <a href="#" onclick="return false;" (click)="selectedMenu(6)" [ngClass]="{'active': selectorMenu == 6}">
-                          <h4 class="ac_link_title">
-                                  <i class="lar la-heart"></i>
-                                  Mi Wishlist
-                              </h4>
-                          </a>
-                      </div>
-                      <div class="acprof_links border-0">
-                          <a href="login.html">
-                              <h4 class="acprof_link_title">
-                                   <i class="las la-power-off"></i>
-                                  Log Out
-                              </h4>
-                          </a>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- account content -->
-          <div class="col-lg-9">
-            <app-profile-information *ngIf="selectorMenu == 1" [user_selected]="user_selected"></app-profile-information>
-            <app-profile-address *ngIf="selectorMenu == 2" [listAdrees]="listAdrees"></app-profile-address>
-            <app-profile-passwords *ngIf="selectorMenu == 3"></app-profile-passwords>
-            <app-orders-clients  *ngIf="selectorMenu == 4" [listOrders]="listOrders"></app-orders-clients>
-            <app-orders-review-clients *ngIf="selectorMenu == 5" [listReviews]="listReviews"></app-orders-review-clients>
-            <app-wishlist-clients *ngIf="selectorMenu == 6"></app-wishlist-clients>
-          </div>
+    <div class="container">
+        <div class="row">
+            <!--  account sidebar  -->
+            <div class="col-lg-3 mb-4 mb-lg-0">
+                <div class="account_sidebar">
+                    <div class="account_profile position-relative"
+                        style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                        <div class="acprof_img"
+                            style="background: var(--primary-color, #eee); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2.5rem; margin: 0 auto 15px auto;">
+                            <a href="#" onclick="return false;" *ngIf="user_selected && user_selected.avatar"
+                                style="width: 100%; height: 100%; display: block;">
+                                <img loading="lazy" [src]="user_selected.avatar" alt="user"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                            </a>
+                            <i class="las la-user" *ngIf="!user_selected || !user_selected.avatar"></i>
+                        </div>
+                        <div class="acprof_cont" *ngIf="user" style="width: 100%;">
+                            <p style="margin-bottom: 5px; color: var(--text-color, #666); font-size: 0.95rem;">{{
+                                'Welcome back' | translate }},</p>
+                            <h4
+                                style="margin: 0; color: var(--text-color, #333); font-size: 1.25rem; font-weight: 700;">
+                                {{ user.name + ' ' + user.surname }}</h4>
+                            <div *ngIf="isBirthday"
+                                style="margin-top: 15px; padding: 10px; background: rgba(248, 156, 14, 0.1); border: 1px solid #f89c0e; border-radius: 8px; color: #f89c0e; font-weight: 600; font-size: 0.9rem;">
+                                🎉 ¡Feliz Cumpleaños! 🎂
+                            </div>
+                        </div>
+                    </div>
+                    <div class="acprof_wrap">
+                        <div class="acprof_links">
+                            <h4 class="acprof_link_title">
+                                <i class="lar la-id-card"></i>
+                                {{ 'Account Management' | translate }}
+                            </h4>
+                            <a href="#" onclick="return false;" (click)="selectedMenu(1)"
+                                [ngClass]="{'active': selectorMenu == 1}">{{ 'Profile Information' | translate }}</a>
+                            <a href="#" onclick="return false;" (click)="selectedMenu(2)"
+                                [ngClass]="{'active': selectorMenu == 2}">{{ 'Manage Addresses' | translate }}</a>
+                            <a href="#" onclick="return false;" (click)="selectedMenu(3)"
+                                [ngClass]="{'active': selectorMenu == 3}">{{ 'Change Password' | translate }}</a>
+                        </div>
+                        <div class="acprof_links">
+                            <h4 class="acprof_link_title">
+                                <i class="las la-gift"></i>
+                                {{ 'My Order History' | translate }}
+                            </h4>
+                            <a href="#" onclick="return false;" (click)="selectedMenu(4)"
+                                [ngClass]="{'active': selectorMenu == 4}">{{ 'My Orders' | translate }}</a>
+                            <a href="#" onclick="return false;" (click)="selectedMenu(5)"
+                                [ngClass]="{'active': selectorMenu == 5}">{{ 'My Reviews' | translate }}</a>
+                        </div>
+                        <div class="acprof_links">
+                            <a href="#" onclick="return false;" (click)="selectedMenu(6)"
+                                [ngClass]="{'active': selectorMenu == 6}">
+                                <i class="lar la-heart"></i>
+                                {{ 'My Wishlist' | translate }}
+                            </a>
+                        </div>
+                        <div class="acprof_links border-0">
+                            <a href="#" onclick="return false;" (click)="logout()" style="color: #dc3545;">
+                                <i class="las la-power-off"></i>
+                                {{ 'Log Out' | translate }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- account content -->
+            <div class="col-lg-9">
+                <!-- Wrapped in a modern card container to ensure white/theme backgrounds carry over nicely -->
+                <div class="profile_content_card"
+                    style="background: var(--bg-color, #fff); border-radius: 16px; padding: 30px; border: 1px solid var(--border-color, rgba(0,0,0,0.05)); box-shadow: 0 10px 40px rgba(0,0,0,0.05); min-height: 100%;">
+                    <app-profile-information *ngIf="selectorMenu == 1"
+                        [user_selected]="user_selected"></app-profile-information>
+                    <app-profile-address *ngIf="selectorMenu == 2" [listAdrees]="listAdrees"></app-profile-address>
+                    <app-profile-passwords *ngIf="selectorMenu == 3"></app-profile-passwords>
+                    <app-orders-clients *ngIf="selectorMenu == 4" [listOrders]="listOrders"></app-orders-clients>
+                    <app-orders-review-clients *ngIf="selectorMenu == 5"
+                        [listReviews]="listReviews"></app-orders-review-clients>
+                    <app-wishlist-clients *ngIf="selectorMenu == 6"></app-wishlist-clients>
+                </div>
+            </div>
 
-      </div>
-  </div>
+        </div>
+    </div>
 </div>

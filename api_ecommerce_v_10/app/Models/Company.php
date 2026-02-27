@@ -3,11 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Company extends Model
 {
-    use SoftDeletes;
 
     protected $fillable = [
         'name', // Enforce sync
@@ -27,7 +24,7 @@ class Company extends Model
 
     public function users()
     {
-        return $this->hasMany(\App\User::class);
+        return $this->hasMany(User::class);
     }
 
     public function liveEvents()
@@ -38,5 +35,22 @@ class Company extends Model
     public function payments()
     {
         return $this->hasMany(CompanyPayment::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product\Product::class);
+    }
+
+    public function logAction($action, $description = null, $metadata = null)
+    {
+        return SystemLog::create([
+            'user_id' => auth('api')->id(),
+            'company_id' => $this->id,
+            'action' => $action,
+            'description' => $description,
+            'metadata' => $metadata,
+            'ip_address' => request()->ip(),
+        ]);
     }
 }

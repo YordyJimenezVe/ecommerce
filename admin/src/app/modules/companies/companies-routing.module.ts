@@ -4,6 +4,7 @@ import { CompaniesComponent } from './companies.component';
 import { ListCompaniesComponent } from './list-companies/list-companies.component';
 import { CreateCompanyComponent } from './create-company/create-company.component';
 import { EditCompanyComponent } from './edit-company/edit-company.component';
+import { PaymentConfigsComponent } from './payment-configs/payment-configs.component';
 
 const routes: Routes = [
     {
@@ -21,6 +22,10 @@ const routes: Routes = [
             {
                 path: 'edit/:id',
                 component: EditCompanyComponent
+            },
+            {
+                path: 'payment-configs',
+                component: PaymentConfigsComponent
             },
             {
                 path: '',

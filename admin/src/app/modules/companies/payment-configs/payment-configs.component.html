@@ -9,56 +9,170 @@
     </div>
     <div class="card-body">
         <!-- PAYPAL -->
-        <div class="form-group row">
-            <label class="col-3 col-form-label">PayPal</label>
+        <div class="form-group row align-items-center">
+            <label class="col-3 col-form-label font-weight-bold">
+                PayPal
+                <span class="svg-icon svg-icon-primary svg-icon-sm ml-1"
+                    [inlineSVG]="'./assets/media/svg/icons/Code/Question-circle.svg'"
+                    ngbTooltip="Para PayPal necesitas el Client ID y Secret ID desde el panel de desarrolladores (developer.paypal.com)."></span>
+            </label>
             <div class="col-9">
                 <div class="checkbox-inline mb-2">
                     <label class="checkbox">
                         <input type="checkbox" [(ngModel)]="payment_methods.paypal.is_active" />
-                        <span></span>
-                        Activo
+                        <span></span> Activo
                     </label>
                 </div>
-                <input class="form-control mb-2" type="text" placeholder="Client ID"
-                    [(ngModel)]="payment_methods.paypal.client_id" [disabled]="!payment_methods.paypal.is_active" />
-                <input class="form-control" type="text" placeholder="Secret ID"
-                    [(ngModel)]="payment_methods.paypal.secret_id" [disabled]="!payment_methods.paypal.is_active" />
+                <div *ngIf="payment_methods.paypal.is_active" class="row">
+                    <div class="col-6">
+                        <input class="form-control" type="text" placeholder="Client ID"
+                            [(ngModel)]="payment_methods.paypal.client_id" />
+                    </div>
+                    <div class="col-6">
+                        <input class="form-control" type="text" placeholder="Secret ID"
+                            [(ngModel)]="payment_methods.paypal.secret_id" />
+                    </div>
+                </div>
             </div>
         </div>
         <div class="separator separator-dashed my-5"></div>
 
-        <!-- PAGO MOVIL -->
-        <div class="form-group row">
-            <label class="col-3 col-form-label">Pago Móvil</label>
+        <!-- YAPE -->
+        <div class="form-group row align-items-center">
+            <label class="col-3 col-form-label font-weight-bold">
+                Yape
+                <span class="svg-icon svg-icon-primary svg-icon-sm ml-1"
+                    [inlineSVG]="'./assets/media/svg/icons/Code/Question-circle.svg'"
+                    ngbTooltip="Ingresa tu número de celular asociado a Yape y el nombre del titular."></span>
+            </label>
             <div class="col-9">
                 <div class="checkbox-inline mb-2">
                     <label class="checkbox">
-                        <input type="checkbox" [(ngModel)]="payment_methods.mobile.is_active" />
-                        <span></span>
-                        Activo
+                        <input type="checkbox" [(ngModel)]="payment_methods.yape.is_active" />
+                        <span></span> Activo
                     </label>
                 </div>
-                <textarea class="form-control" rows="3" placeholder="Detalles (Banco, Teléfono, CI)"
-                    [(ngModel)]="payment_methods.mobile.details"
-                    [disabled]="!payment_methods.mobile.is_active"></textarea>
+                <textarea *ngIf="payment_methods.yape.is_active" class="form-control" rows="2"
+                    placeholder="Número de teléfono y nombre del titular"
+                    [(ngModel)]="payment_methods.yape.details"></textarea>
             </div>
         </div>
         <div class="separator separator-dashed my-5"></div>
 
-        <!-- TRANSFERENCIA -->
-        <div class="form-group row">
-            <label class="col-3 col-form-label">Transferencia Bancaria</label>
+        <!-- PLIN -->
+        <div class="form-group row align-items-center">
+            <label class="col-3 col-form-label font-weight-bold">
+                Plin
+                <span class="svg-icon svg-icon-primary svg-icon-sm ml-1"
+                    [inlineSVG]="'./assets/media/svg/icons/Code/Question-circle.svg'"
+                    ngbTooltip="Coloca tu número asociado a Plin y el nombre del titular."></span>
+            </label>
             <div class="col-9">
                 <div class="checkbox-inline mb-2">
                     <label class="checkbox">
-                        <input type="checkbox" [(ngModel)]="payment_methods.transfer.is_active" />
-                        <span></span>
-                        Activo
+                        <input type="checkbox" [(ngModel)]="payment_methods.plin.is_active" />
+                        <span></span> Activo
                     </label>
                 </div>
-                <textarea class="form-control" rows="3" placeholder="Detalles (Banco, Nro Cuenta, Beneficiario, RIF/CI)"
-                    [(ngModel)]="payment_methods.transfer.details"
-                    [disabled]="!payment_methods.transfer.is_active"></textarea>
+                <textarea *ngIf="payment_methods.plin.is_active" class="form-control" rows="2"
+                    placeholder="Número de teléfono y nombre del titular"
+                    [(ngModel)]="payment_methods.plin.details"></textarea>
+            </div>
+        </div>
+        <div class="separator separator-dashed my-5"></div>
+
+        <!-- BANCOS -->
+        <h5 class="mb-5 text-primary">Transferencias Bancarias (Perú)</h5>
+
+        <div class="form-group row align-items-center">
+            <label class="col-3 col-form-label font-weight-bold">
+                BCP
+                <span class="svg-icon svg-icon-primary svg-icon-sm ml-1"
+                    [inlineSVG]="'./assets/media/svg/icons/Code/Question-circle.svg'"
+                    ngbTooltip="Coloca tu Nro de Cuenta BCP, el CCI y el nombre del titular."></span>
+            </label>
+            <div class="col-9">
+                <div class="checkbox-inline mb-2">
+                    <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="payment_methods.transfer_bcp.is_active" />
+                        <span></span> Activo
+                    </label>
+                </div>
+                <input *ngIf="payment_methods.transfer_bcp.is_active" class="form-control" type="text"
+                    placeholder="Nro Cuenta / CCI / Titular" [(ngModel)]="payment_methods.transfer_bcp.details" />
+            </div>
+        </div>
+
+        <div class="form-group row align-items-center">
+            <label class="col-3 col-form-label font-weight-bold">
+                BBVA
+                <span class="svg-icon svg-icon-primary svg-icon-sm ml-1"
+                    [inlineSVG]="'./assets/media/svg/icons/Code/Question-circle.svg'"
+                    ngbTooltip="Coloca tu Nro de Cuenta BBVA, el CCI y el nombre del titular."></span>
+            </label>
+            <div class="col-9">
+                <div class="checkbox-inline mb-2">
+                    <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="payment_methods.transfer_bbva.is_active" />
+                        <span></span> Activo
+                    </label>
+                </div>
+                <input *ngIf="payment_methods.transfer_bbva.is_active" class="form-control" type="text"
+                    placeholder="Nro Cuenta / CCI / Titular" [(ngModel)]="payment_methods.transfer_bbva.details" />
+            </div>
+        </div>
+
+        <div class="form-group row align-items-center">
+            <label class="col-3 col-form-label font-weight-bold">
+                Interbank
+                <span class="svg-icon svg-icon-primary svg-icon-sm ml-1"
+                    [inlineSVG]="'./assets/media/svg/icons/Code/Question-circle.svg'"
+                    ngbTooltip="Coloca tu Nro de Cuenta Interbank, el CCI y el nombre del titular."></span>
+            </label>
+            <div class="col-9">
+                <div class="checkbox-inline mb-2">
+                    <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="payment_methods.transfer_interbank.is_active" />
+                        <span></span> Activo
+                    </label>
+                </div>
+                <input *ngIf="payment_methods.transfer_interbank.is_active" class="form-control" type="text"
+                    placeholder="Nro Cuenta / CCI / Titular" [(ngModel)]="payment_methods.transfer_interbank.details" />
+            </div>
+        </div>
+        <div class="separator separator-dashed my-5"></div>
+
+        <!-- TARJETA DE CREDITO -->
+        <div class="form-group row align-items-center">
+            <label class="col-3 col-form-label font-weight-bold">
+                Pasarela (Tarjetas)
+                <span class="svg-icon svg-icon-primary svg-icon-sm ml-1"
+                    [inlineSVG]="'./assets/media/svg/icons/Code/Question-circle.svg'"
+                    ngbTooltip="Configura Stripe o Culqi ingresando tus llaves API de producción."></span>
+            </label>
+            <div class="col-9">
+                <div class="checkbox-inline mb-2">
+                    <label class="checkbox">
+                        <input type="checkbox" [(ngModel)]="payment_methods.credit_card.is_active" />
+                        <span></span> Activo
+                    </label>
+                </div>
+                <div *ngIf="payment_methods.credit_card.is_active" class="row">
+                    <div class="col-4">
+                        <select class="form-control" [(ngModel)]="payment_methods.credit_card.provider">
+                            <option value="stripe">Stripe</option>
+                            <option value="culqi">Culqi</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" type="text" placeholder="Public Key / API Key"
+                            [(ngModel)]="payment_methods.credit_card.public_key" />
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" type="text" placeholder="Private Key / Secret Key"
+                            [(ngModel)]="payment_methods.credit_card.secret_key" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>

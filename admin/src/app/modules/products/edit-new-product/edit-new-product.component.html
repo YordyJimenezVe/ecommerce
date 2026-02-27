@@ -1,10 +1,11 @@
 <div class="card card-custom gutter-b">
     <div class="card-header">
-      <div class="card-title">
-        <h3 class="card-label"><i class="icon-2x text-dark-50 flaticon-bag mx-2"></i> EDITAR PRODUCTO : {{ product.title }}</h3>
-      </div>
-      <div class="card-toolbar">
-      </div>
+        <div class="card-title">
+            <h3 class="card-label"><i class="icon-2x text-dark-50 flaticon-bag mx-2"></i> EDITAR PRODUCTO : {{
+                product.title }}</h3>
+        </div>
+        <div class="card-toolbar">
+        </div>
     </div>
     <div class="card-body">
         <ng-container *ngIf="isLoading$ | async">
@@ -14,33 +15,24 @@
         <div class="form-group row">
             <div class="col-5">
                 <label class="form-label">Nombre del producto: *</label>
-                <input type="text"
-                    class="form-control form-control-solid form-control-lg"
-                    name="title"
-                    placeholder="Nombre"
-                    autocomplete="off"
-                    [(ngModel)]="title"
-                >
+                <input type="text" class="form-control form-control-solid form-control-lg" name="title"
+                    placeholder="Nombre" autocomplete="off" [(ngModel)]="title">
             </div>
             <div class="col-3">
                 <label class="form-label">SKU: *</label>
-                <input type="text"
-                    class="form-control form-control-solid form-control-lg"
-                    name="sku"
-                    placeholder="SKU"
-                    autocomplete="off"
-                    [(ngModel)]="sku"
-                >
+                <input type="text" class="form-control form-control-solid form-control-lg" name="sku"
+                    placeholder="Cód-único inventario (Ej: PROD-001)" autocomplete="off" [(ngModel)]="sku">
             </div>
             <div class="col-3">
                 <label class="form-label">CATEGORIA : *</label>
-                <select name="categorie_id" class="form-control form-control-solid form-control-lg" [(ngModel)]="categorie_id">
+                <select name="categorie_id" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="categorie_id">
                     <option value="">Ninguno</option>
 
                     <ng-container *ngFor="let categorie of categories">
                         <option [value]="categorie.id">{{ categorie.name }}</option>
                     </ng-container>
-                    
+
 
                 </select>
             </div>
@@ -49,24 +41,14 @@
         <div class="form-group row">
             <div class="col-2">
                 <label class="form-label">PRECIO EN PEN: *</label>
-                <input type="text"
-                    class="form-control form-control-solid form-control-lg"
-                    name="price_pen"
-                    placeholder="100"
-                    autocomplete="off"
-                    [(ngModel)]="price_soles"
-                >
+                <input type="text" class="form-control form-control-solid form-control-lg" name="price_pen"
+                    placeholder="100" autocomplete="off" [(ngModel)]="price_soles">
             </div>
 
             <div class="col-2">
                 <label class="form-label">PRECIO EN USD: *</label>
-                <input type="text"
-                    class="form-control form-control-solid form-control-lg"
-                    name="price_usd"
-                    placeholder="200"
-                    autocomplete="off"
-                    [(ngModel)]="price_usd"
-                >
+                <input type="text" class="form-control form-control-solid form-control-lg" name="price_usd"
+                    placeholder="200" autocomplete="off" [(ngModel)]="price_usd">
             </div>
 
             <div class="col-3">
@@ -82,12 +64,14 @@
                     <div class="col-12">
                         <label class="form-label">IMAGEN DE PORTADA: *</label>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="customFile"  accept=".jpeg, .bmp, .jpg, .png, .gif, .webp"  (change)="processFile($event)">
+                            <input type="file" class="custom-file-input" id="customFile"
+                                accept=".jpeg, .bmp, .jpg, .png, .gif, .webp" (change)="processFile($event)">
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
                     </div>
                     <div class="col-12 py-2" *ngIf="imagen_previzualiza">
-                        <img [src]="imagen_previzualiza" class="w-100" alt="">
+                        <img [src]="imagen_previzualiza" class="w-100" style="max-height: 200px; object-fit: contain;"
+                            alt="">
                     </div>
                 </div>
             </div>
@@ -96,14 +80,12 @@
         <div class="form-group row">
             <div class="col-5">
                 <label class="form-label">RESUMEN DEL PRODUCTO: *</label>
-                    <textarea class="form-control" name="descriptions"
-                      [(ngModel)]="resumen" placeholder="" rows="4"></textarea>
+                <textarea class="form-control" name="descriptions" [(ngModel)]="resumen" placeholder=""
+                    rows="4"></textarea>
             </div>
             <div class="col-6">
                 <label class="form-label">DESCRIPCIÓN DEL PRODUCTO: *</label>
-                <editor
-                    [(ngModel)]="description"
-                    [init]="{
+                <editor apiKey="h9ijuonrjjrnirv9ly2fb3v6lvfb7zeuyqd34bc02b37xbxw" [(ngModel)]="description" [init]="{
                     height: 250,
                     language: 'es',
                     plugins: [
@@ -115,8 +97,7 @@
                         'undo redo | formatselect | bold italic backcolor | \
                         alignleft aligncenter alignright alignjustify | \
                         bullist numlist outdent indent | removeformat | help'
-                    }"
-                ></editor>
+                    }"></editor>
             </div>
         </div>
 
@@ -124,13 +105,8 @@
             <div class="col-6">
                 <label class="form-label">ETIQUETAS: *</label>
                 <div class="d-flex">
-                    <input type="text"
-                        class="form-control form-control-solid form-control-lg w-50"
-                        name="TAGS"
-                        placeholder="Nombre"
-                        autocomplete="off"
-                        [(ngModel)]="text"
-                    >
+                    <input type="text" class="form-control form-control-solid form-control-lg w-50" name="TAGS"
+                        placeholder="Nombre" autocomplete="off" [(ngModel)]="text">
                     <button class="ml-5 btn btn-sm btn-primary" (click)="addTags()">+</button>
                 </div>
                 <div class="table-responsive w-50">
@@ -156,7 +132,8 @@
                 <label class="form-label">IMAGENES: *</label>
                 <div class="d-flex">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile"  accept=".jpeg, .bmp, .jpg, .png, .gif, .webp"  (change)="addFile($event)">
+                        <input type="file" class="custom-file-input" id="customFile"
+                            accept=".jpeg, .bmp, .jpg, .png, .gif, .webp" (change)="addFile($event)">
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
                     <button class="ml-5 btn btn-sm btn-primary" (click)="addImages()">+</button>
@@ -174,16 +151,43 @@
                         <tbody>
                             <tr *ngFor="let imagen_ of images_files;let i=index">
                                 <td>
-                                    <img [src]="imagen_.imagen" class="w-50" alt="">
+                                    <img [src]="imagen_.imagen" class="w-50"
+                                        style="max-height: 100px; object-fit: contain;" alt="">
                                 </td>
                                 <td>{{ imagen_.file_name }}</td>
                                 <td>
-                                    <button class="ml-5 btn btn-sm btn-danger" (click)="removeImages(imagen_)">-</button>
+                                    <button class="ml-5 btn btn-sm btn-danger"
+                                        (click)="removeImages(imagen_)">-</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+
+        <div class="separator separator-dashed my-10"></div>
+        <h5 class="mb-5">Información de Entrega</h5>
+
+        <div class="form-group row">
+            <div class="col-6">
+                <label class="form-label">Forma de entrega: *</label>
+                <select name="delivery_method" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="delivery_method">
+                    <option value="consult">A consultar con el vendedor</option>
+                    <option value="free" [disabled]="!isFreeShippingAuthorized">Envío gratis (Sujeto a autorización)
+                    </option>
+                    <option value="pickup">Recojo en tienda</option>
+                </select>
+                <div class="mt-2" *ngIf="!isFreeShippingAuthorized && delivery_method === 'free'">
+                    <span class="text-danger small">Tu empresa no tiene autorizado el envío gratis. Por favor,
+                        solicítalo al administrador.</span>
+                </div>
+            </div>
+            <div class="col-6" *ngIf="delivery_method !== 'consult'">
+                <label class="form-label">Detalles de envío / Dirección de recojo: *</label>
+                <textarea class="form-control form-control-solid" name="shipping_details" [(ngModel)]="shipping_details"
+                    rows="2" placeholder="Ej: Envío a todo el país vía Olva Courier"></textarea>
             </div>
         </div>
 
@@ -193,16 +197,18 @@
                     <label>INVENTARIO</label>
                     <div class="radio-inline">
                         <label class="radio">
-                            <input type="radio" name="radiosC" [checked]="checked_inventario == 1" value="1" (click)="checkedInventario(1)">
+                            <input type="radio" name="radiosC" [checked]="checked_inventario == 1" value="1"
+                                (click)="checkedInventario(1)">
                             <span></span>
                             INVENTARIO INDIVIDUAL
                         </label>
                         <label class="radio">
-                            <input type="radio" name="radiosC" [checked]="checked_inventario == 2" value="2" (click)="checkedInventario(2)">
+                            <input type="radio" name="radiosC" [checked]="checked_inventario == 2" value="2"
+                                (click)="checkedInventario(2)">
                             <span></span>
                             INVENTARIO MULTIPLE
                         </label>
-                        
+
                     </div>
                     <span class="form-text text-muted">Selecciona una opción</span>
                 </div>
@@ -211,13 +217,8 @@
                 <div class="row">
                     <div class="col-3">
                         <label class="form-label">STOCK INDIVIDUAL: *</label>
-                        <input type="number"
-                            class="form-control form-control-solid form-control-lg"
-                            name="stock_individual"
-                            placeholder="100"
-                            autocomplete="off"
-                            [(ngModel)]="stock_individual"
-                        >
+                        <input type="number" class="form-control form-control-solid form-control-lg"
+                            name="stock_individual" placeholder="100" autocomplete="off" [(ngModel)]="stock_individual">
                     </div>
                 </div>
             </div>
@@ -229,27 +230,24 @@
         <div class="form-group row" *ngIf="checked_inventario == 2">
             <div class="col-2">
                 <label class="form-label">DIMENSIONES : *</label>
-                <select name="product_size_id" (change)="changeDimension($event.target.value)" class="form-control form-control-solid form-control-lg" [(ngModel)]="product_size_id">
+                <select name="product_size_id" (change)="changeDimension($event.target.value)"
+                    class="form-control form-control-solid form-control-lg" [(ngModel)]="product_size_id">
                     <option value="">Ninguno</option>
                     <ng-container *ngFor="let item of products_color_sizes">
                         <option [value]="item.id">{{ item.name }}</option>
                     </ng-container>
-                    
+
                 </select>
             </div>
             <div class="col-3" *ngIf="is_selected_dimension">
                 <label class="form-label">NOMBRE DE LA DIMESIÓN: *</label>
-                <input type="text"
-                    class="form-control form-control-solid form-control-lg"
-                    name="new_nombre"
-                    placeholder="XL,XS,M,ETC"
-                    autocomplete="off"
-                    [(ngModel)]="new_nombre"
-                >
+                <input type="text" class="form-control form-control-solid form-control-lg" name="new_nombre"
+                    placeholder="XL,XS,M,ETC" autocomplete="off" [(ngModel)]="new_nombre">
             </div>
             <div class="col-2">
                 <label class="form-label">COLORES : *</label>
-                <select name="product_color_id" class="form-control form-control-solid form-control-lg" [(ngModel)]="product_color_id">
+                <select name="product_color_id" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="product_color_id">
                     <option value="">Ninguno</option>
                     <ng-container *ngFor="let item of products_colors">
                         <option [value]="item.id">{{ item.name }}</option>
@@ -258,13 +256,8 @@
             </div>
             <div class="col-3">
                 <label class="form-label">STOCK: *</label>
-                <input type="number"
-                    class="form-control form-control-solid form-control-lg"
-                    name="stock"
-                    placeholder="100"
-                    autocomplete="off"
-                    [(ngModel)]="stock"
-                >
+                <input type="number" class="form-control form-control-solid form-control-lg" name="stock"
+                    placeholder="100" autocomplete="off" [(ngModel)]="stock">
             </div>
             <div class="col-2">
                 <button class="btn btn-sm btn-info" (click)="addInventario()">+</button>
@@ -288,8 +281,10 @@
                                     <td></td>
                                     <td>{{ inventario.total }}</td>
                                     <td>
-                                        <button class="ml-5 btn btn-sm btn-primary" (click)="OPENEDIT(inventario)">E</button>
-                                        <button class="ml-5 btn btn-sm btn-danger" (click)="OPENEDELETE(inventario)">D</button>
+                                        <button class="ml-5 btn btn-sm btn-primary"
+                                            (click)="OPENEDIT(inventario)">E</button>
+                                        <button class="ml-5 btn btn-sm btn-danger"
+                                            (click)="OPENEDELETE(inventario)">D</button>
                                     </td>
                                 </tr>
                                 <tr *ngFor="let varT of inventario.variaciones">
@@ -297,12 +292,14 @@
                                     <td>{{ varT.product_color.name }}</td>
                                     <td>{{ varT.stock }}</td>
                                     <td>
-                                        <button class="ml-5 btn btn-sm btn-primary" (click)="OPENEDITSUB(varT,inventario)">E</button>
-                                        <button class="ml-5 btn btn-sm btn-danger" (click)="OPENEDELETESUB(varT,inventario)">D</button>
+                                        <button class="ml-5 btn btn-sm btn-primary"
+                                            (click)="OPENEDITSUB(varT,inventario)">E</button>
+                                        <button class="ml-5 btn btn-sm btn-danger"
+                                            (click)="OPENEDELETESUB(varT,inventario)">D</button>
                                     </td>
                                 </tr>
                             </ng-container>
-                            
+
                         </tbody>
                     </table>
                 </div>

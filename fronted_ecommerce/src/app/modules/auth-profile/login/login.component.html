@@ -12,56 +12,65 @@
         <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-7 col-md-9">
                 <div class="register_form padding_default shadow_sm">
-                    <h4 class="title_2">Login</h4>
-                    <p class="mb-4 text_md">Login if you a a returing customer</p>
-                    <form action="">
+                    <div class="text-center mb-4">
+                        <img src="assets/images/logo-megarys.png" alt="logo" style="max-height: 50px;">
+                    </div>
+                    <h4 class="title_2 text-center">{{ 'Login' | translate }}</h4>
+                    <p class="mb-4 text_md text-center">{{ 'Login if you are a returning customer' | translate }}</p>
+                    <form (submit)="$event.preventDefault()">
                         <div class="row">
                             <div class="col-12">
                                 <div class="single_billing_inp">
-                                    <label>Email Address <span>*</span></label>
-                                    <input type="email" [(ngModel)]="email" name="email" placeholder="example@mail.com">
+                                    <label>{{ 'Email Address' | translate }} <span>*</span></label>
+                                    <input type="email" [(ngModel)]="email" name="email"
+                                        [placeholder]="'example@mail.com'">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="single_billing_inp">
-                                    <label>Password <span>*</span></label>
+                                    <label>{{ 'Password' | translate }} <span>*</span></label>
                                     <input type="password" [(ngModel)]="password" name="password"
-                                        placeholder="type password">
+                                        [placeholder]="'type password' | translate">
                                 </div>
                             </div>
                             <div class="col-12 mt-2 d-flex justify-content-between align-items-center">
                                 <div class="custom_check check_2 d-flex align-items-center">
                                     <input type="checkbox" class="check_inp" hidden id="save-default">
-                                    <label for="save-default">Remember Me</label>
+                                    <label for="save-default">{{ 'Remember Me' | translate }}</label>
                                 </div>
 
-                                <a href="forgot-password.html" class="text-color">Forgot Password?</a>
+                                <a routerLink="/auth/forgot-password" class="text-color">{{ 'Forgot Password?' |
+                                    translate
+                                    }}</a>
                             </div>
                             <div class="col-12 mt-3">
-                                <button type="submit" (click)="login()"
-                                    class="default_btn xs_btn rounded px-4 d-block w-100">Login</button>
+                                <button type="button" (click)="login()"
+                                    class="default_btn xs_btn rounded px-4 d-block w-100">{{ 'Login' | translate
+                                    }}</button>
                             </div>
 
                         </div>
                     </form>
 
                     <div class="dif_regway my-3">
-                        <span class="txt">Or login in with</span>
+                        <span class="txt">{{ 'Or login in with' | translate }}</span>
                     </div>
 
                     <div class="d-flex">
-                        <button class="default_btn xs_btn rounded px-4 d-block w-50 text-capitalize bg-facebook"
+                        <button
+                            class="default_btn xs_btn rounded px-4 d-block w-50 text-capitalize bg-facebook d-flex align-items-center justify-content-center"
                             (click)="signInWithFB()">
-                            <i class="fab fa-facebook-f me-2"></i> Facebook
+                            <i class="lab la-facebook-f me-2" style="font-size: 1.2rem;"></i> Facebook
                         </button>
-                        <button class="default_btn xs_btn rounded px-4 d-block w-50 ms-3 text-capitalize bg-google"
+                        <button
+                            class="default_btn xs_btn rounded px-4 d-block w-50 ms-3 text-capitalize bg-google d-flex align-items-center justify-content-center"
                             (click)="signInWithGoogle()">
-                            <i class="fab fa-google me-2"></i> Google
+                            <i class="lab la-google me-2" style="font-size: 1.2rem;"></i> Google
                         </button>
                     </div>
 
-                    <p class="text-center mt-3 mb-0">Don't have an account.? <a href="register.html"
-                            class="text-color">Register Now</a></p>
+                    <p class="text-center mt-3 mb-0">{{ 'Don\'t have an account?' | translate }} <a
+                            routerLink="/auth/registro" class="text-color">{{ 'Register Now' | translate }}</a></p>
 
                 </div>
             </div>

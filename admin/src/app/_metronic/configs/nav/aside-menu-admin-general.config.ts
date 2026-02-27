@@ -51,21 +51,6 @@ export const AsideMenuAdminGeneral = {
       ]
     },
     {
-      title: 'Preguntas (Q&A)',
-      root: true,
-      name: "questions",
-      bullet: 'dot',
-      icon: 'flaticon2-architecture-and-city',
-      svg: './assets/media/svg/icons/Communication/Chat6.svg',
-      page: '/questions',
-      submenu: [
-        {
-          title: 'Preguntas Clientes',
-          page: '/questions/list'
-        }
-      ]
-    },
-    {
       title: 'Usuarios',
       root: true,
       name: "users",
@@ -77,114 +62,71 @@ export const AsideMenuAdminGeneral = {
         {
           title: 'Gestion Usuarios',
           page: '/users/list'
-        }
-      ]
-    },
-    { section: 'Comercial' },
-    {
-      title: 'Ventas',
-      root: true,
-      name: "ventas",
-      bullet: 'dot',
-      icon: 'flaticon2-user-outline-symbol',
-      svg: './assets/media/svg/icons/Communication/Clipboard-list.svg',
-      page: '/ventas',
-      submenu: [
-        {
-          title: 'Ordenes',
-          page: '/ventas/lista-de-ordenes'
-        }
-      ]
-    },
-    { section: 'Productos' },
-    {
-      title: 'Categorias',
-      root: true,
-      name: "categorias",
-      bullet: 'dot',
-      icon: 'flaticon2-user-outline-symbol',
-      svg: './assets/media/svg/icons/Electric/Gas-stove.svg',
-      page: '/categorias',
-      submenu: [
-        {
-          title: 'Gestion Categorias',
-          page: '/categorias/lista'
-        }
-      ]
-    },
-    {
-      title: 'Productos',
-      root: true,
-      name: "products",
-      bullet: 'dot',
-      icon: 'flaticon2-user-outline-symbol',
-      svg: './assets/media/svg/icons/Home/Armchair.svg',
-      page: '/products',
-      submenu: [
-        {
-          title: 'Crear Producto',
-          page: '/products/add-product'
         },
         {
-          title: 'Listar Productos',
-          page: '/products/list-product'
+          title: 'Roles y Permisos',
+          page: '/user-management/roles'
         }
       ]
     },
+    { section: 'Inteligencia Artificial' },
     {
-      title: 'Sliders',
+      title: 'Estudio de IA',
       root: true,
-      name: "sliders",
+      name: "ai-studio",
       bullet: 'dot',
-      icon: 'flaticon2-user-outline-symbol',
-      svg: './assets/media/svg/icons/Design/Image.svg',
-      page: '/sliders',
+      icon: 'flaticon2-soft-icons',
+      svg: './assets/media/svg/icons/General/Thunder-move.svg',
+      page: '/ai-studio',
       submenu: [
         {
-          title: 'Listar Sliders',
-          page: '/sliders/lista'
-        }
-      ]
-    },
-    {
-      title: 'Cupones',
-      root: true,
-      name: "cupones",
-      bullet: 'dot',
-      icon: 'flaticon2-user-outline-symbol',
-      svg: './assets/media/svg/icons/Home/Toilet.svg',
-      page: '/cupones',
-      submenu: [
-        {
-          title: 'Regitrar Cupon',
-          page: '/cupones/registrar-cupon'
+          title: 'Alimentar IA',
+          page: '/ai-studio/training'
         },
         {
-          title: 'Listar Cupones',
-          page: '/cupones/lista-cupones'
+          title: 'Base de Conocimiento',
+          page: '/ai-studio/knowledge'
         }
       ]
     },
+    { section: 'Comunicación' },
     {
-      title: 'Descuento',
+      title: 'Mensajería',
       root: true,
-      name: "descuento",
+      name: "messaging",
       bullet: 'dot',
-      icon: 'flaticon2-user-outline-symbol',
-      svg: './assets/media/svg/icons/Home/Cupboard.svg',
-      page: '/descuento',
+      icon: 'flaticon2-chat',
+      svg: './assets/media/svg/icons/Communication/Group-chat.svg',
+      page: '/messaging',
       submenu: [
         {
-          title: 'Registrar Descuento',
-          page: '/descuento/registrar-descuento'
+          title: 'Bandeja de Entrada',
+          page: '/messaging/inbox'
+        }
+      ]
+    },
+    { section: 'Soporte / CX' },
+    {
+      title: 'Tickets de Soporte',
+      root: true,
+      name: 'support-admin',
+      bullet: 'dot',
+      icon: 'flaticon2-chat',
+      svg: './assets/media/svg/icons/Communication/Chat-check.svg',
+      page: '/support/admin',
+      submenu: [
+        {
+          title: 'Todos los Tickets',
+          page: '/support/admin'
         },
         {
-          title: 'Listar descuentos',
-          page: '/descuento/lista-descuentos'
+          title: 'Analytics de Soporte',
+          page: '/support/analytics'
         }
       ]
     },
     { section: 'Sistema' },
+
     {
       title: 'Configuracion',
       root: true,

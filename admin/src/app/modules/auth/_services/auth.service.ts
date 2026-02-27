@@ -59,8 +59,17 @@ export class AuthService implements OnDestroy {
   }
   // public methods
   isLogued() {
-    return (this.token.length > 5) ? true : false;
+    return (this.token && this.token.length > 5) ? true : false;
   }
+
+  forgotPassword(email: string) {
+    this.isLoadingSubject.next(true);
+    let url = URL_SERVICIOS + "/users/forgot-password";
+    return this.http.post(url, { email, role: 'admin' }).pipe(
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
   login(email: string, password: string) {
     this.isLoadingSubject.next(true);
     let url = URL_SERVICIOS + "/users/login";
@@ -82,6 +91,7 @@ export class AuthService implements OnDestroy {
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
+
   logout() {
     // localStorage.removeItem(this.authLocalStorageToken);
     this.user = null;

@@ -34,4 +34,16 @@ class SystemController extends Controller
             ], 500);
         }
     }
+
+    public function getLogs(Request $request)
+    {
+        $logs = \App\Models\SystemLog::with(['user', 'company'])
+            ->orderBy('id', 'desc')
+            ->paginate(30);
+
+        return response()->json([
+            "message" => 200,
+            "logs" => $logs
+        ]);
+    }
 }

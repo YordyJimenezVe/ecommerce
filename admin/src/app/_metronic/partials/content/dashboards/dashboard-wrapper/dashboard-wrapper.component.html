@@ -1,12 +1,32 @@
-<ng-container *ngIf="demo === 'demo1'">
-  <app-dashboard1></app-dashboard1>
+<ng-container *ngIf="role === 'ADMINISTRADOR GENERAL'">
+  <app-dashboard-admin-general></app-dashboard-admin-general>
 </ng-container>
 
-<ng-container *ngIf="demo === 'demo2'">
-  <app-dashboard2></app-dashboard2>
+<ng-container *ngIf="role === 'ADMINISTRADOR DE EMPRESA'">
+  <app-dashboard-company-admin></app-dashboard-company-admin>
 </ng-container>
 
+<ng-container *ngIf="role === 'ANALISTA'">
+  <app-dashboard-analista></app-dashboard-analista>
+</ng-container>
 
-<ng-container *ngIf="demo === 'demo3'">
-  <app-dashboard3></app-dashboard3>
+<ng-container *ngIf="role === 'VENDEDOR / STAFF'">
+  <app-dashboard-vendedor></app-dashboard-vendedor>
+</ng-container>
+
+<ng-container
+  *ngIf="role !== 'ADMINISTRADOR GENERAL' && role !== 'ADMINISTRADOR DE EMPRESA' && role !== 'ANALISTA' && role !== 'VENDEDOR / STAFF' && role !== ''">
+  <app-dashboard-company-admin></app-dashboard-company-admin>
+</ng-container>
+
+<ng-container *ngIf="role === ''">
+  <ng-container *ngIf="demo === 'demo1'">
+    <app-dashboard1></app-dashboard1>
+  </ng-container>
+  <ng-container *ngIf="demo === 'demo2'">
+    <app-dashboard2></app-dashboard2>
+  </ng-container>
+  <ng-container *ngIf="demo === 'demo3'">
+    <app-dashboard3></app-dashboard3>
+  </ng-container>
 </ng-container>

@@ -1,64 +1,97 @@
 <!-- account content -->
-<div class="acprof_info_wrap shadow_sm">
-    <h4 class="text_xl mb-3">Información personal: </h4>
+<div class="acprof_info_wrap">
+    <h4 class="text_xl mb-4 font-weight-bolder" style="color: var(--text-color, #333);">{{ 'Personal Information' |
+        translate }}</h4>
     <form action="">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="single_billing_inp">
-                    <label>Nombres: </label>
-                    <input type="text" [(ngModel)]="name" name="name">
+                    <label class="font-weight-500 mb-2"><i class="las la-user"
+                            style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'First Name' |
+                        translate }} <span class="text-danger">*</span></label>
+                    <input type="text" [(ngModel)]="name" name="name" class="form-control"
+                        [placeholder]="'Enter your first name' | translate"
+                        style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="single_billing_inp">
-                    <label>Apellidos: </label>
-                    <input type="text" [(ngModel)]="surname" name="surname">
+                    <label class="font-weight-500 mb-2"><i class="las la-user-tag"
+                            style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Last Name' | translate
+                        }} <span class="text-danger">*</span></label>
+                    <input type="text" [(ngModel)]="surname" name="surname" class="form-control"
+                        [placeholder]="'Enter your last name' | translate"
+                        style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="single_billing_inp">
-                    <label>Cumpleaños: </label>
-                    <input type="date" [(ngModel)]="birthday" name="birthday">
+                    <label class="font-weight-500 mb-2"><i class="las la-birthday-cake"
+                            style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Birthday' | translate
+                        }} <span class="text-danger">*</span></label>
+                    <input type="date" [(ngModel)]="birthday" name="birthday" class="form-control"
+                        style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="single_billing_inp">
-                    <label>Genero: </label>
-                    <select class="nice_select" [(ngModel)]="gender" name="gender">
-                        <option value="1">Masculino</option>
-                        <option value="2">Femenino</option>
-                        <option value="3">Otro</option>
+                    <label class="font-weight-500 mb-2"><i class="las la-venus-mars"
+                            style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Gender' | translate
+                        }}</label>
+                    <select class="form-control" [(ngModel)]="gender" name="gender"
+                        style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px; height: auto;">
+                        <option value="1">{{ 'Male' | translate }}</option>
+                        <option value="2">{{ 'Female' | translate }}</option>
+                        <option value="3">{{ 'Other' | translate }}</option>
                     </select>
                 </div>
             </div>
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-12">
-                  <label class="form-label">Sube tu avatar: *</label>
-                  <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="customFile"  accept=".jpeg, .bmp, .jpg, .png, .gif, .webp"  (change)="processFile($event)">
-                  <label class="custom-file-label" for="customFile">Choose file</label>
-                </div>
-                <div class="col-12 py-2" *ngIf="imagen_previzualiza">
-                  <img [src]="imagen_previzualiza" class="w-100" alt="">
-                </div>
-              </div>
-              </div>
-            </div>
-            <div class="col-md-6">
+
+            <div class="col-md-6 mb-3">
                 <div class="single_billing_inp">
-                    <label>Dirección de correo: </label>
-                    <input type="text" [(ngModel)]="email" name="email">
+                    <label class="font-weight-500 mb-2"><i class="las la-envelope"
+                            style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Email Address' |
+                        translate }} <span class="text-danger">*</span></label>
+                    <input type="text" [(ngModel)]="email" name="email" class="form-control"
+                        [placeholder]="'Enter your email' | translate"
+                        style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="single_billing_inp">
-                    <label>Number telefonico: </label>
-                    <input type="text" [(ngModel)]="phone" name="phone">
+                    <label class="font-weight-500 mb-2"><i class="las la-phone"
+                            style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Phone Number' |
+                        translate }}</label>
+                    <input type="text" [(ngModel)]="phone" name="phone" class="form-control"
+                        [placeholder]="'Enter your phone number' | translate"
+                        style="border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); padding: 12px;">
                 </div>
             </div>
-            <div class="col-12 acprof_subbtn">
-                <button type="submit" class="default_btn rounded small" (click)="save()">Guardar Cambios</button>
+
+            <div class="col-12 mb-4 mt-2">
+                <label class="font-weight-500 mb-2"><i class="las la-camera"
+                        style="color: #f89c0e; font-size: 1.1rem; margin-right: 5px;"></i>{{ 'Upload your avatar' |
+                    translate }}</label>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="custom-file" style="flex-grow: 1; max-width: 400px;">
+                        <input type="file" class="custom-file-input" id="customFile"
+                            accept=".jpeg, .bmp, .jpg, .png, .gif, .webp" (change)="processFile($event)"
+                            style="border-radius: 8px;">
+                        <label class="custom-file-label" for="customFile" style="border-radius: 8px;">{{ 'Choose file' |
+                            translate }}</label>
+                    </div>
+                    <div *ngIf="imagen_previzualiza" class="ml-3"
+                        style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary-color);">
+                        <img [src]="imagen_previzualiza" style="width: 100%; height: 100%; object-fit: cover;" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-3">
+                <hr style="border-color: rgba(0,0,0,0.05); margin-bottom: 25px;">
+                <button type="submit" class="default_btn rounded" (click)="save()" style="padding: 12px 30px;">
+                    <i class="las la-save mr-2"></i> {{ 'Save Changes' | translate }}
+                </button>
             </div>
         </div>
     </form>

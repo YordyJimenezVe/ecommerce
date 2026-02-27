@@ -30,7 +30,11 @@ class SuperAdminMiddleware
 
         // Role based check (fallback)
         // Accepts 'super_admin' OR 'ADMINISTRADOR GENERAL' (from manual DB update)
-        if ($user->role === 'super_admin' || $user->role === 'ADMINISTRADOR GENERAL') {
+        $roleName = $user->role ? $user->role->name : ($user->getAttribute('role') ?? '');
+
+        \Log::info('SuperAdmin check', ['email' => $user->email, 'roleName' => $roleName]);
+
+        if ($roleName === 'super_admin' || $roleName === 'ADMINISTRADOR GENERAL') {
             return $next($request);
         }
 

@@ -30,6 +30,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   categories: any = [];
 
   currentLang: string = 'es';
+  currentLangName: string = 'Spanish';
+  isLangMenuOpen: boolean = false;
+
+  currentTheme: string = 'default';
+  currentThemeName: string = 'Default';
+  isThemeMenuOpen: boolean = false;
 
   constructor(
     public authService: AuthService,
@@ -68,6 +74,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
     this.languageService.currentLang$.subscribe(lang => {
       this.currentLang = lang;
+      this.currentLangName = lang === 'es' ? 'Spanish' : 'English';
     });
   }
 
@@ -99,12 +106,32 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.authService.logout();
   }
 
-  changeLanguage(event: any) {
-    this.languageService.changeLanguage(event.target.value);
+  toggleLangMenu() {
+    this.isLangMenuOpen = !this.isLangMenuOpen;
   }
 
-  changeTheme(event: any) {
-    const theme = event.target.value;
+  changeLanguage(lang: string) {
+    this.languageService.changeLanguage(lang);
+    this.isLangMenuOpen = false;
+  }
+
+  toggleThemeMenu() {
+    this.isThemeMenuOpen = !this.isThemeMenuOpen;
+  }
+
+  changeTheme(theme: string) {
+    this.currentTheme = theme;
     this.themeService.setTheme(theme);
+    this.isThemeMenuOpen = false;
+
+    const themeNames: any = {
+      'default': 'Predeterminado',
+      'dark': 'Oscuro',
+      'red': 'Rojo',
+      'blue': 'Azul',
+      'green': 'Verde',
+      'white': 'Blanco (Modo Oscuro)'
+    };
+    this.currentThemeName = themeNames[theme] || 'Default';
   }
 }

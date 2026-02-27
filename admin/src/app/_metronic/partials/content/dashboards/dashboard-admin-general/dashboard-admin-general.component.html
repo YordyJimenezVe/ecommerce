@@ -1,0 +1,131 @@
+<div class="premium-dashboard" *ngIf="stats">
+    <!-- Welcome Header -->
+    <div class="welcome-header d-flex align-items-center justify-content-between">
+        <div>
+            <h1>Panel de Control Maestro</h1>
+            <p>Monitoreo en tiempo real de la plataforma</p>
+        </div>
+        <div class="glass-card p-4 d-flex align-items-center">
+            <span class="symbol symbol-40 mr-3">
+                <span class="symbol-label status-paid">
+                    <i class="flaticon-calendar-3 text-success"></i>
+                </span>
+            </span>
+            <div>
+                <div class="text-dark-75 font-weight-bolder">Hoy</div>
+                <div class="text-muted font-weight-bold">{{ today | date:'dd MMM, yyyy' }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top KPI Cards -->
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-blue metric-card">
+                <div class="metric-label">Empresas Activas</div>
+                <div class="metric-value">{{ stats.total_companies || 0 }}</div>
+                <div class="metric-subtext">Crecimiento constante</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-purple metric-card">
+                <div class="metric-label">Usuarios Totales</div>
+                <div class="metric-value">{{ stats.total_users || 0 }}</div>
+                <div class="metric-subtext">Comunidad Megarys</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-green metric-card">
+                <div class="metric-label">Ingresos Globales</div>
+                <div class="metric-value">${{ stats.total_sales || 0 }}</div>
+                <div class="metric-subtext">Total ventas aprobadas</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-5">
+            <div class="glass-card gradient-card-orange metric-card">
+                <div class="metric-label">Canales de Soporte</div>
+                <div class="metric-value">{{ stats.total_messages || 0 }}</div>
+                <div class="metric-subtext">Conversaciones activas</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="row mt-5">
+        <!-- Growth Chart -->
+        <div class="col-xl-8 mb-5">
+            <div class="glass-card p-7 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-7">
+                    <h3 class="font-weight-bolder text-dark m-0">Análisis de Crecimiento</h3>
+                    <span class="label label-lg label-light-primary label-inline font-weight-bold">Ingresos vs
+                        Empresas</span>
+                </div>
+                <div class="chart-container" style="min-height: 500px;">
+                    <app-mixed-widget1 chartColor="primary" [chartOptions]="chartOptions"
+                        [stats]="stats"></app-mixed-widget1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Companies -->
+        <div class="col-xl-4 mb-5">
+            <div class="glass-card p-7 h-100">
+                <h3 class="font-weight-bolder text-dark mb-7">Empresas Recientes</h3>
+                <div class="table-responsive">
+                    <table class="premium-table">
+                        <tbody>
+                            <tr *ngFor="let company of stats.recent_companies">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="symbol symbol-40 symbol-light-primary mr-3">
+                                            <span class="symbol-label">
+                                                {{ company.name.charAt(0).toUpperCase() }}
+                                            </span>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <span class="text-dark-75 font-weight-bolder font-size-lg">{{ company.name
+                                                }}</span>
+                                            <span class="text-muted font-size-sm">{{ company.user?.name || 'Admin'
+                                                }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="stats.recent_companies.length === 0">
+                                <td class="text-center text-muted">No hay registros</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ranking Section -->
+    <div class="row mt-5">
+        <div class="col-xl-12">
+            <div class="glass-card p-7">
+                <h3 class="font-weight-bolder text-dark mb-7">Top 5 Empresas (Por Catálogo)</h3>
+                <div class="row">
+                    <div class="col-xl-2 col-md-4 mb-5" *ngFor="let company of stats.top_companies; let i = index">
+                        <div class="d-flex flex-column align-items-center p-5 border rounded-xl bg-light">
+                            <span class="badge badge-primary mb-3">#{{ i + 1 }}</span>
+                            <div class="symbol symbol-60 symbol-circle mb-3">
+                                <span class="symbol-label font-size-h2 font-weight-bold bg-white text-primary">
+                                    {{ company.name.charAt(0) }}
+                                </span>
+                            </div>
+                            <span class="text-dark font-weight-bolder font-size-lg text-center">{{ company.name
+                                }}</span>
+                            <span class="text-muted font-weight-bold">{{ company.products_count }} Productos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center py-20" *ngIf="isLoading">
+    <div class="spinner spinner-primary spinner-lg"></div>
+</div>

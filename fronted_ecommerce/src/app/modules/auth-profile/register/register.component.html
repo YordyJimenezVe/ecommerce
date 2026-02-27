@@ -12,76 +12,84 @@
         <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-7 col-md-9">
                 <div class="register_form padding_default shadow_sm">
-                    <h4 class="title_2">Create an account</h4>
-                    <p class="mb-4 text_md">Register here if you are a new customer.</p>
-                    <form action="">
+                    <div class="text-center mb-4">
+                        <img src="assets/images/logo-megarys.png" alt="logo" style="max-height: 50px;">
+                    </div>
+                    <h4 class="title_2 text-center">{{ 'Create an account' | translate }}</h4>
+                    <p class="mb-4 text_md text-center">{{ 'Register here if you are a new customer.' | translate }}</p>
+                    <form (submit)="$event.preventDefault()">
                         <div class="row">
                             <div class="col-12">
                                 <div class="single_billing_inp">
-                                    <label>Nombre: <span>*</span></label>
-                                    <input type="text" [(ngModel)]="name" name="name" placeholder="Jone Doe">
+                                    <label>{{ 'First Name' | translate }}: <span>*</span></label>
+                                    <input type="text" [(ngModel)]="name" name="name"
+                                        [placeholder]="'Jone' | translate">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="single_billing_inp">
-                                    <label>Apellido: <span>*</span></label>
-                                    <input type="text" [(ngModel)]="surname" name="surname" placeholder="Jone Doe">
+                                    <label>{{ 'Last Name' | translate }}: <span>*</span></label>
+                                    <input type="text" [(ngModel)]="surname" name="surname"
+                                        [placeholder]="'Doe' | translate">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="single_billing_inp">
-                                    <label>Correo Electronico: <span>*</span></label>
+                                    <label>{{ 'Email Address' | translate }}: <span>*</span></label>
                                     <input type="email" [(ngModel)]="email" name="email" placeholder="example@mail.com">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="single_billing_inp">
-                                    <label>Contraseña: <span>*</span></label>
+                                    <label>{{ 'Password' | translate }}: <span>*</span></label>
                                     <input type="password" [(ngModel)]="password" name="password"
-                                        placeholder="type password">
+                                        [placeholder]="'type password' | translate">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="single_billing_inp">
-                                    <label>Repetir Contraseña: <span>*</span></label>
+                                    <label>{{ 'Repeat Password' | translate }}: <span>*</span></label>
                                     <input type="password" [(ngModel)]="repit_password" name="repit_password"
-                                        placeholder="confirm your password">
+                                        [placeholder]="'confirm your password' | translate">
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="custom_check check_2 d-flex align-items-center">
                                     <input type="checkbox" class="check_inp" hidden id="save-default">
-                                    <label for="save-default">I have read and agree to the <a
-                                            href="terms-condition.html" class="text-color">terms & conditions</a>
+                                    <label for="save-default">{{ 'I have read and agree to the' | translate }} <a
+                                            routerLink="/terminos-condiciones" class="text-color">{{ 'terms &
+                                            conditions' | translate }}</a>
                                     </label>
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
-                                <button type="submit" (click)="registro()"
-                                    class="default_btn xs_btn rounded px-4 d-block w-100">create
-                                    account</button>
+                                <button type="button" (click)="registro()"
+                                    class="default_btn xs_btn rounded px-4 d-block w-100">{{ 'create account' |
+                                    translate }}</button>
                             </div>
 
                         </div>
                     </form>
 
                     <div class="dif_regway my-3">
-                        <span class="txt">Or singup in with</span>
+                        <span class="txt">{{ 'Or singup in with' | translate }}</span>
                     </div>
 
                     <div class="d-flex">
-                        <button class="default_btn xs_btn rounded px-4 d-block w-50 text-capitalize bg-facebook"
+                        <button
+                            class="default_btn xs_btn rounded px-4 d-block w-50 text-capitalize bg-facebook d-flex align-items-center justify-content-center"
                             (click)="signInWithFB()">
-                            <i class="fab fa-facebook-f me-2"></i> Facebook
+                            <i class="lab la-facebook-f me-2" style="font-size: 1.2rem;"></i> Facebook
                         </button>
-                        <button class="default_btn xs_btn rounded px-4 d-block w-50 ms-3 text-capitalize bg-google"
+                        <button
+                            class="default_btn xs_btn rounded px-4 d-block w-50 ms-3 text-capitalize bg-google d-flex align-items-center justify-content-center"
                             (click)="signInWithGoogle()">
-                            <i class="fab fa-google me-2"></i> Google
+                            <i class="lab la-google me-2" style="font-size: 1.2rem;"></i> Google
                         </button>
                     </div>
 
-                    <p class="text-center mt-3 mb-0">Already have an account.? <a href="login.html"
-                            class="text-color">Login Now</a></p>
+                    <p class="text-center mt-3 mb-0">{{ 'Already have an account?' | translate }} <a
+                            routerLink="/auth/login" class="text-color">{{ 'Login Now' | translate }}</a></p>
 
                 </div>
             </div>

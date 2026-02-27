@@ -1,0 +1,131 @@
+<div class="modal-content text-dark">
+    <div class="modal-header bg-primary py-4">
+        <div class="modal-title h4 text-white" id="example-modal-sizes-title-lg">
+            Gestión 360°: <b>{{ company.name }}</b>
+        </div>
+        <button type="button" class="close text-white" (click)="close()">×</button>
+    </div>
+    <div class="modal-body">
+        <ul class="nav nav-tabs nav-tabs-line nav-tabs-primary mb-5">
+            <li class="nav-item">
+                <a class="nav-link cursor-pointer" [ngClass]="{'active': activeTab === 'users'}"
+                    (click)="setTab('users')">
+                    <span class="nav-icon"><i class="flaticon-users"></i></span>
+                    <span class="nav-text font-weight-bold">Usuarios</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link cursor-pointer" [ngClass]="{'active': activeTab === 'products'}"
+                    (click)="setTab('products')">
+                    <span class="nav-icon"><i class="flaticon-box"></i></span>
+                    <span class="nav-text font-weight-bold">Productos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link cursor-pointer" [ngClass]="{'active': activeTab === 'billing'}"
+                    (click)="setTab('billing')">
+                    <span class="nav-icon"><i class="flaticon-price-tag"></i></span>
+                    <span class="nav-text font-weight-bold">Pagos/Lapsos</span>
+                </a>
+            </li>
+        </ul>
+
+        <div [ngSwitch]="activeTab">
+            <!-- TAB USUARIOS -->
+            <div *ngSwitchCase="'users'">
+                <div class="table-responsive">
+                    <table class="table table-head-custom table-vertical-center table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td class="font-weight-bold">{{ user.name }} {{ user.surname }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    <span class="label label-inline label-light-info">{{ user.role?.name }}</span>
+                                </td>
+                                <td class="text-right">
+                                    <button (click)="updateEmail(user)"
+                                        class="btn btn-sm btn-icon btn-light-primary mr-2" title="Cambiar Email">
+                                        <i class="fa fa-envelope"></i>
+                                    </button>
+                                    <button (click)="resetPassword(user)" class="btn btn-sm btn-icon btn-light-warning"
+                                        title="Reset Password">
+                                        <i class="fa fa-key"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="users.length === 0 && !isLoading">
+                                <td colspan="4" class="text-center text-muted py-10">No hay usuarios registrados para
+                                    esta empresa.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB PRODUCTOS -->
+            <div *ngSwitchCase="'products'">
+                <div class="table-responsive">
+                    <table class="table table-head-custom table-vertical-center table-hover">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Precio (S/ / $)</th>
+                                <th class="text-center">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of products">
+                                <td class="font-weight-bold text-primary">{{ product.title }}</td>
+                                <td>{{ product.categorie?.name }}</td>
+                                <td>{{ product.price_soles }} / {{ product.price_usd }}</td>
+                                <td class="text-center">
+                                    <span class="label label-inline"
+                                        [ngClass]="{'label-light-success': product.state === 1, 'label-light-danger': product.state === 2}">
+                                        {{ product.state === 1 ? 'Activo' : 'Inactivo' }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr *ngIf="products.length === 0 && !isLoading">
+                                <td colspan="4" class="text-center text-muted py-10">No hay productos registrados.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB BILLING -->
+            <div *ngSwitchCase="'billing'">
+                <div class="alert alert-custom alert-light-primary mb-5 py-3 border-0">
+                    <div class="alert-icon"><i class="flaticon-info text-primary"></i></div>
+                    <div class="alert-text font-weight-bold">
+                        Vencimiento de Membresía: <span class="text-primary">{{ (company.membership_expires_at |
+                            date:'dd/MM/yyyy') || 'Sin fecha registrada' }}</span>
+                    </div>
+                </div>
+
+                <div class="bg-light p-5 rounded border">
+                    <h6 class="font-weight-bolder mb-3">Historial de Lapsos</h6>
+                    <p class="text-muted small">Los movimientos de facturación y renovaciones aparecerán aquí
+                        próximamente.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center py-10" *ngIf="isLoading">
+            <span class="spinner spinner-primary spinner-lg"></span>
+            <p class="mt-2 text-primary font-weight-bold">Cargando datos...</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary font-weight-bold" (click)="close()">Cerrar</button>
+    </div>
+</div>

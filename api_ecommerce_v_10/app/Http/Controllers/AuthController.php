@@ -43,6 +43,11 @@ class AuthController extends Controller
         $user->name = request()->name;
         $user->email = request()->email;
         $user->password = bcrypt(request()->password);
+        $user->state = 1;
+        $role = \App\Models\Role::where('name', 'CLIENTE')->first();
+        if ($role) {
+            $user->role_id = $role->id;
+        }
         $user->save();
 
         return response()->json($user, 201);
@@ -58,7 +63,7 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (!$token = auth('api')->attempt(["email" => $request->email, "password" => $request->password, "type_user" => 2, "state" => 1])) {
+        if (!$token = auth('api')->attempt(["email" => $request->email, "password" => $request->password, "state" => 1])) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -86,7 +91,10 @@ class AuthController extends Controller
             $user->email = $request->email;
             $user->password = bcrypt("12345678"); // Contraseña por defecto para usuarios sociales
             $user->state = 1;
-            $user->type_user = 2; // Cliente
+            $role = \App\Models\Role::where('name', 'CLIENTE')->first();
+            if ($role) {
+                $user->role_id = $role->id;
+            }
             $user->save();
         }
 
@@ -137,16 +145,22 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        $user = auth('api')->user();
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60,
             "user" => [
-                "id" => auth('api')->user()->id,
-                "name" => auth('api')->user()->name,
-                "surname" => auth('api')->user()->surname,
-                "email" => auth('api')->user()->email,
-                "role" => auth('api')->user()->role,
+                "id" => $user->id,
+                "name" => $user->name,
+                "surname" => $user->surname,
+                "email" => $user->email,
+                "role" => $user->role ? $user->role->name : null,
+                "company" => $user->company ? [
+                    "id" => $user->company->id,
+                    "name" => $user->company->name,
+                    "status" => $user->company->status,
+                ] : null,
             ],
         ]);
     }

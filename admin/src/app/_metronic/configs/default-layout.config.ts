@@ -153,7 +153,7 @@ export const DefaultLayoutConfig = {
     },
 
     menu: {
-      static: true, // static => true | dynamic => true
+      static: false, // static => true | dynamic => true
       dropdown: false, // ok
       scroll: true, // ok
       iconStyle: 'duotone', // duotone, line, bold, solid

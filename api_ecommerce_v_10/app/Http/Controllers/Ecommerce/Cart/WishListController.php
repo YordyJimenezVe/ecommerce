@@ -34,7 +34,7 @@ class WishListController extends Controller
                             "slug" => $wishlist->product->slug,
                             "price_soles" => $wishlist->product->price_soles,
                             "price_usd" => $wishlist->product->price_usd,
-                            "imagen" => env("APP_URL") . "/storage/" . $wishlist->product->imagen,
+                            "imagen" => rtrim(env("APP_URL"), '/') . "/storage/" . $wishlist->product->imagen,
                         ],
                     ];
                 })

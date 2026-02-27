@@ -61,7 +61,7 @@ class ProductImagensController extends Controller
             "imagen" => [
                 "id" => $imagen->id,
                 "file_name" => $imagen->file_name,
-                "imagen" => env("APP_URL") . "/storage/" . $imagen->imagen,
+                "imagen" => rtrim(env("APP_URL"), '/') . "/storage/" . $imagen->imagen,
                 "size" => $imagen->size,
                 "type" => $imagen->type,
             ]

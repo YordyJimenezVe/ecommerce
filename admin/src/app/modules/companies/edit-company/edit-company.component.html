@@ -27,11 +27,18 @@
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <label>Logo (Subir nuevo para reemplazar)</label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" (change)="processFile($event)">
                     <label class="custom-file-label">Elige un archivo</label>
+                </div>
+            </div>
+            <div class="col-lg-6" *ngIf="image_preview || company.logo">
+                <label>Vista Previa</label>
+                <div class="symbol symbol-120 mr-5">
+                    <img [src]="image_preview || (URL_BACKEND + 'storage/' + company.logo)" alt="Logo Preview"
+                        style="object-fit: contain; background: #f3f6f9; border-radius: 10px; width: 120px; height: 120px; padding: 10px;">
                 </div>
             </div>
         </div>

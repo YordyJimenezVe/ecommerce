@@ -1,0 +1,89 @@
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[33mWarning:[0m Entry point 'ng-apexcharts' contains deep imports into 'C:/xampp/htdocs/Ecommerce/admin/node_modules/apexcharts/dist/apexcharts.min.js'. This is probably not a problem, but may cause the compilation of entry points to be out of order.
+- Generating browser application bundles...
+✔ Browser application bundle generation complete.
+- Generating ES5 bundles for differential loading...
+✔ ES5 bundle generation complete.
+- Copying assets...
+✔ Copying assets complete.
+- Generating index html...
+✔ Index html generation complete.
+
+Initial Chunk Files                                                                                              | Names                                                                                                  |       Size
+vendor-es5.js                                                                                                    | vendor                                                                                                 |    4.79 MB
+vendor-es2015.js                                                                                                 | vendor                                                                                                 |    3.94 MB
+styles.css                                                                                                       | styles                                                                                                 |    2.20 MB
+polyfills-es5.js                                                                                                 | polyfills-es5                                                                                          |  628.34 kB
+scripts.js                                                                                                       | scripts                                                                                                |  553.20 kB
+main-es5.js                                                                                                      | main                                                                                                   |  370.74 kB
+main-es2015.js                                                                                                   | main                                                                                                   |  337.79 kB
+polyfills-es2015.js                                                                                              | polyfills                                                                                              |  149.74 kB
+runtime-es2015.js                                                                                                | runtime                                                                                                |   11.14 kB
+runtime-es5.js                                                                                                   | runtime                                                                                                |   11.14 kB
+
+| Initial ES5 Total                                                                                      |    8.52 MB
+| Initial ES2015 Total                                                                                   |    7.17 MB
+
+Lazy Chunk Files                                                                                                 | Names                                                                                                  |       Size
+modules-material-material-module-es5.js                                                                          | modules-material-material-module                                                                       |    5.37 MB
+modules-material-material-module-es2015.js                                                                       | modules-material-material-module                                                                       |    4.73 MB
+default~dashboard-dashboard-module~modules-user-profile-user-profile-module-es5.js                               | default~dashboard-dashboard-module~modules-user-profile-user-profile-module                            |    1.61 MB
+pages-layout-module-es5.js                                                                                       | pages-layout-module                                                                                    |    1.32 MB
+pages-layout-module-es2015.js                                                                                    | pages-layout-module                                                                                    |    1.21 MB
+default~dashboard-dashboard-module~modules-user-profile-user-profile-module-es2015.js                            | default~dashboard-dashboard-module~modules-user-profile-user-profile-module                            |    1.19 MB
+modules-wizards-wizards-module-es5.js                                                                            | modules-wizards-wizards-module                                                                         | 1004.20 kB
+modules-wizards-wizards-module-es2015.js                                                                         | modules-wizards-wizards-module                                                                         |  960.19 kB
+modules-ngbootstrap-ngbootstrap-module-es5.js                                                                    | modules-ngbootstrap-ngbootstrap-module                                                                 |  604.63 kB
+modules-ngbootstrap-ngbootstrap-module-es2015.js                                                                 | modules-ngbootstrap-ngbootstrap-module                                                                 |  558.20 kB
+modules-e-commerce-e-commerce-module-es5.js                                                                      | modules-e-commerce-e-commerce-module                                                                   |  548.92 kB
+modules-e-commerce-e-commerce-module-es2015.js                                                                   | modules-e-commerce-e-commerce-module                                                                   |  477.71 kB
+modules-products-products-module-es5.js                                                                          | modules-products-products-module                                                                       |  271.08 kB
+modules-products-products-module-es2015.js                                                                       | modules-products-products-module                                                                       |  233.07 kB
+modules-user-profile-user-profile-module-es5.js                                                                  | modules-user-profile-user-profile-module                                                               |  216.67 kB
+modules-user-profile-user-profile-module-es2015.js                                                               | modules-user-profile-user-profile-module                                                               |  195.44 kB
+modules-cupones-cupones-module-es5.js                                                                            | modules-cupones-cupones-module                                                                         |  147.67 kB
+modules-discount-discount-module-es5.js                                                                          | modules-discount-discount-module                                                                       |  140.12 kB
+modules-users-users-module-es5.js                                                                                | modules-users-users-module                                                                             |  135.84 kB
+modules-cupones-cupones-module-es2015.js                                                                         | modules-cupones-cupones-module                                                                         |  129.53 kB
+modules-discount-discount-module-es2015.js                                                                       | modules-discount-discount-module                                                                       |  122.97 kB
+modules-users-users-module-es2015.js                                                                             | modules-users-users-module                                                                             |  120.47 kB
+modules-auth-auth-module-es5.js                                                                                  | modules-auth-auth-module                                                                               |  106.91 kB
+modules-auth-auth-module-es2015.js                                                                               | modules-auth-auth-module                                                                               |   98.26 kB
+highlight-js-lib-core-es5.js                                                                                     | highlight-js-lib-core                                                                                  |   95.70 kB
+modules-categorie-categorie-module-es5.js                                                                        | modules-categorie-categorie-module                                                                     |   87.45 kB
+modules-companies-companies-module-es5.js                                                                        | modules-companies-companies-module                                                                     |   86.40 kB
+modules-sliders-sliders-module-es5.js                                                                            | modules-sliders-sliders-module                                                                         |   82.36 kB
+modules-categorie-categorie-module-es2015.js                                                                     | modules-categorie-categorie-module                                                                     |   76.08 kB
+modules-companies-companies-module-es2015.js                                                                     | modules-companies-companies-module                                                                     |   76.06 kB
+highlight-js-lib-core-es2015.js                                                                                  | highlight-js-lib-core                                                                                  |   72.19 kB
+builder-builder-module-es5.js                                                                                    | builder-builder-module                                                                                 |   71.91 kB
+modules-sliders-sliders-module-es2015.js                                                                         | modules-sliders-sliders-module                                                                         |   71.54 kB
+modules-live-events-live-events-module-es5.js                                                                    | modules-live-events-live-events-module                                                                 |   67.49 kB
+builder-builder-module-es2015.js                                                                                 | builder-builder-module                                                                                 |   65.92 kB
+modules-live-events-live-events-module-es2015.js                                                                 | modules-live-events-live-events-module                                                                 |   59.04 kB
+modules-sales-sales-module-es5.js                                                                                | modules-sales-sales-module                                                                             |   54.59 kB
+dashboard-dashboard-module-es5.js                                                                                | dashboard-dashboard-module                                                                             |   49.93 kB
+modules-sales-sales-module-es2015.js                                                                             | modules-sales-sales-module                                                                             |   47.86 kB
+dashboard-dashboard-module-es2015.js                                                                             | dashboard-dashboard-module                                                                             |   43.73 kB
+modules-questions-questions-module-es5.js                                                                        | modules-questions-questions-module                                                                     |   41.81 kB
+default~builder-builder-module~modules-material-material-module~modules-ngbootstrap-ngbootstrap-module-es5.js    | default~builder-builder-module~modules-material-material-module~modules-ngbootstrap-ngbootstrap-module |   38.78 kB
+modules-questions-questions-module-es2015.js                                                                     | modules-questions-questions-module                                                                     |   36.02 kB
+default~builder-builder-module~modules-material-material-module~modules-ngbootstrap-ngbootstrap-module-es2015.js | default~builder-builder-module~modules-material-material-module~modules-ngbootstrap-ngbootstrap-module |   34.41 kB
+modules-errors-errors-module-es5.js                                                                              | modules-errors-errors-module                                                                           |   33.29 kB
+modules-errors-errors-module-es2015.js                                                                           | modules-errors-errors-module                                                                           |   27.69 kB
+modules-system-system-module-es5.js                                                                              | modules-system-system-module                                                                           |   20.60 kB
+highlight-js-lib-languages-typescript-es5.js                                                                     | highlight-js-lib-languages-typescript                                                                  |   18.11 kB
+modules-system-system-module-es2015.js                                                                           | modules-system-system-module                                                                           |   17.57 kB
+highlight-js-lib-languages-typescript-es2015.js                                                                  | highlight-js-lib-languages-typescript                                                                  |   16.80 kB
+modules-user-management-user-management-module-es5.js                                                            | modules-user-management-user-management-module                                                         |   15.97 kB
+modules-user-management-user-management-module-es2015.js                                                         | modules-user-management-user-management-module                                                         |   12.53 kB
+highlight-js-lib-languages-scss-es2015.js                                                                        | highlight-js-lib-languages-scss                                                                        |   11.45 kB
+highlight-js-lib-languages-scss-es5.js                                                                           | highlight-js-lib-languages-scss                                                                        |   11.08 kB
+common-es5.js                                                                                                    | common                                                                                                 |    9.68 kB
+highlight-js-lib-languages-xml-es5.js                                                                            | highlight-js-lib-languages-xml                                                                         |    6.90 kB
+highlight-js-lib-languages-xml-es2015.js                                                                         | highlight-js-lib-languages-xml                                                                         |    6.33 kB
+common-es2015.js                                                                                                 | common                                                                                                 |    5.48 kB
+highlight-js-lib-languages-json-es5.js                                                                           | highlight-js-lib-languages-json                                                                        |    2.14 kB
+highlight-js-lib-languages-json-es2015.js                                                                        | highlight-js-lib-languages-json                                                                        |    1.83 kB
+
+Build at: 2026-02-23T19:52:35.057Z - Hash: 3a5e6e76a36d1e49f9f2 - Time: 40092ms

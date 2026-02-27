@@ -39,7 +39,7 @@ class SaleOResource extends JsonResource
                         "id" => $detail->product_size->id,
                         "name" => $detail->product_size->name
                     ] : NULL,
-                    "imagen" => env("APP_URL") . "/storage/" . $detail->product->imagen,
+                    "imagen" => rtrim(env("APP_URL"), '/') . "/storage/" . $detail->product->imagen,
                     "product_color_size_id" => $detail->product_color_size_id,
                     "product_color_size" => $detail->product_color_size ? [
                         "id" => $detail->product_color_size->id,

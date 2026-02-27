@@ -63,6 +63,16 @@ export class AuthService {
     return this.http.post(URL, data);
   }
 
+  forgotPassword(email: string) {
+    let URL = URL_SERVICIOS + '/users/forgot-password';
+    return this.http.post(URL, { email });
+  }
+
+  resetPassword(data: any) {
+    let URL = URL_SERVICIOS + '/users/reset-password';
+    return this.http.post(URL, data);
+  }
+
   login_social(data: any) {
     let URL = URL_SERVICIOS + '/users/login_social';
     return this.http.post(URL, data).pipe(

@@ -1,0 +1,15 @@
+ El volumen de la unidad C es Windows
+ El n£mero de serie del volumen es: 1878-C2A0
+
+ Directorio de C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\public
+
+24/01/2026  08:38a.ÿm.    <DIR>          .
+24/02/2026  03:07p.ÿm.    <DIR>          ..
+27/01/2026  05:06p.ÿm.               637 .htaccess
+26/11/2025  09:18p.ÿm.    <DIR>          build
+30/06/2023  11:18a.ÿm.                 0 favicon.ico
+30/06/2023  11:18a.ÿm.             1.710 index.php
+30/06/2023  11:18a.ÿm.                24 robots.txt
+10/08/2023  10:56p.ÿm.    <DIR>          storage
+               4 archivos          2.371 bytes
+               4 dirs  613.484.089.344 bytes libres

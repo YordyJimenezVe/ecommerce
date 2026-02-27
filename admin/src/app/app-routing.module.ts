@@ -19,6 +19,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/layout.module').then((m) => m.LayoutModule),
   },
+  {
+    path: 'suspended',
+    loadChildren: () =>
+      import('./modules/suspended/suspended.module').then((m) => m.SuspendedModule),
+  },
   { path: '**', redirectTo: 'error/404' },
 ];
 

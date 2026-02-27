@@ -22,8 +22,19 @@ class SalesController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
 
-        $orders = Sale::filterAdvance($search,$categorie_id,$start_date,$end_date)->orderBy("id","desc")->get();
-        $categories = Categorie::orderBy("id","desc")->get();
-        return response()->json(["categories" => $categories,"orders" => SaleOCollection::make($orders)]);
+        $user = auth('api')->user();
+
+        $query = Sale::filterAdvance($search, $categorie_id, $start_date, $end_date)->orderBy("id", "desc");
+
+        // Si el usuario no tiene permiso global, solo ve ventas de su compañía
+        if (!$user->hasPermission('view_global_sales') && $user->company_id) {
+            $query->whereHas("sale_details.product", function ($q) use ($user) {
+                $q->where("company_id", $user->company_id);
+            });
+        }
+
+        $orders = $query->get();
+        $categories = Categorie::orderBy("id", "desc")->get();
+        return response()->json(["categories" => $categories, "orders" => SaleOCollection::make($orders)]);
     }
 }

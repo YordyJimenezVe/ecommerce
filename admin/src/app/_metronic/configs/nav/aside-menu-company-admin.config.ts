@@ -164,6 +164,26 @@ export const AsideMenuCompanyAdmin = {
                 }
             ]
         },
+        { section: 'Soporte' },
+        {
+            title: 'Mis Tickets',
+            root: true,
+            name: 'support',
+            bullet: 'dot',
+            icon: 'flaticon2-chat',
+            svg: './assets/media/svg/icons/Communication/Chat-check.svg',
+            page: '/support',
+            submenu: [
+                {
+                    title: 'Ver mis Tickets',
+                    page: '/support'
+                },
+                {
+                    title: 'Enviar al Equipo',
+                    page: '/notifications/send'
+                },
+            ]
+        },
         { section: 'Configuración' },
         {
             title: 'Pagos',

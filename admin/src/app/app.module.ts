@@ -1,7 +1,7 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ClipboardModule } from 'ngx-clipboard';
 import { TranslateModule } from '@ngx-translate/core';
@@ -18,6 +18,7 @@ import { SplashScreenModule } from './_metronic/partials/layout/splash-screen/sp
 import { FakeAPIService } from './_fake/fake-api.service';
 import { NoticyAlertComponent } from './componets/notifications/noticy-alert/noticy-alert.component';
 import { ToastNotificationsModule } from 'ngx-toast-notifications';
+import { SuspendedInterceptor } from './_services/suspended.interceptor';
 // #fake-end#
 
 function appInitializer(authService: AuthService) {
@@ -30,7 +31,7 @@ function appInitializer(authService: AuthService) {
 
 
 @NgModule({
-  declarations: [AppComponent,NoticyAlertComponent],
+  declarations: [AppComponent, NoticyAlertComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -50,7 +51,7 @@ function appInitializer(authService: AuthService) {
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
-    ToastNotificationsModule.forRoot({duration: 5000, position: 'top-right'}),
+    ToastNotificationsModule.forRoot({ duration: 5000, position: 'top-right' }),
   ],
   providers: [
     // {
@@ -59,6 +60,11 @@ function appInitializer(authService: AuthService) {
     //   multi: true,
     //   deps: [AuthService],
     // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SuspendedInterceptor,
+      multi: true,
+    },
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {

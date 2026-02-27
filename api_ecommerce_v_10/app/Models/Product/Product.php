@@ -25,9 +25,22 @@ class Product extends Model
         "imagen",
         "stock",
         "type_inventario",
+        "company_id",
+        "delivery_method", // 'consult', 'free', 'pickup'
+        "shipping_details",
     ];
 
     protected $withCount = ['reviews'];
+
+    public function company()
+    {
+        return $this->belongsTo(\App\Models\Company::class);
+    }
+
+    public function sale_details()
+    {
+        return $this->hasMany(\App\Models\Sale\SaleDetail::class);
+    }
 
     public function setCreatedAtAttribute($value)
     {
@@ -76,8 +89,8 @@ class Product extends Model
         $response = null;
         date_default_timezone_set("America/Lima");
         foreach ($this->discountsproducts as $key => $discounts) {
-            if($discounts->discount->state == 1){
-                if(Carbon::now()->between($discounts->discount->start_date,$discounts->discount->end_date)){
+            if ($discounts->discount->state == 1) {
+                if (Carbon::now()->between($discounts->discount->start_date, $discounts->discount->end_date)) {
                     $response = $discounts->discount;
                     break;
                 }
@@ -91,8 +104,8 @@ class Product extends Model
         $response = null;
         date_default_timezone_set("America/Lima");
         foreach ($this->categorie->discountcategories as $key => $discounts) {
-            if($discounts->discount->state == 1){
-                if(Carbon::now()->between($discounts->discount->start_date,$discounts->discount->end_date)){
+            if ($discounts->discount->state == 1) {
+                if (Carbon::now()->between($discounts->discount->start_date, $discounts->discount->end_date)) {
                     $response = $discounts->discount;
                     break;
                 }
@@ -101,46 +114,46 @@ class Product extends Model
         return $response;
     }
 
-    public function scopefilterProduct($query,$search,$categorie_id)
+    public function scopefilterProduct($query, $search, $categorie_id)
     {
-        if($search){
-            $query->where("title","like","%".$search."%");
+        if ($search) {
+            $query->where("title", "like", "%" . $search . "%");
         }
-        if($categorie_id){
-            $query->where("categorie_id",$categorie_id);
+        if ($categorie_id) {
+            $query->where("categorie_id", $categorie_id);
         }
         return $query;
     }
 
-    public function scopefilterAdvance($query,$categories,$review,$min_price,$max_price,$size_id,$color_id,$search_product)
+    public function scopefilterAdvance($query, $categories, $review, $min_price, $max_price, $size_id, $color_id, $search_product)
     {
-        if($categories && sizeof($categories) > 0){
-            $query->whereIn("categorie_id",$categories);
+        if ($categories && sizeof($categories) > 0) {
+            $query->whereIn("categorie_id", $categories);
         }
-        if($review){
-            $query->whereHas("reviews",function($q) use($review) {
-                $q->where("rating",$review);
+        if ($review) {
+            $query->whereHas("reviews", function ($q) use ($review) {
+                $q->where("rating", $review);
             });
         }
-        if($min_price > 0 && $max_price > 0){
+        if ($min_price > 0 && $max_price > 0) {
             error_log($min_price);
             error_log($max_price);
-            $query->whereBetween("price_soles",[$min_price,$max_price]);
+            $query->whereBetween("price_soles", [$min_price, $max_price]);
         }
-        if($size_id){
-            $query->whereHas("sizes",function($q) use($size_id) {
-                $q->where("name","like","%".$size_id."%");
+        if ($size_id) {
+            $query->whereHas("sizes", function ($q) use ($size_id) {
+                $q->where("name", "like", "%" . $size_id . "%");
             });
         }
-        if($color_id){
-            $query->whereHas("sizes",function($q) use($color_id) {
-                $q->whereHas("product_size_colors",function($qt) use($color_id) {
-                    $qt->where("product_color_id",$color_id);
+        if ($color_id) {
+            $query->whereHas("sizes", function ($q) use ($color_id) {
+                $q->whereHas("product_size_colors", function ($qt) use ($color_id) {
+                    $qt->where("product_color_id", $color_id);
                 });
             });
         }
-        if($search_product){
-            $query->where("title","like","%".$search_product."%");
+        if ($search_product) {
+            $query->where("title", "like", "%" . $search_product . "%");
         }
         return $query;
     }

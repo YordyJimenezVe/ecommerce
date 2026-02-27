@@ -7,6 +7,8 @@ import { LayoutService } from '../../../../../core';
 })
 export class StatsWidget10Component implements OnInit {
   @Input() cssClass;
+  @Input() title: string = '';
+  @Input() value: any = '';
   @Input() symbolShape;
   @Input() baseColor;
   chartOptions: any = {};

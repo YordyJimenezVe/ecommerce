@@ -29,6 +29,15 @@ export class CompaniesService {
         );
     }
 
+    getCompany(company_id: any) {
+        this.isLoadingSubject.next(true);
+        let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.token });
+        let URL = URL_SERVICIOS + "/admin/companies/" + company_id;
+        return this.http.get(URL, { headers: headers }).pipe(
+            finalize(() => this.isLoadingSubject.next(false))
+        );
+    }
+
     createCompany(data: any) {
         let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.token });
         let URL = URL_SERVICIOS + "/admin/companies";
@@ -38,7 +47,7 @@ export class CompaniesService {
     updateCompany(company_id: any, data: any) {
         let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.token });
         let URL = URL_SERVICIOS + "/admin/companies/" + company_id;
-        return this.http.put(URL, data, { headers: headers });
+        return this.http.post(URL, data, { headers: headers });
     }
 
     deleteCompany(company_id: any) {
@@ -49,7 +58,13 @@ export class CompaniesService {
 
     toggleStatus(company_id: any) {
         let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.token });
-        let URL = URL_SERVICIOS + "/admin/companies/toggle-status/" + company_id;
+        let URL = URL_SERVICIOS + "/admin/companies/" + company_id + "/status";
+        return this.http.post(URL, {}, { headers: headers });
+    }
+
+    toggleFreeShipping(company_id: any) {
+        let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.auth.token });
+        let URL = URL_SERVICIOS + "/admin/companies/" + company_id + "/free-shipping";
         return this.http.post(URL, {}, { headers: headers });
     }
 }

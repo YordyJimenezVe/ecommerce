@@ -57,7 +57,16 @@ class ProductGController extends Controller
 
         $products_color_sizes = ProductSize::orderBy("id", "desc")->get();
 
-        return response()->json(["categories" => $categories, "products_colors" => $products_colors, "products_color_sizes" => $products_color_sizes]);
+        $company = auth()->user()->company;
+        return response()->json([
+            "categories" => $categories,
+            "products_colors" => $products_colors,
+            "products_color_sizes" => $products_color_sizes,
+            "company" => [
+                "id" => $company->id,
+                "free_shipping_authorized" => (bool) $company->free_shipping_authorized
+            ]
+        ]);
     }
     /**
      * Store a newly created resource in storage.
@@ -85,6 +94,13 @@ class ProductGController extends Controller
             $path = Storage::putFile("productos", $request->file("imagen_file"));
             $request->request->add(["imagen" => $path]);
         }
+        if ($request->delivery_method === 'free') {
+            $company = auth()->user()->company;
+            if (!$company->free_shipping_authorized) {
+                return response()->json(["message" => 403, "error_code" => "FREE_SHIPPING_NOT_AUTHORIZED", "message_text" => "Tu empresa no tiene autorizado el envío gratis."]);
+            }
+        }
+
         $product = Product::create($request->all());
 
         foreach ($request->file("files") as $key => $file) {
@@ -159,6 +175,12 @@ class ProductGController extends Controller
         if ($request->hasFile("imagen_file")) {
             $path = Storage::putFile("productos", $request->file("imagen_file"));
             $request->request->add(["imagen" => $path]);
+        }
+        if ($request->delivery_method === 'free') {
+            $company = auth()->user()->company;
+            if (!$company->free_shipping_authorized) {
+                return response()->json(["message" => 403, "error_code" => "FREE_SHIPPING_NOT_AUTHORIZED", "message_text" => "Tu empresa no tiene autorizado el envío gratis."]);
+            }
         }
         $product->update($request->all());
 

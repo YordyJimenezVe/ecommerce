@@ -9,40 +9,53 @@ import { ProfileClientService } from '../../_services/profile-client.service';
 })
 export class ProfileClientHomeComponent implements OnInit {
 
-  selectorMenu:any = 0;
-  user:any;
+  selectorMenu: any = 0;
+  user: any;
+  isBirthday: boolean = false;
 
-  user_selected:any;
-  listAdrees:any = [];
-  listOrders:any = [];
-  listReviews:any = [];
+  user_selected: any;
+  listAdrees: any = [];
+  listOrders: any = [];
+  listReviews: any = [];
   // wishLists:any = [];
-  selected_menu:any = null;
+  selected_menu: any = null;
   constructor(
     public _profileHomeService: ProfileClientService,
-    public ativerouter:ActivatedRoute,
+    public ativerouter: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    this.ativerouter.queryParams.subscribe((resp:any) => {
+    this.ativerouter.queryParams.subscribe((resp: any) => {
       this.selected_menu = resp["selected_menu"];
     })
     this.user = this._profileHomeService._authServices.user;
-    this._profileHomeService.listInforGeneralClient().subscribe((resp:any)=>{
+    this._profileHomeService.listInforGeneralClient().subscribe((resp: any) => {
       console.log(resp);
-      if(this.selected_menu){
+      if (this.selected_menu) {
         this.selectorMenu = this.selected_menu;
-      }else{
+      } else {
         this.selectorMenu = 1;
       }
       this.user_selected = resp.user;
+
+      // Calculate birthday
+      if (this.user_selected && this.user_selected.birthday) {
+        const bdate = new Date(this.user_selected.birthday);
+        const today = new Date();
+        this.isBirthday = bdate.getUTCMonth() === today.getMonth() && bdate.getUTCDate() === today.getDate();
+      }
+
       this.listAdrees = resp.address;
       this.listOrders = resp.orders.data;
       this.listReviews = resp.reviews;
       // this.wishLists = resp.wishlists;
     })
   }
-  selectedMenu(value:any){
+  selectedMenu(value: any) {
     this.selectorMenu = value;
+  }
+
+  logout() {
+    this._profileHomeService._authServices.logout();
   }
 }

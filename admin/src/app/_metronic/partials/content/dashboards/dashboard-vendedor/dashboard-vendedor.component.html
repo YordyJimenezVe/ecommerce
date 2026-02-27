@@ -1,0 +1,159 @@
+<div class="premium-dashboard" *ngIf="stats && !isSuspended">
+    <!-- Welcome Header -->
+    <div class="welcome-header d-flex align-items-center justify-content-between">
+        <div>
+            <h1>Panel de Ventas</h1>
+            <p>Resumen comercial e inventario</p>
+        </div>
+        <div class="glass-card p-4 d-flex align-items-center">
+            <span class="symbol symbol-40 mr-3">
+                <span class="symbol-label status-paid">
+                    <i class="flaticon-cart text-primary"></i>
+                </span>
+            </span>
+            <div>
+                <div class="text-dark-75 font-weight-bolder">Turno Actual</div>
+                <div class="text-muted font-weight-bold">{{ today | date:'dd MMM, yyyy' }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store KPI Cards -->
+    <div class="row">
+        <div class="col-xl-4 col-md-6 mb-5">
+            <div class="glass-card gradient-card-blue metric-card">
+                <div class="metric-label">Ventas Hoy</div>
+                <div class="metric-value">${{ stats.total_sales || 0 }}</div>
+                <div class="metric-subtext">Registrado por la tienda</div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6 mb-5">
+            <div class="glass-card gradient-card-green metric-card">
+                <div class="metric-label">Pedidos Completos</div>
+                <div class="metric-value">{{ stats.total_orders || 0 }}</div>
+                <div class="metric-subtext">Transacciones exitosas</div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6 mb-5">
+            <div class="glass-card gradient-card-orange metric-card">
+                <div class="metric-label">Alertas Stock</div>
+                <div class="metric-value">{{ stats.stock_alerts || 0 }}</div>
+                <div class="metric-subtext">Requieren reposición</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="row mt-5">
+        <!-- Sales Trend Chart -->
+        <div class="col-xl-8 mb-5">
+            <div class="glass-card p-7 h-100">
+                <div class="d-flex align-items-center justify-content-between mb-7">
+                    <h3 class="font-weight-bolder text-dark m-0">Rendimiento Comercial (7 Días)</h3>
+                </div>
+                <div class="chart-container" style="min-height: 500px;">
+                    <app-mixed-widget1 chartColor="primary" [chartOptions]="chartOptions"
+                        [stats]="stats"></app-mixed-widget1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Status -->
+        <div class="col-xl-4 mb-5">
+            <div class="glass-card p-7 h-100">
+                <h3 class="font-weight-bolder text-dark mb-7">Tareas Pendientes</h3>
+
+                <div class="alert alert-custom alert-light-danger fade show mb-5" role="alert"
+                    *ngIf="stats.stock_alerts > 0">
+                    <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                    <div class="alert-text">Revisar {{ stats.stock_alerts }} productos en bodega.</div>
+                </div>
+
+                <!-- Top Products List -->
+                <h4 class="font-weight-bolder text-dark mt-5 mb-5">Más Vendidos</h4>
+                <div class="d-flex align-items-center mb-5" *ngFor="let product of stats.top_products">
+                    <div class="symbol symbol-40 symbol-light-primary mr-3">
+                        <span class="symbol-label">
+                            <i class="flaticon2-shopping-cart text-primary"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="text-dark-75 font-weight-bolder">{{ product.title }}</span>
+                        <span class="text-muted font-size-sm">{{ product.sale_details_count }} unidades</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders Feed -->
+    <div class="row mt-5">
+        <div class="col-xl-12 mb-5">
+            <div class="glass-card p-7">
+                <div class="d-flex align-items-center justify-content-between mb-7">
+                    <h3 class="font-weight-bolder text-dark m-0">Registro de Transacciones</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-head-custom table-vertical-center borderless">
+                        <thead>
+                            <tr class="text-left">
+                                <th class="pl-0" style="min-width: 150px">Cliente</th>
+                                <th style="min-width: 100px">Monto</th>
+                                <th style="min-width: 100px">Estado de Pago</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let order of stats.recent_orders">
+                                <td class="pl-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="symbol symbol-40 symbol-light-primary mr-3">
+                                            <span class="symbol-label font-weight-bold">
+                                                {{ order.user?.name.charAt(0) }}
+                                            </span>
+                                        </div>
+                                        <span class="text-dark-75 font-weight-bolder mb-1 font-size-lg">
+                                            {{ order.user?.name }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="text-dark font-weight-bold">{{ order.total }} {{ order.currency_total
+                                        }}</span>
+                                </td>
+                                <td>
+                                    <span class="status-badge"
+                                        [ngClass]="{'status-paid': order.payment_status === 'PAID_APPROVED', 'status-pending': order.payment_status === 'PAID_PENDING'}">
+                                        {{ order.payment_status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr *ngIf="stats.recent_orders.length === 0">
+                                <td colspan="3" class="text-center text-muted py-10">Genera una nueva venta para verla
+                                    aquí</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-custom gutter-b" *ngIf="isSuspended">
+    <div class="card-body p-15 text-center">
+        <div class="d-flex flex-center flex-column">
+            <div class="symbol symbol-120 symbol-light-danger mb-7">
+                <span class="symbol-label"><i class="flaticon-warning-sign text-danger icon-4x"></i></span>
+            </div>
+            <h1 class="text-dark font-weight-bolder mb-5" style="font-size: 2.5rem;">Caja Cerrada</h1>
+            <p class="text-muted font-weight-bold mb-10 col-lg-8 mx-auto">
+                La suscripción de tu empresa ha caducado. Por favor, comunícate con el Administrador de tu Empresa.
+            </p>
+            <button (click)="logout()" class="btn btn-light-danger px-10 py-4">Cerrar Sesión</button>
+        </div>
+    </div>
+</div>
+
+<div class="text-center py-20" *ngIf="isLoading">
+    <div class="spinner spinner-primary spinner-lg"></div>
+</div>

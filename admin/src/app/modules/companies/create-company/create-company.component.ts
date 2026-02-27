@@ -60,6 +60,33 @@ export class CreateCompanyComponent implements OnInit {
         this.file_proof = $event.target.files[0];
     }
 
+    showPaymentHelp() {
+        let helpText = "";
+        switch (this.payment_method) {
+            case 'yape':
+                helpText = "Escanea nuestro QR o yapea al número 9XXXXXXXX. Adjunta la captura de pantalla como comprobante.";
+                break;
+            case 'plin':
+                helpText = "Realiza el pago al número 9XXXXXXXX desde BBVA, Interbank o Scotiabank. Sube el screenshot.";
+                break;
+            case 'paypal':
+                helpText = "Para el registro inicial, contacta al soporte. Para configuración de tu propia tienda, necesitarás el Client ID y Secret desde developer.paypal.com.";
+                break;
+            case 'credit_card':
+                helpText = "Las integraciones de tarjeta (Stripe/Culqi) requieren llaves de API que podrás configurar en tu panel de empresa una vez activado.";
+                break;
+            case 'transfer':
+            case 'bcp':
+            case 'bbva':
+            case 'interbank':
+                helpText = "Realiza la transferencia a la cuenta XXXXXX-XXXX-XXXX. Elige el banco correspondiente y sube el voucher.";
+                break;
+            default:
+                helpText = "Selecciona un método para ver las instrucciones detalladas.";
+        }
+        this.toaster.open({ text: helpText, caption: 'Guía de Pago', type: 'info', duration: 8000 });
+    }
+
     save() {
         if (!this.name || !this.slug || !this.email_admin || !this.password_admin) {
             this.toaster.open({ text: "Completa los campos obligatorios", caption: 'Validación', type: 'danger' });

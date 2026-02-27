@@ -1,0 +1,116 @@
+<div class="tickets-page">
+
+    <!-- Header -->
+    <div class="page-header">
+        <div>
+            <h1>🎧 Centro de Soporte</h1>
+            <p>{{ isAdmin ? 'Gestión de tickets de todas las empresas' : 'Tus solicitudes de soporte' }}</p>
+        </div>
+        <button class="btn-new-ticket" (click)="showCreate = true" *ngIf="!isAdmin">
+            <i class="fas fa-plus"></i> Nuevo Ticket
+        </button>
+        <a routerLink="/support/analytics" class="btn-analytics" *ngIf="isAdmin">
+            <i class="fas fa-chart-bar"></i> Ver Analytics
+        </a>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-bar">
+        <button class="filter-btn" *ngFor="let f of statusFilters" [class.active]="activeFilter === f.value"
+            (click)="setFilter(f.value)">
+            {{ f.label }}
+        </button>
+    </div>
+
+    <!-- Create Modal -->
+    <div class="modal-overlay" *ngIf="showCreate" (click)="showCreate = false">
+        <div class="create-modal" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h3>📝 Nuevo Ticket de Soporte</h3>
+                <button (click)="showCreate = false" class="modal-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Categoría *</label>
+                    <select [(ngModel)]="newTicket.category" class="form-control">
+                        <option value="suspension">Suspensión de cuenta</option>
+                        <option value="billing">Facturación/Membresía</option>
+                        <option value="technical">Problema técnico</option>
+                        <option value="account">Gestión de cuenta</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Asunto *</label>
+                    <input type="text" [(ngModel)]="newTicket.subject" class="form-control"
+                        placeholder="Describe brevemente tu consulta">
+                </div>
+                <div class="form-group">
+                    <label>Descripción detallada *</label>
+                    <textarea [(ngModel)]="newTicket.description" rows="5" class="form-control"
+                        placeholder="Explica con detalle tu situación. Puedes incluir URLs o referencias."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Prioridad</label>
+                    <div class="priority-options">
+                        <button *ngFor="let p of priorities" (click)="newTicket.priority = p.value" class="priority-btn"
+                            [class.selected]="newTicket.priority === p.value" [class.priority-low]="p.value === 'low'"
+                            [class.priority-medium]="p.value === 'medium'" [class.priority-high]="p.value === 'high'">
+                            {{ p.icon }} {{ p.label }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" (click)="showCreate = false">Cancelar</button>
+                <button class="btn-submit" (click)="createTicket()" [disabled]="creating">
+                    <i class="fas fa-paper-plane"></i>
+                    {{ creating ? 'Creando...' : 'Abrir Ticket' }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tickets List -->
+    <div class="tickets-grid" *ngIf="tickets?.data?.length; else noTickets">
+        <div class="ticket-card" *ngFor="let t of tickets.data"
+            [routerLink]="isAdmin ? ['/support/admin', t.id] : ['/support', t.id]">
+            <div class="ticket-card-header">
+                <span class="ticket-num">#{{ t.id }}</span>
+                <span class="badge" [class.badge-open]="t.status === 'open'"
+                    [class.badge-in_progress]="t.status === 'in_progress'" [class.badge-closed]="t.status === 'closed'">
+                    {{ statusLabel[t.status] }}
+                </span>
+                <span class="priority-dot" [class.dot-low]="t.priority === 'low'"
+                    [class.dot-medium]="t.priority === 'medium'" [class.dot-high]="t.priority === 'high'"
+                    [title]="t.priority"></span>
+            </div>
+            <h4 class="ticket-subject">{{ t.subject }}</h4>
+            <div class="ticket-info">
+                <span><i class="fas fa-tag"></i> {{ categoryLabel[t.category] }}</span>
+                <span *ngIf="isAdmin && t.company"><i class="fas fa-building"></i> {{ t.company?.name }}</span>
+                <span *ngIf="t.assigned_to"><i class="fas fa-user"></i> {{ t.assigned_to?.name }}</span>
+            </div>
+            <div class="ticket-footer">
+                <span class="ticket-date">{{ t.created_at | date:'dd/MM/yyyy' }}</span>
+                <span class="survey-badge" *ngIf="t.survey">⭐ {{ t.survey.attention_rating }}/5</span>
+                <span class="no-survey" *ngIf="!t.survey && t.status === 'closed'">📝 Sin encuesta</span>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noTickets>
+        <div class="empty-state">
+            <i class="fas fa-ticket-alt"></i>
+            <h3>Sin tickets</h3>
+            <p *ngIf="!isAdmin">Aún no has abierto ningún ticket. ¡Estamos aquí para ayudarte!</p>
+            <p *ngIf="isAdmin">No hay tickets con este filtro.</p>
+        </div>
+    </ng-template>
+
+    <!-- Loading -->
+    <div class="loading-state" *ngIf="loading">
+        <div class="spinner"></div>
+    </div>
+
+</div>

@@ -6,5 +6,7 @@ import { Component, Input } from '@angular/core';
 })
 export class MixedWidget11Component {
   @Input() cssClass: '';
+  @Input() title: string = '';
+  @Input() value: any = '';
   constructor() { }
 }

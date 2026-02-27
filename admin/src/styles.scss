@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700");
 // Global vendors
-@import "~bootstrap/dist/css/bootstrap.css";
+@import "./assets/css/dashboard-premium.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 // => Material
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
@@ -71,6 +72,7 @@
 .angular-bootstrap-table {
   overflow-x: auto;
 }
+
 .angular-bootstrap-table {
   th {
     outline: none;

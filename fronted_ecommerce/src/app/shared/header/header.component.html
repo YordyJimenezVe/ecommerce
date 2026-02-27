@@ -9,13 +9,8 @@
             </div>
 
             <ul class="nav_bar flex-grow-1">
-                <li class="withsubs">
-                    <a href="index-1.html">{{ 'Home' | translate }} <span><i class="las la-angle-down"></i></span></a>
-                    <ul class="subnav">
-                        <li><a href="index-1.html">{{ 'Home' | translate }} 1 </a></li>
-                        <li><a href="index-2.html">Home page 2</a></li>
-                        <li><a href="index-3.html">Home page 3</a></li>
-                    </ul>
+                <li>
+                    <a routerLink="/">{{ 'Home' | translate }}</a>
                 </li>
 
                 <li class="withsubs">
@@ -26,12 +21,12 @@
                             <h5 class="text_lg ps-3 mb-2">{{ 'Others pages' | translate }}</h5>
                             <ul>
                                 <li><a routerLink="/sobre-nosotros">{{ 'About us' | translate }}</a></li>
-                                <li><a routerLink="/contact-us">{{ 'Contact us' | translate }}</a></li>
+                                <!-- <li><a routerLink="/contact-us">{{ 'Contact us' | translate }}</a></li> -->
                                 <!-- Assuming contact component exists or route is just placeholder -->
 
                                 <!-- <li><a href="track-order.html">{{ 'Track order' | translate }}</a></li> -->
                                 <li><a routerLink="/preguntas-frecuentes">{{ 'FAQ' | translate }}</a></li>
-                                <li><a href="404.html">404</a></li>
+                                <!-- <li><a href="404.html">404</a></li> -->
                             </ul>
                         </div>
                         <div class="single_subnav">
@@ -54,7 +49,7 @@
                         </div>
                     </div>
                 </li>
-                <li><a href="contact-us.html">{{ 'Contact' | translate }}</a></li>
+                <!-- <li><a href="contact-us.html">{{ 'Contact' | translate }}</a></li> -->
                 <li class="tophead_items ms-auto">
                     <div class="me-3">
                         <ng-container *ngIf="!user">
@@ -68,23 +63,39 @@
                                 }}</a>
                         </ng-container>
                     </div>
-                    <div>
-                        <select class="form-select" (change)="changeLanguage($event)"
-                            style="border: none; background-color: transparent; font-weight: 600;">
-                            <option value="es">{{ 'Spanish' | translate }}</option>
-                            <option value="en">{{ 'English' | translate }}</option>
-                        </select>
+                    <div class="ms-3 premium_theme_selector">
+                        <div class="custom_dropdown" [class.active]="isLangMenuOpen" (click)="toggleLangMenu()">
+                            <div class="selected_theme">
+                                <i class="las la-globe"></i>
+                                <span class="theme_name">{{ currentLangName | translate }}</span>
+                                <i class="las la-angle-down"></i>
+                            </div>
+                            <ul class="dropdown_options">
+                                <li (click)="changeLanguage('es')" [class.active]="currentLang == 'es'">{{ 'Spanish' |
+                                    translate }}</li>
+                                <li (click)="changeLanguage('en')" [class.active]="currentLang == 'en'">{{ 'English' |
+                                    translate }}</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="ms-3">
-                        <select class="form-select" (change)="changeTheme($event)"
-                            style="border: none; background-color: transparent; font-weight: 600;">
-                            <option value="default">Default</option>
-                            <option value="dark">Dark</option>
-                            <option value="red">Red</option>
-                            <option value="blue">Blue</option>
-                            <option value="green">Green</option>
-                            <option value="white">White (Dark Mode)</option>
-                        </select>
+                    <div class="ms-3 premium_theme_selector">
+                        <div class="custom_dropdown" [class.active]="isThemeMenuOpen" (click)="toggleThemeMenu()">
+                            <div class="selected_theme">
+                                <i class="las la-palette"></i>
+                                <span class="theme_name">{{ currentThemeName | translate }}</span>
+                                <i class="las la-angle-down"></i>
+                            </div>
+                            <ul class="dropdown_options">
+                                <li (click)="changeTheme('default')" [class.active]="currentTheme == 'default'">
+                                    Predeterminado</li>
+                                <li (click)="changeTheme('dark')" [class.active]="currentTheme == 'dark'">Oscuro</li>
+                                <li (click)="changeTheme('red')" [class.active]="currentTheme == 'red'">Rojo</li>
+                                <li (click)="changeTheme('blue')" [class.active]="currentTheme == 'blue'">Azul</li>
+                                <li (click)="changeTheme('green')" [class.active]="currentTheme == 'green'">Verde</li>
+                                <li (click)="changeTheme('white')" [class.active]="currentTheme == 'white'">Blanco (Modo
+                                    Oscuro)</li>
+                            </ul>
+                        </div>
                     </div>
                 </li>
             </ul>
@@ -184,13 +195,13 @@
                         <span class="icon">
                             <i class="las la-bell"></i>
                         </span>
-                        <span class="icon_text">Alerts</span>
+                        <span class="icon_text">Alertas</span>
                         <!-- <span class="pops">2</span> -->
                     </a>
                     <!-- Dropdown would go here, omitting for brevity/complexity in this turn -->
                 </div>
 
-                <a href="/perfil-del-cliente?selected_menu=6" class="icon_wrp text-center wishlist ms-0">
+                <a href="/perfil-del-cliente?selected_menu=6" class="icon_wrp text-center wishlist">
                     <span class="icon">
                         <i class="icon-heart"></i>
                     </span>
@@ -259,12 +270,13 @@
                         <span class="icon_text">{{ 'My Account' | translate }}</span>
                     </a>
                     <div class="myacc_cont">
-                        <div class="ac_join">
-                            <p *ngIf="user">{{ 'Welcome' | translate }} {{ user.name }}</p>
-                            <!-- <p *ngIf="!user">Welcome to SORA Shop</p> -->
-                            <div class="account_btn d-flex justify-content-between" *ngIf="!user">
-                                <a routerLink="/auth/registro" class="default_btn">{{ 'Register' | translate }}</a>
-                                <a routerLink="/auth/login" class="default_btn second">{{ 'Login' | translate }}</a>
+                        <div class="ac_join" style="padding: 15px;">
+                            <p *ngIf="user" class="mb-2 text-center">{{ 'Welcome' | translate }} {{ user.name }}</p>
+                            <div class="account_btn d-flex flex-column" style="gap: 10px;" *ngIf="!user">
+                                <a routerLink="/auth/registro" class="default_btn w-100 text-center">{{ 'Register' |
+                                    translate }}</a>
+                                <a routerLink="/auth/login" class="default_btn second w-100 text-center"
+                                    style="color: var(--primary-color) !important;">{{ 'Login' | translate }}</a>
                             </div>
                         </div>
                         <div class="ac_links" *ngIf="user">

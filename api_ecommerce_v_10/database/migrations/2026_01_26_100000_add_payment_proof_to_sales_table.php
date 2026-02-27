@@ -12,11 +12,13 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('sales', function (Blueprint $table) {
-            $table->string('payment_proof')->nullable()->after('total');
-            $table->string('payment_status')->default('PAID_PENDING')->comment('PAID_PENDING, PAID_APPROVED, PAID_REJECTED')->after('payment_proof');
-            $table->text('rejection_reason')->nullable()->after('payment_status');
-        });
+        if (!Schema::hasColumn('sales', 'payment_proof')) {
+            Schema::table('sales', function (Blueprint $table) {
+                $table->string('payment_proof')->nullable()->after('total');
+                $table->string('payment_status')->default('PAID_PENDING')->comment('PAID_PENDING, PAID_APPROVED, PAID_REJECTED')->after('payment_proof');
+                $table->text('rejection_reason')->nullable()->after('payment_status');
+            });
+        }
     }
 
     /**

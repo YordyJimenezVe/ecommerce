@@ -37,7 +37,7 @@ class ProfileController extends Controller
                 "email" => $user->email,
                 "birthday" => $user->birthday ? Carbon::parse($user->birthday)->format("Y-m-d") : NULL,
                 "gender" => $user->gender,
-                "avatar" => $user->avatar ? env("APP_URL") . "/storage/" . $user->avatar : null,
+                "avatar" => $user->avatar ? rtrim(env("APP_URL"), '/') . "/storage/" . $user->avatar : null,
                 "phone" => $user->phone,
             ],
             "address" => $address->map(function ($addres) {
@@ -63,7 +63,7 @@ class ProfileController extends Controller
                     "product" => [
                         "id" => $sale_detail->product_id,
                         "title" => $sale_detail->product->title,
-                        "imagen" => env("APP_URL") . "/storage/" . $sale_detail->product->imagen,
+                        "imagen" => rtrim(env("APP_URL"), '/') . "/storage/" . $sale_detail->product->imagen,
                     ],
                     "total" => $sale_detail->total,
                     "currency_payment" => $sale_detail->sale->currency_payment,
@@ -119,7 +119,7 @@ class ProfileController extends Controller
                     "email" => $users_m->email,
                     "birthday" => $users_m->birthday ? Carbon::parse($users_m->birthday)->format("Y-m-d") : NULL,
                     "gender" => $users_m->gender,
-                    "avatar" => $users_m->avatar ? env("APP_URL") . "/storage/" . $users_m->avatar : null,
+                    "avatar" => $users_m->avatar ? rtrim(env("APP_URL"), '/') . "/storage/" . $users_m->avatar : null,
                     "phone" => $users_m->phone,
                 ]
         ]);

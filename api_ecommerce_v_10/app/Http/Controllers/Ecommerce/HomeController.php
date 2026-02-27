@@ -49,7 +49,7 @@ class HomeController extends Controller
                         "price_soles" => $product->price_soles,
                         "price_usd" => $product->price_usd,
                         "discount_g" => $discount_g,
-                        "imagen" => env("APP_URL") . "/storage/" . $product->imagen,
+                        "imagen" => rtrim(env("APP_URL"), '/') . "/storage/" . $product->imagen,
                         "reviews_count" => $product->reviews_count,
                         "avg_rating" => round($product->avg_rating),
                     ];
@@ -67,7 +67,7 @@ class HomeController extends Controller
                     "id" => $slider->id,
                     "url" => $slider->url,
                     "name" => $slider->name,
-                    "imagen" => env("APP_URL") . "/storage/" . $slider->imagen,
+                    "imagen" => rtrim(env("APP_URL"), '/') . "/storage/" . $slider->imagen,
                 ];
             }),
             "group_categories_product" => $group_categories_product,
@@ -104,7 +104,7 @@ class HomeController extends Controller
                     "user" => [
                         "id" => $review->user->id,
                         "full_name" => $review->user->name . '  ' . $review->user->surname,
-                        "avatar" => env("APP_URL") . "/storage/" . $review->user->avatar,
+                        "avatar" => rtrim(env("APP_URL"), '/') . "/storage/" . $review->user->avatar,
                     ],
                     "message" => $review->message,
                     "rating" => $review->rating,

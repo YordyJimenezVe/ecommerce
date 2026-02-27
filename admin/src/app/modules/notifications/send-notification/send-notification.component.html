@@ -1,0 +1,148 @@
+<div class="send-notif-page">
+
+    <div class="page-header">
+        <div>
+            <h1>📢 Enviar Notificaciones</h1>
+            <p>{{ isAdmin ? 'Envía notificaciones a empresas, usuarios o tu equipo' : 'Envía mensajes a tu equipo' }}
+            </p>
+        </div>
+        <button class="btn-history" (click)="showHistory = !showHistory">
+            <i class="fas fa-history"></i> {{ showHistory ? 'Ocultar' : 'Ver' }} Historial
+        </button>
+    </div>
+
+    <div class="send-layout">
+
+        <!-- Send Form -->
+        <div class="send-card">
+            <h3>✉️ Nueva Notificación</h3>
+
+            <!-- Target type -->
+            <div class="form-group">
+                <label>Destinatarios</label>
+                <div class="target-options">
+                    <button *ngFor="let t of targetOptions" class="target-btn"
+                        [class.active]="form.target_type === t.value" (click)="selectTarget(t.value)">
+                        {{ t.icon }} {{ t.label }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Company selector (super admin only) -->
+            <div class="form-group" *ngIf="form.target_type === 'company' && isAdmin">
+                <label>Seleccionar Empresas</label>
+                <div class="search-input-wrap">
+                    <input type="text" [(ngModel)]="companySearch" placeholder="Buscar empresa..."
+                        class="form-control small">
+                </div>
+                <div class="select-list">
+                    <label *ngFor="let c of filteredCompanies" class="select-item">
+                        <input type="checkbox" [value]="c.id" (change)="toggleId(c.id, 'companies')">
+                        <span>{{ c.name }}</span>
+                    </label>
+                    <span *ngIf="!targets.companies?.length" class="no-data">Cargando empresas...</span>
+                </div>
+            </div>
+
+            <!-- User selector (staff when target = user or company_staff) -->
+            <div class="form-group" *ngIf="form.target_type === 'user' || form.target_type === 'company_staff'">
+                <label>
+                    {{ isAdmin && form.target_type === 'user' ? 'Seleccionar Usuarios Administradores' : 'Seleccionar
+                    Miembros del Equipo' }}
+                    <span class="optional">(vacío = todos)</span>
+                </label>
+                <div class="search-input-wrap">
+                    <input type="text" [(ngModel)]="staffSearch" placeholder="Buscar..." class="form-control small">
+                </div>
+                <div class="select-list">
+                    <label *ngFor="let u of filteredStaff" class="select-item">
+                        <input type="checkbox" [value]="u.id" (change)="toggleId(u.id, 'staff')">
+                        <span>{{ u.name }} {{ u.surname }} <em>{{ u.email }}</em></span>
+                    </label>
+                    <span *ngIf="!targets.staff?.length" class="no-data">Cargando usuarios...</span>
+                </div>
+            </div>
+
+            <!-- Type/icon picker -->
+            <div class="two-col-sm">
+                <div class="form-group">
+                    <label>Tipo</label>
+                    <div class="type-buttons">
+                        <button *ngFor="let t of notifTypes" class="type-btn" [class.active]="form.type === t.value"
+                            [style.border-color]="form.type === t.value ? t.color : ''"
+                            [style.color]="form.type === t.value ? t.color : ''" (click)="selectType(t)">
+                            {{ t.icon }} {{ t.label }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Title -->
+            <div class="form-group">
+                <label>Título *</label>
+                <input type="text" [(ngModel)]="form.title" class="form-control"
+                    placeholder="Ej: Mantenimiento programado">
+            </div>
+
+            <!-- Message -->
+            <div class="form-group">
+                <label>Mensaje *</label>
+                <textarea [(ngModel)]="form.message" rows="4" class="form-control"
+                    placeholder="Escribe el mensaje detallado..."></textarea>
+            </div>
+
+            <!-- Link (optional) -->
+            <div class="form-group">
+                <label>Enlace <span class="optional">(opcional)</span></label>
+                <input type="text" [(ngModel)]="form.link" class="form-control" placeholder="Ej: /support o /billing">
+            </div>
+
+            <!-- Preview -->
+            <div class="preview-card" *ngIf="form.title || form.message">
+                <div class="preview-label">Vista previa</div>
+                <div class="preview-notif">
+                    <div class="preview-icon" [style.background]="form.color">
+                        <i [class]="form.icon"></i>
+                    </div>
+                    <div class="preview-text">
+                        <div class="preview-title">{{ form.title || 'Título' }}</div>
+                        <div class="preview-msg">{{ form.message || 'Mensaje...' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-reset" (click)="resetForm()">Limpiar</button>
+                <button class="btn-send" (click)="send()" [disabled]="sending || !form.title || !form.message">
+                    <i class="fas fa-paper-plane"></i>
+                    {{ sending ? 'Enviando...' : 'Enviar Notificación' }}
+                </button>
+            </div>
+
+            <!-- Result message -->
+            <div class="success-msg" *ngIf="successMsg">✅ {{ successMsg }}</div>
+            <div class="error-msg" *ngIf="errorMsg">❌ {{ errorMsg }}</div>
+        </div>
+
+        <!-- History panel -->
+        <div class="history-card" *ngIf="showHistory">
+            <h3>📋 Historial de Envíos</h3>
+            <div class="mini-spinner" *ngIf="historyLoading"></div>
+            <div class="history-list" *ngIf="!historyLoading">
+                <div class="history-item" *ngFor="let h of history">
+                    <div class="history-icon">📢</div>
+                    <div class="history-body">
+                        <strong>{{ h.title }}</strong>
+                        <span>{{ h.message }}</span>
+                        <div class="history-meta">
+                            <em>{{ h.recipients }} destinatario(s)</em>
+                            <span>{{ h.created_at | date:'dd/MM HH:mm' }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="no-data" *ngIf="!history?.length">Sin envíos recientes</div>
+            </div>
+        </div>
+
+    </div>
+</div>

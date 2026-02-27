@@ -47,6 +47,30 @@ export const AsideMenuSuperAdmin = {
             ]
         },
 
+        { section: 'Soporte / CX' },
+        {
+            title: 'Tickets de Soporte',
+            root: true,
+            name: 'support-admin',
+            bullet: 'dot',
+            icon: 'flaticon2-chat',
+            svg: './assets/media/svg/icons/Communication/Chat-check.svg',
+            page: '/support/admin',
+            submenu: [
+                {
+                    title: 'Todos los Tickets',
+                    page: '/support/admin'
+                },
+                {
+                    title: 'Analytics de Soporte',
+                    page: '/support/analytics'
+                },
+                {
+                    title: 'Enviar Notificaciones',
+                    page: '/notifications/send'
+                }
+            ]
+        },
         { section: 'Sistema' },
         {
             title: 'Configuracion',

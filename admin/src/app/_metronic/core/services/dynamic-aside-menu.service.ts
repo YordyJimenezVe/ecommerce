@@ -31,19 +31,20 @@ export class DynamicAsideMenuService {
 
       // Case 1: Role is a String
       if (typeof userRole === 'string') {
-        if (userRole.toUpperCase() === 'ADMINISTRADOR GENERAL') {
+        if (userRole.trim().toUpperCase() === 'ADMINISTRADOR GENERAL') {
           isSuperAdmin = true;
         }
       }
       // Case 2: Role is an Object
       else if (typeof userRole === 'object' && userRole !== null) {
-        if (userRole.id === 1 || (userRole.name && userRole.name.toUpperCase() === 'ADMINISTRADOR GENERAL')) {
+        const roleName = userRole.name ? userRole.name.trim().toUpperCase() : '';
+        if (userRole.id === 1 || roleName === 'ADMINISTRADOR GENERAL') {
           isSuperAdmin = true;
         }
       }
 
       if (isSuperAdmin) {
-        this.setMenu(AsideMenuSuperAdmin);
+        this.setMenu(AsideMenuAdminGeneral);
       } else {
         this.setMenu(AsideMenuCompanyAdmin);
       }

@@ -11,14 +11,11 @@
 
       <!--begin::Text-->
       <div class="text-dark m-0 flex-grow-1 mr-3 font-size-h5">
-        {{ user$.name + ' ' + user$.surname }} 
+        {{ user$.name + ' ' + user$.surname }}
         <!-- {{ user$.lastname }} -->
       </div>
-      <span
-        class="label label-light-success label-lg font-weight-bold label-inline py-5"
-        style="font-size: smaller;"
-        >{{ user$.role.name }} </span
-      >
+      <span class="label label-light-success label-lg font-weight-bold label-inline py-5" style="font-size: smaller;">{{
+        user$.role.name }} </span>
       <!--end::Text-->
     </div>
     <div class="separator separator-solid"></div>
@@ -29,37 +26,27 @@
     <!--begin::Header-->
     <div
       class="d-flex align-items-center justify-content-between flex-wrap p-8 bgi-size-cover bgi-no-repeat rounded-top"
-      style="background-image: url('./assets/media/misc/bg-1.jpg');"
-    >
+      style="background-image: url('./assets/media/misc/bg-1.jpg');">
       <div class="d-flex align-items-center mr-2">
         <!--begin::Symbol-->
         <div class="symbol bg-white-o-15 mr-3">
-          <span
-            class="symbol-label text-success font-weight-bold font-size-h4"
-            >{{ user$.name | firstLetter }}</span
-          >
+          <span class="symbol-label text-success font-weight-bold font-size-h4">{{ user$.name | firstLetter }}</span>
         </div>
         <!--end::Symbol-->
 
         <!--begin::Text-->
         <div class="text-white m-0 flex-grow-1 mr-3 font-size-h5">
-          {{ user$.name }} 
+          {{ user$.name }}
           <!-- {{ user$.lastname }} -->
         </div>
         <!--end::Text-->
       </div>
-      <span class="label label-success label-lg font-weight-bold label-inline"
-        >3 messages</span
-      >
+      <span class="label label-success label-lg font-weight-bold label-inline">3 messages</span>
     </div>
     <!--end::Header-->
   </ng-container>
   <div class="navi-footer px-8 py-5">
-    <a
-      class="btn btn-light-primary font-weight-bold cursor-pointer"
-      (click)="logout()"
-      >Desconectar</a
-    >
+    <a class="btn btn-light-primary font-weight-bold cursor-pointer" (click)="logout()">Desconectar</a>
     <!-- <a class="btn btn-clean font-weight-bold cursor-pointer">Upgrade Plan</a> -->
   </div>
   <div class="separator separator-solid"></div>
@@ -67,7 +54,7 @@
   <div class="navi navi-spacer-x-0 pt-5">
     <div class="separator separator-solid"></div>
     <!--begin::Item-->
-    <a class="navi-item px-8 cursor-pointer" routerLink="users/mi-perfil">
+    <a class="navi-item px-8 cursor-pointer" routerLink="/user-profile">
       <div class="navi-link">
         <div class="navi-icon mr-2">
           <i class="flaticon2-calendar-3 text-success"></i>
@@ -78,9 +65,7 @@
           </div>
           <div class="text-muted">
             Configura tu cuenta y más
-            <span class="label label-light-danger label-inline font-weight-bold"
-              >actualizar</span
-            >
+            <span class="label label-light-danger label-inline font-weight-bold">actualizar</span>
           </div>
         </div>
       </div>
@@ -88,17 +73,17 @@
     <!--end::Item-->
 
     <!--begin::Item-->
-    <a class="navi-item px-8 cursor-pointer">
+    <a class="navi-item px-8 cursor-pointer" routerLink="/messaging/inbox">
       <div class="navi-link">
         <div class="navi-icon mr-2">
           <i class="flaticon2-mail text-warning"></i>
         </div>
         <div class="navi-text">
           <div class="font-weight-bold">
-            My Messages
+            Mis Mensajes
           </div>
           <div class="text-muted">
-            Inbox and tasks
+            Bandeja de entrada
           </div>
         </div>
       </div>
@@ -106,17 +91,17 @@
     <!--end::Item-->
 
     <!--begin::Item-->
-    <a class="navi-item px-8 cursor-pointer">
+    <a class="navi-item px-8 cursor-pointer" routerLink="/ai-studio/training">
       <div class="navi-link">
         <div class="navi-icon mr-2">
           <i class="flaticon2-rocket-1 text-danger"></i>
         </div>
         <div class="navi-text">
           <div class="font-weight-bold">
-            My Activities
+            Mis Actividades
           </div>
           <div class="text-muted">
-            Logs and notifications
+            Logs y notificaciones IA
           </div>
         </div>
       </div>
@@ -124,17 +109,17 @@
     <!--end::Item-->
 
     <!--begin::Item-->
-    <a class="navi-item px-8 cursor-pointer">
+    <a class="navi-item px-8 cursor-pointer" routerLink="/ai-studio/training">
       <div class="navi-link">
         <div class="navi-icon mr-2">
           <i class="flaticon2-hourglass text-primary"></i>
         </div>
         <div class="navi-text">
           <div class="font-weight-bold">
-            My Tasks
+            Mis Tareas
           </div>
           <div class="text-muted">
-            latest tasks and projects
+            Entrenamiento de la IA
           </div>
         </div>
       </div>

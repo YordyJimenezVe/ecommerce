@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/modules/auth-profile/_services/auth.service';
 import { CartShopsService } from 'src/app/modules/home/_services/cart-shops.service';
 
-declare var $:any;
-declare function loadModalDetailProduct():any;
-declare function  alertDanger([]):any;
-declare function alertSuccess([]):any;
+declare var $: any;
+declare function loadModalDetailProduct(): any;
+declare function alertDanger([]): any;
+declare function alertSuccess([]): any;
 @Component({
   selector: 'app-c-detail-product',
   templateUrl: './c-detail-product.component.html',
@@ -13,24 +13,35 @@ declare function alertSuccess([]):any;
 })
 export class CDetailProductComponent implements OnInit {
 
-  @Input() product_selected_modal:any;
-  @Input() is_landing:boolean = false;
-  color_size_selecteds:any  =[];
-  quantity:any = 0;
+  @Input() product_selected_modal: any;
+  @Input() is_landing: boolean = false;
+  color_size_selecteds: any = [];
+  quantity: any = 0;
 
-  product_size_selected:any = null;
-  product_size_color_selected:any = null;
+  product_size_selected: any = null;
+  product_size_color_selected: any = null;
+
+  // Zoom & Lightbox
+  isFocusMode: boolean = false;
+  isLightboxOpen: boolean = false;
+  selectedImage: string = '';
+  zoomStyle: any = {};
+  zoomResultStyle: any = {};
+
   constructor(
     public _cartService: CartShopsService,
     public _authService: AuthService,
   ) { }
 
   ngOnInit(): void {
+    if (this.product_selected_modal && this.product_selected_modal.images && this.product_selected_modal.images.length > 0) {
+      this.selectedImage = this.product_selected_modal.images[0].imagen;
+    }
     setTimeout(() => {
       setTimeout(() => {
         loadModalDetailProduct();
       }, 25);
-      if(!this.is_landing){
+      if (!this.is_landing) {
         $('.product_quickview').addClass('active');
         $('body').css('overflow-y', 'hidden');
       }
@@ -38,51 +49,94 @@ export class CDetailProductComponent implements OnInit {
     }, 50);
   }
 
-  selectedSize(size:any){
+
+  openLightbox(imagen: string) {
+    this.selectedImage = imagen;
+    this.isLightboxOpen = true;
+    $('body').css('overflow', 'hidden');
+  }
+
+  closeLightbox() {
+    this.isLightboxOpen = false;
+    if (this.is_landing) {
+      $('body').css('overflow', 'auto');
+    } else {
+      $('body').css('overflow', 'hidden'); // Keep hidden if in quickview modal
+    }
+  }
+
+  onMouseMove(e: MouseEvent, image: string) {
+    this.isFocusMode = true;
+    this.selectedImage = image;
+    const container = e.currentTarget as HTMLElement;
+    const { left, top, width, height } = container.getBoundingClientRect();
+    const x = ((e.pageX - left) / width) * 100;
+    const y = ((e.pageY - top) / height) * 100;
+
+    this.zoomStyle = {
+      'background-color': 'rgba(255, 255, 255, 0.2)',
+      'cursor': 'crosshair'
+    };
+
+    this.zoomResultStyle = {
+      'background-image': `url(${image})`,
+      'background-size': `${width * 3}px ${height * 3}px`,
+      'background-position': `${x}% ${y}%`,
+      'background-repeat': 'no-repeat'
+    };
+  }
+
+  onMouseLeave() {
+    this.isFocusMode = false;
+    this.zoomStyle = {};
+    this.zoomResultStyle = {};
+  }
+
+  selectedSize(size: any) {
     this.product_size_selected = size;
     this.color_size_selecteds = size.variaciones;
   }
-  addColor(color_size:any){
+  addColor(color_size: any) {
     // console.log(color_size);
     this.product_size_color_selected = color_size;
   }
-  reduceQ(){
-    if(this.quantity > 0){
-      this.quantity --;
+  reduceQ() {
+    if (this.quantity > 0) {
+      this.quantity--;
     }
   }
-  addQ(){
+  addQ() {
     // if(){
 
     // }
-    this.quantity ++;
+    this.quantity++;
   }
-  getNewPriceS(price_soles:number,discount_g:any) {
-    if(discount_g.type_discount == 1){ //%
-      return price_soles - (price_soles*discount_g.discount*0.01);
+  getNewPriceS(price_soles: number, discount_g: any) {
+    if (discount_g.type_discount == 1) { //%
+      return price_soles - (price_soles * discount_g.discount * 0.01);
     }
-    if(discount_g.type_discount == 2){ //PEN
-      return price_soles - price_soles*discount_g.discount;
+    if (discount_g.type_discount == 2) { //PEN
+      return price_soles - price_soles * discount_g.discount;
     }
     return 0;
   }
-  addCart(product_selected_modal:any){
-    if(!this._authService.user){
+  addCart(product_selected_modal: any) {
+    if (!this._authService.user) {
       alertDanger("NECESITAS LOGUEARTE");
       return;
     }
-    if(this.product_selected_modal.checked_inventario == 2){//MULTIPLE
-      if(!this.product_size_selected || !this.product_size_color_selected){
+    if (this.product_selected_modal.checked_inventario == 2) {//MULTIPLE
+      if (!this.product_size_selected || !this.product_size_color_selected) {
         alertDanger("NECESITAS INGRESAR UN TAMAÑO Y COLOR");
         return;
       }
-      if(this.quantity <= 0){
+      if (this.quantity <= 0) {
         alertDanger("NECESITAS INGRESAR UNA CANTIDAD");
         return;
       }
     }
-    if(this.product_selected_modal.checked_inventario == 1){//UNITARIO
-      if(this.quantity <= 0){
+    if (this.product_selected_modal.checked_inventario == 1) {//UNITARIO
+      if (this.quantity <= 0) {
         alertDanger("NECESITAS INGRESAR UNA CANTIDAD");
         return;
       }
@@ -91,12 +145,12 @@ export class CDetailProductComponent implements OnInit {
     var discount_g = null;
     var precio_uni_total = 0;
     var code_discount_g = null;
-    if(this.product_selected_modal.discount_g){
+    if (this.product_selected_modal.discount_g) {
       type_discount_g = this.product_selected_modal.discount_g.type_discount;
       discount_g = this.product_selected_modal.discount_g.discount;
       code_discount_g = this.product_selected_modal.discount_g.code;
-      precio_uni_total = this.getNewPriceS(this.product_selected_modal.price_soles,this.product_selected_modal.discount_g);
-    }else{
+      precio_uni_total = this.getNewPriceS(this.product_selected_modal.price_soles, this.product_selected_modal.discount_g);
+    } else {
       precio_uni_total = this.product_selected_modal.price_soles;
     }
     let data = {
@@ -113,25 +167,25 @@ export class CDetailProductComponent implements OnInit {
       subtotal: precio_uni_total,
       total: precio_uni_total * this.quantity,
     }
-    this._cartService.addCartShop(data).subscribe((resp:any) => {
+    this._cartService.addCartShop(data).subscribe((resp: any) => {
       console.log(resp);
-      if(resp.message == 403){
+      if (resp.message == 403) {
         alertDanger(resp.message_text);
         return;
-      }else{
+      } else {
         this._cartService.changeCart(resp.cart_shop);
         alertSuccess("SE HA AGREADO EL PRODUCTO AL CARRITO");
       }
     })
   }
 
-  addWish(product_selected_modal:any){
-    if(!this._authService.user){
+  addWish(product_selected_modal: any) {
+    if (!this._authService.user) {
       alertDanger("NECESITAS LOGUEARTE");
       return;
     }
-    if(this.product_selected_modal.checked_inventario == 2){//MULTIPLE
-      if(!this.product_size_selected || !this.product_size_color_selected){
+    if (this.product_selected_modal.checked_inventario == 2) {//MULTIPLE
+      if (!this.product_size_selected || !this.product_size_color_selected) {
         alertDanger("NECESITAS INGRESAR UN TAMAÑO Y COLOR");
         return;
       }
@@ -142,12 +196,12 @@ export class CDetailProductComponent implements OnInit {
       product_size_id: this.product_size_selected ? this.product_size_selected.id : null,
       product_color_size_id: this.product_size_color_selected ? this.product_size_color_selected.id : null,
     }
-    this._cartService.addWishList(data).subscribe((resp:any) => {
+    this._cartService.addWishList(data).subscribe((resp: any) => {
       console.log(resp);
-      if(resp.message == 403){
+      if (resp.message == 403) {
         alertDanger(resp.message_text);
         return;
-      }else{
+      } else {
         this._cartService.changeWish(resp.wishlist);
         alertSuccess("SE HA AGREADO EL PRODUCTO A LA LISTA DE DESEO");
       }

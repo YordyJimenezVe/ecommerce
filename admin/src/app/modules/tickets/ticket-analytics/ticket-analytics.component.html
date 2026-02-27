@@ -1,0 +1,233 @@
+<div class="analytics-page">
+
+    <div class="page-header">
+        <h1>📊 Analytics de Soporte</h1>
+        <p>Resumen de tickets, calidad de servicio y rendimiento del equipo</p>
+    </div>
+
+    <div class="loading-spinner" *ngIf="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="analytics-grid" *ngIf="data && !loading">
+
+        <!-- KPI Row -->
+        <div class="kpi-cards">
+            <div class="kpi-card kpi-open">
+                <div class="kpi-icon"><i class="fas fa-folder-open"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-value">{{ data.status_stats?.open || 0 }}</span>
+                    <span class="kpi-label">Tickets Abiertos</span>
+                </div>
+            </div>
+            <div class="kpi-card kpi-progress">
+                <div class="kpi-icon"><i class="fas fa-spinner"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-value">{{ data.status_stats?.in_progress || 0 }}</span>
+                    <span class="kpi-label">En Progreso</span>
+                </div>
+            </div>
+            <div class="kpi-card kpi-closed">
+                <div class="kpi-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-value">{{ data.status_stats?.closed || 0 }}</span>
+                    <span class="kpi-label">Cerrados</span>
+                </div>
+            </div>
+            <div class="kpi-card kpi-rating">
+                <div class="kpi-icon"><i class="fas fa-star"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-value">{{ data.avg_rating || 0 }}/5</span>
+                    <span class="kpi-label">Rating Promedio</span>
+                </div>
+            </div>
+            <div class="kpi-card kpi-resolution">
+                <div class="kpi-icon"><i class="fas fa-thumbs-up"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-value">{{ data.resolution_rate || 0 }}%</span>
+                    <span class="kpi-label">Tasa de Resolución</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories + Rating Distribution -->
+        <div class="two-col">
+            <div class="analytics-card">
+                <h3><i class="fas fa-tags"></i> Categorías más comunes</h3>
+                <div class="category-list">
+                    <div class="category-item" *ngFor="let c of data.category_stats">
+                        <div class="cat-bar-wrapper">
+                            <span class="cat-name">{{ categoryLabel[c.category] }}</span>
+                            <div class="cat-bar">
+                                <div class="cat-bar-fill" [style.width.%]="getBarWidth(c.total)"></div>
+                            </div>
+                            <span class="cat-count">{{ c.total }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <h3><i class="fas fa-star-half-alt"></i> Distribución de Calificaciones</h3>
+                <div class="rating-bars">
+                    <div class="rating-row" *ngFor="let r of data.rating_distribution">
+                        <span class="rating-stars">{{ ratingLabel[r.attention_rating] }}</span>
+                        <div class="rating-bar-wrap">
+                            <div class="rating-bar-fill" [style.width.%]="getRatingWidth(r.total)"
+                                [class.rating-color-1]="r.attention_rating === 1"
+                                [class.rating-color-2]="r.attention_rating === 2"
+                                [class.rating-color-3]="r.attention_rating === 3"
+                                [class.rating-color-4]="r.attention_rating === 4"
+                                [class.rating-color-5]="r.attention_rating === 5">
+                            </div>
+                        </div>
+                        <span class="rating-count">{{ r.total }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Operator Rankings -->
+        <div class="two-col">
+            <div class="analytics-card best-operators">
+                <h3><i class="fas fa-trophy"></i> Top 3 Mejores Operadores</h3>
+                <div class="operator-list">
+                    <div class="operator-item" *ngFor="let op of data.best_operators; let i = index">
+                        <div class="op-rank">{{ i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }}</div>
+                        <div class="op-info">
+                            <strong>{{ op.name }}</strong>
+                            <span class="op-email">{{ op.email }}</span>
+                        </div>
+                        <div class="op-stats">
+                            <div class="op-rating">
+                                <span class="stars">{{ getStars(op.avg_rating) }}</span>
+                                <span class="rating-num">{{ formatRating(op.avg_rating) }}</span>
+                            </div>
+                            <span class="op-reviews">{{ op.total_reviewed }} evaluaciones</span>
+                        </div>
+                    </div>
+                    <div *ngIf="!data.best_operators?.length" class="no-data">Sin datos suficientes aún</div>
+                </div>
+            </div>
+
+            <div class="analytics-card worst-operators">
+                <h3><i class="fas fa-exclamation-triangle"></i> Top 3 con Menor Calificación</h3>
+                <div class="operator-list">
+                    <div class="operator-item" *ngFor="let op of data.worst_operators; let i = index">
+                        <div class="op-rank">{{ i === 0 ? '💔' : i === 1 ? '😔' : '😐' }}</div>
+                        <div class="op-info">
+                            <strong>{{ op.name }}</strong>
+                            <span class="op-email">{{ op.email }}</span>
+                        </div>
+                        <div class="op-stats">
+                            <div class="op-rating">
+                                <span class="stars">{{ getStars(op.avg_rating) }}</span>
+                                <span class="rating-num">{{ formatRating(op.avg_rating) }}</span>
+                            </div>
+                            <span class="op-reviews">{{ op.total_reviewed }} evaluaciones</span>
+                        </div>
+                    </div>
+                    <div *ngIf="!data.worst_operators?.length" class="no-data">Sin datos suficientes aún</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent improvement suggestions -->
+        <div class="analytics-card" *ngIf="data.recent_suggestions?.length">
+            <h3><i class="fas fa-lightbulb"></i> Sugerencias de Mejora Recientes</h3>
+            <div class="suggestions-list">
+                <div class="suggestion-item" *ngFor="let s of data.recent_suggestions">
+                    <i class="fas fa-quote-left"></i> {{ s }}
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── AI Analysis Section ──────────────────────────────────────── -->
+        <div class="section-divider">
+            <span>🤖 Análisis Automático de IA (Post-Cierre)</span>
+        </div>
+
+        <div class="kpi-cards">
+            <div class="kpi-card kpi-ai">
+                <div class="kpi-icon"><i class="fas fa-robot"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-value">{{ data.ai_analyses_count }}</span>
+                    <span class="kpi-label">Tickets Analizados</span>
+                </div>
+            </div>
+            <div class="kpi-card kpi-ai-rating">
+                <div class="kpi-icon"><i class="fas fa-user-tie"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-value">{{ formatRating(data.ai_avg_staff_rating || 0) }}/5</span>
+                    <span class="kpi-label">Rating Agentes (IA)</span>
+                </div>
+            </div>
+            <div class="kpi-card" [class.kpi-warning]="data.ai_poor_treatment > 0"
+                [class.kpi-good]="data.ai_poor_treatment === 0">
+                <div class="kpi-icon"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-value">{{ data.ai_poor_treatment }}</span>
+                    <span class="kpi-label">Mal Trato Detectado</span>
+                </div>
+            </div>
+            <div class="kpi-card kpi-ai-resolved">
+                <div class="kpi-icon"><i class="fas fa-check-double"></i></div>
+                <div class="kpi-body">
+                    <span class="kpi-value">{{ getAiResolvedCount('sí') }}</span>
+                    <span class="kpi-label">Resueltos (IA)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Recent Summaries Feed -->
+        <div class="analytics-card ai-summaries" *ngIf="data.ai_recent_summaries?.length">
+            <h3><i class="fas fa-file-alt"></i> Últimos Análisis de IA</h3>
+            <div class="ai-feed">
+                <div class="ai-feed-item" *ngFor="let a of getPaginatedAiSummaries()"
+                    [class.ai-feed-warning]="a.treated_poorly">
+                    <div class="ai-feed-header">
+                        <span class="ai-feed-ticket" *ngIf="a.ticket">#{{ a.ticket.id }} — {{ a.ticket.subject }}</span>
+                        <div class="ai-feed-badges">
+                            <span class="ai-feed-chip chip-yes" *ngIf="a.resolved === 'sí'">✅ Resuelto</span>
+                            <span class="ai-feed-chip chip-no" *ngIf="a.resolved === 'no'">❌ No resuelto</span>
+                            <span class="ai-feed-chip chip-partial" *ngIf="a.resolved === 'parcialmente'">⚠️
+                                Parcialmente</span>
+                            <span class="ai-feed-rating" *ngIf="a.staff_rating">{{ getStars(a.staff_rating) }}</span>
+                            <span class="ai-bad-treat" *ngIf="a.treated_poorly">⚠️ Trato deficiente</span>
+                        </div>
+                    </div>
+                    <p class="ai-feed-summary">{{ a.summary }}</p>
+                    <div class="ai-treatment-alert" *ngIf="a.treated_poorly && a.poor_treatment_reason">
+                        <strong>Motivo de alerta:</strong> {{ a.poor_treatment_reason }}
+                    </div>
+                    <div class="ai-feed-footer">
+                        <small class="ai-feed-date">{{ a.analyzed_at | date:'dd/MM/yyyy HH:mm' }}</small>
+                        <a [routerLink]="['/support', a.ticket_id]" class="btn-view-ticket">
+                            Ver conversación <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="ai-pagination" *ngIf="data.ai_recent_summaries?.length > aiPageSize">
+                <button (click)="prevAiPage()" [disabled]="aiPageIndex === 0" class="btn-pag">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+                <span class="pag-info">Página {{ aiPageIndex + 1 }} de {{ totalAiPages }}</span>
+                <button (click)="nextAiPage()" [disabled]="!canNextAiPage()" class="btn-pag">
+                    Siguiente <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- AI placeholder when empty -->
+        <div class="analytics-card ai-empty" *ngIf="data.ai_analyses_count === 0">
+            <i class="fas fa-robot ai-empty-icon"></i>
+            <h4>Análisis de IA Automático</h4>
+            <p>Al cerrar un ticket, la IA analiza la conversación para detectar mal trato, resolución y nivel del
+                agente.</p>
+        </div>
+
+    </div>
+</div>

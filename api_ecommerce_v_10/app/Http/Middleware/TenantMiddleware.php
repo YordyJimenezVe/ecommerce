@@ -24,7 +24,8 @@ class TenantMiddleware
         }
 
         // Super Admin bypass
-        if ($user->email === 'Yordyalejandro13@gmail.com' || $user->role === 'super_admin') {
+        $roleName = $user->role ? $user->role->name : ($user->getAttribute('role') ?? '');
+        if (strtolower($user->email) === 'yordyalejandro13@gmail.com' || $roleName === 'super_admin' || $roleName === 'ADMINISTRADOR GENERAL') {
             return $next($request);
         }
 
@@ -37,6 +38,14 @@ class TenantMiddleware
         $routeCompany = $request->route('company');
         if ($routeCompany && $routeCompany != $user->company_id) {
             return response()->json(['message' => 'Forbidden. Access denied to this company.'], 403);
+        }
+
+        // Check company status
+        if ($user->company && $user->company->status === 'suspended') {
+            return response()->json([
+                'message' => 'Your company account is suspended. Please contact support.',
+                'status' => 'suspended'
+            ], 403);
         }
 
         // Inject company_id into request for Controllers to use

@@ -24,7 +24,7 @@
 
 .experience_card {
     padding: 40px;
-    background: #fff;
+    background: var(--footer-bg, #fff);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
@@ -48,7 +48,9 @@
 
 .premium_newsletter input {
     flex-grow: 1;
-    border: 1px solid #ddd;
+    border: 1px solid var(--primary);
+    background: var(--bg-color);
+    color: var(--text-color);
     padding: 12px 20px;
     border-radius: 8px;
     outline: none;
@@ -82,7 +84,7 @@
     align-items: center;
     gap: 5px;
     font-size: 11px;
-    color: #666;
+    color: var(--text-color);
     text-align: center;
 }
 

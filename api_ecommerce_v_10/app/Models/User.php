@@ -22,7 +22,6 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'surname',
-        'type_user',
         'state',
         'role_id',
         'email',
@@ -32,7 +31,6 @@ class User extends Authenticatable implements JWTSubject
         'gender',
         'phone',
         'company_id',
-        'role'
     ];
 
     /**
@@ -45,12 +43,7 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
     ];
 
-    public function setPasswordAttribute($password)
-    {
-        if ($password) {
-            $this->attributes["password"] = bcrypt($password);
-        }
-    }
+
 
     public function getJWTIdentifier()
     {
@@ -65,6 +58,20 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function hasPermission($permissionSlug)
+    {
+        if (!$this->role) {
+            return false;
+        }
+        return $this->role->permissions->contains('slug', $permissionSlug);
+    }
+
     /**
      * The attributes that should be cast.
      *
@@ -79,13 +86,28 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(AddressUser::class);
     }
-    public function scopefilterAdvance($query, $state, $search)
+    public function scopefilterAdvance($query, $state, $search, $category = null)
     {
         if ($state) {
             $query->where("state", $state);
         }
         if ($search) {
-            $query->where("name", "like", "%" . $search . "%")->orWhere("surname", "like", "%" . $search . "%");
+            $query->where(function ($q) use ($search) {
+                $q->where("name", "like", "%" . $search . "%")
+                    ->orWhere("surname", "like", "%" . $search . "%")
+                    ->orWhere("email", "like", "%" . $search . "%");
+            });
+        }
+        if ($category) {
+            if ($category === 'megarys') {
+                $query->whereHas('role', function ($q) {
+                    $q->whereNull('company_id');
+                });
+            } elseif ($category === 'companies') {
+                $query->whereHas('role', function ($q) {
+                    $q->whereNotNull('company_id');
+                });
+            }
         }
         return $query;
     }

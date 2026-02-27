@@ -90,28 +90,28 @@
                         </div>
                     </form>
 
-                    <ng-container *ngIf="!requires2FA">
+                    <div class="dif_regway my-3" *ngIf="!requires2FA">
                         <span class="txt">{{ 'Or login in with' | translate }}</span>
-                </div>
+                    </div>
 
-                <div class="d-flex">
-                    <button
-                        class="default_btn xs_btn rounded px-4 d-block w-50 text-capitalize bg-facebook d-flex align-items-center justify-content-center"
-                        (click)="signInWithFB()">
-                        <i class="lab la-facebook-f me-2" style="font-size: 1.2rem;"></i> Facebook
-                    </button>
-                    <button
-                        class="default_btn xs_btn rounded px-4 d-block w-50 ms-3 text-capitalize bg-google d-flex align-items-center justify-content-center"
-                        (click)="signInWithGoogle()">
-                        <i class="lab la-google me-2" style="font-size: 1.2rem;"></i> Google
-                    </button>
-                </div>
+                    <div class="d-flex" *ngIf="!requires2FA">
+                        <button
+                            class="default_btn xs_btn rounded px-4 d-block w-50 text-capitalize bg-facebook d-flex align-items-center justify-content-center"
+                            (click)="signInWithFB()">
+                            <i class="lab la-facebook-f me-2" style="font-size: 1.2rem;"></i> Facebook
+                        </button>
+                        <button
+                            class="default_btn xs_btn rounded px-4 d-block w-50 ms-3 text-capitalize bg-google d-flex align-items-center justify-content-center"
+                            (click)="signInWithGoogle()">
+                            <i class="lab la-google me-2" style="font-size: 1.2rem;"></i> Google
+                        </button>
+                    </div>
 
-                <p class="text-center mt-3 mb-0">{{ 'Don\'t have an account?' | translate }} <a
-                        routerLink="/auth/registro" class="text-color">{{ 'Register Now' | translate }}</a></p>
-                </ng-container>
+                    <p class="text-center mt-3 mb-0" *ngIf="!requires2FA">{{ 'Don\'t have an account?' | translate }} <a
+                            routerLink="/auth/registro" class="text-color">{{ 'Register Now' | translate }}</a></p>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>

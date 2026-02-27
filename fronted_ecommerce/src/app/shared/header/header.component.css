@@ -202,3 +202,35 @@
 .ac_links a:hover i {
     color: var(--primary-color);
 }
+
+/* Override hover behavior to use click instead for Cart and Account */
+.shopcart:hover .shopcart_dropdown {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    margin-top: 10px !important;
+    pointer-events: none;
+}
+
+.myacwrap:hover .myacc_cont {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(15px) !important;
+    pointer-events: none;
+}
+
+/* Apply active state logic from Angular variables */
+.shopcart.active_dropdown .shopcart_dropdown,
+.shopcart:hover.active_dropdown .shopcart_dropdown {
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin-top: 0 !important;
+    pointer-events: auto;
+}
+
+.myacwrap.active_dropdown .myacc_cont,
+.myacwrap:hover.active_dropdown .myacc_cont {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    pointer-events: auto;
+}

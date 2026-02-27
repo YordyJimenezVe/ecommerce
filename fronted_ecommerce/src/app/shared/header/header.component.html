@@ -190,7 +190,7 @@
             </div>
             <div class="header_icon d-flex align-items-center">
                 <!-- Notifications -->
-                <div class="shopcart"> <!-- Leveraging existing style for dropdown behavior if possible, or custom -->
+                <div class="shopcart" [class.active_dropdown]="isAlertMenuOpen" (click)="toggleAlertMenu($event)">
                     <a href="javascript:void(0)" class="icon_wrp text-center">
                         <span class="icon">
                             <i class="las la-bell"></i>
@@ -198,7 +198,7 @@
                         <span class="icon_text">Alertas</span>
                         <!-- <span class="pops">2</span> -->
                     </a>
-                    <!-- Dropdown would go here, omitting for brevity/complexity in this turn -->
+                    <!-- Dropdown would go here if needed -->
                 </div>
 
                 <a href="/perfil-del-cliente?selected_menu=6" class="icon_wrp text-center wishlist">
@@ -208,15 +208,15 @@
                     <span class="icon_text">{{ 'Wishlist' | translate }}</span>
                     <span class="pops">{{ listWish.length }}</span>
                 </a>
-                <div class="shopcart">
-                    <a href="shopping-cart.html" class="icon_wrp text-center d-none d-lg-block">
+                <div class="shopcart" [class.active_dropdown]="isCartMenuOpen" (click)="toggleCartMenu($event)">
+                    <a href="javascript:void(0)" class="icon_wrp text-center d-none d-lg-block">
                         <span class="icon">
                             <i class="icon-cart"></i>
                         </span>
                         <span class="icon_text">{{ 'Cart' | translate }}</span>
                         <span class="pops">{{ listCarts.length }}</span>
                     </a>
-                    <div class="shopcart_dropdown">
+                    <div class="shopcart_dropdown" (click)="$event.stopPropagation()">
                         <div class="cart_droptitle">
                             <h4 class="text_lg">{{ listCarts.length }} Items</h4>
                         </div>
@@ -256,20 +256,24 @@
                             <h4 class="text_lg mb-0 ms-2">{{ TotalPrice }} PEN</h4>
                         </div>
                         <div class="cartdrop_footer d-flex mt-3">
-                            <a routerLink="/carrito-de-compra" class="default_btn w-50 text_xs px-1">Ver Carrito</a>
+                            <a routerLink="/carrito-de-compra" class="default_btn w-50 text_xs px-1 text-center"
+                                style="display: flex; align-items: center; justify-content: center; padding: 10px;">Ver
+                                Carrito</a>
                             <a routerLink="/proceso-de-pago"
-                                class="default_btn second ms-3 w-50 text_xs px-1">Checkout</a>
+                                class="default_btn second ms-3 w-50 text_xs px-1 text-center"
+                                style="display: flex; align-items: center; justify-content: center; padding: 10px; color: #fff !important;">Checkout</a>
                         </div>
                     </div>
                 </div>
-                <div class="position-relative myacwrap">
+                <div class="position-relative myacwrap" [class.active_dropdown]="isAccountMenuOpen"
+                    (click)="toggleAccountMenu($event)">
                     <a href="javascript:void(0)" class="icon_wrp text-center myacc">
                         <span class="icon">
                             <i class="icon-user-line"></i>
                         </span>
                         <span class="icon_text">{{ 'My Account' | translate }}</span>
                     </a>
-                    <div class="myacc_cont">
+                    <div class="myacc_cont" (click)="$event.stopPropagation()">
                         <div class="ac_join" style="padding: 15px;">
                             <p *ngIf="user" class="mb-2 text-center">{{ 'Welcome' | translate }} {{ user.name }}</p>
                             <div class="account_btn d-flex flex-column" style="gap: 10px;" *ngIf="!user">

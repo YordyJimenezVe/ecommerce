@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -37,14 +37,30 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   currentThemeName: string = 'Default';
   isThemeMenuOpen: boolean = false;
 
+  isCartMenuOpen: boolean = false;
+  isAccountMenuOpen: boolean = false;
+  isAlertMenuOpen: boolean = false;
+
   constructor(
     public authService: AuthService,
     public router: Router,
     public _cartService: CartShopsService,
     public _homeService: HomeService,
     public languageService: LanguageService,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    private eRef: ElementRef
   ) { }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event: any) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.isLangMenuOpen = false;
+      this.isThemeMenuOpen = false;
+      this.isCartMenuOpen = false;
+      this.isAccountMenuOpen = false;
+      this.isAlertMenuOpen = false;
+    }
+  }
 
   ngOnInit(): void {
     this.user = this.authService.user;
@@ -133,5 +149,32 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       'white': 'Blanco (Modo Oscuro)'
     };
     this.currentThemeName = themeNames[theme] || 'Default';
+  }
+
+  toggleCartMenu(event: Event) {
+    event.stopPropagation();
+    this.isCartMenuOpen = !this.isCartMenuOpen;
+    this.isAccountMenuOpen = false;
+    this.isAlertMenuOpen = false;
+    this.isLangMenuOpen = false;
+    this.isThemeMenuOpen = false;
+  }
+
+  toggleAccountMenu(event: Event) {
+    event.stopPropagation();
+    this.isAccountMenuOpen = !this.isAccountMenuOpen;
+    this.isCartMenuOpen = false;
+    this.isAlertMenuOpen = false;
+    this.isLangMenuOpen = false;
+    this.isThemeMenuOpen = false;
+  }
+
+  toggleAlertMenu(event: Event) {
+    event.stopPropagation();
+    this.isAlertMenuOpen = !this.isAlertMenuOpen;
+    this.isCartMenuOpen = false;
+    this.isAccountMenuOpen = false;
+    this.isLangMenuOpen = false;
+    this.isThemeMenuOpen = false;
   }
 }

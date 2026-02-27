@@ -15,32 +15,38 @@ export class SalesService {
   ) { }
   // PROCESO DE COMPRA
 
-  storeSale(data:any){
-    let headers = new HttpHeaders({'Authorization': 'Bearer ' + this._authServices.token});
+  storeSale(data: any) {
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this._authServices.token });
     let URL = URL_SERVICIOS + "/ecommerce/checkout/sale";
-    return this.http.post(URL,data,{headers: headers});
+    return this.http.post(URL, data, { headers: headers });
+  }
+
+  getPaymentConfigs(company_id: any) {
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this._authServices.token });
+    let URL = URL_SERVICIOS + "/ecommerce/checkout/payment-configs/" + company_id;
+    return this.http.get(URL, { headers: headers });
   }
 
   // CHECKOUT - DIRECCION DEL CLIENTE
-  listAddressUser(){
-    let headers = new HttpHeaders({'Authorization': 'Bearer ' + this._authServices.token});
+  listAddressUser() {
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this._authServices.token });
     let URL = URL_SERVICIOS + "/ecommerce/checkout/address_user";
-    return this.http.get(URL,{headers: headers});
+    return this.http.get(URL, { headers: headers });
   }
-  addAddressUser(data:any){
-    let headers = new HttpHeaders({'Authorization': 'Bearer ' + this._authServices.token});
+  addAddressUser(data: any) {
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this._authServices.token });
     let URL = URL_SERVICIOS + "/ecommerce/checkout/address_user";
-    return this.http.post(URL,data,{headers: headers});
+    return this.http.post(URL, data, { headers: headers });
   }
-  updateAddressUser(cart_id:any,data:any){
-    let headers = new HttpHeaders({'Authorization': 'Bearer ' + this._authServices.token});
-    let URL = URL_SERVICIOS + "/ecommerce/checkout/address_user/"+cart_id;
-    return this.http.put(URL,data,{headers: headers});
+  updateAddressUser(cart_id: any, data: any) {
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this._authServices.token });
+    let URL = URL_SERVICIOS + "/ecommerce/checkout/address_user/" + cart_id;
+    return this.http.put(URL, data, { headers: headers });
   }
-  deleteAddressUser(cart_id:any){
-    let headers = new HttpHeaders({'Authorization': 'Bearer ' + this._authServices.token});
-    let URL = URL_SERVICIOS + "/ecommerce/checkout/address_user/"+cart_id;
-    return this.http.delete(URL,{headers: headers});
+  deleteAddressUser(cart_id: any) {
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this._authServices.token });
+    let URL = URL_SERVICIOS + "/ecommerce/checkout/address_user/" + cart_id;
+    return this.http.delete(URL, { headers: headers });
   }
 
 }

@@ -107,6 +107,12 @@ class SaleController extends Controller
         Mail::to("echodeveloper960@gmail.com")->send(new SaleMail($sale));
         return "TODO SALIO BIEN";
     }
+    public function payment_configs($company_id)
+    {
+        $configs = \App\Models\CompanyPaymentConfig::where("company_id", $company_id)->where("is_active", true)->get();
+        return response()->json(["configs" => $configs]);
+    }
+
     /**
      * Display the specified resource.
      *

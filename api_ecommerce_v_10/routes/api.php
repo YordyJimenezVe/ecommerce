@@ -153,6 +153,7 @@ Route::group(["prefix" => "ecommerce"], function ($router) {
     Route::group(["prefix" => "checkout"], function () {
         Route::resource("address_user", AddressUserController::class);
         Route::post("sale", [SaleController::class, 'store']);
+        Route::get("payment-configs/{company_id}", [SaleController::class, 'payment_configs']);
     });
     Route::group(["prefix" => "profile"], function () {
         Route::get("home", [ProfileController::class, 'index']);

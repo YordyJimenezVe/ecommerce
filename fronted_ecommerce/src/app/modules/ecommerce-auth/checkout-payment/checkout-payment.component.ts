@@ -57,6 +57,21 @@ export class CheckoutPaymentComponent implements OnInit {
       console.log(resp);
       this.listCarts = resp;
       this.TotalPrice = this.listCarts.reduce((sum: any, item: any) => sum + item.total, 0);
+
+      if (this.listCarts.length > 0) {
+        let company_id = this.listCarts[0].product.company_id;
+        if (company_id) {
+          this._saleService.getPaymentConfigs(company_id).subscribe((configsResp: any) => {
+            let configs = configsResp.configs;
+            let paypalConfig = configs.find((c: any) => c.method_type === 'PAYPAL');
+            if (paypalConfig && paypalConfig.configuration) {
+              let parsed = typeof paypalConfig.configuration === 'string' ? JSON.parse(paypalConfig.configuration) : paypalConfig.configuration;
+              let clientId = parsed.client_id || parsed.public_key;
+              this.loadPaypalScript(clientId);
+            }
+          });
+        }
+      }
     })
     this.user = this._cartService._authServices.user;
     this._saleService.listAddressUser().subscribe((resp: any) => {
@@ -66,20 +81,32 @@ export class CheckoutPaymentComponent implements OnInit {
       this.status_view = this.listAdrees.length == 0 ? true : false;
     })
 
+  }
+
+  loadPaypalScript(clientId: string) {
+    if (document.getElementById('paypal-sdk-script')) {
+      // Already loaded
+      this.initPaypalButtons();
+      return;
+    }
+    const script = document.createElement('script');
+    script.id = 'paypal-sdk-script';
+    // Dynamically inject the client ID
+    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&vault=true&currency=USD`;
+    script.onload = () => {
+      this.initPaypalButtons();
+    };
+    document.body.appendChild(script);
+  }
+
+  initPaypalButtons() {
     paypal.Buttons({
-      // optional styling for buttons
-      // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
       style: {
         color: "gold",
         shape: "rect",
         layout: "vertical"
       },
-
-      // set up the transaction
       createOrder: (data: any, actions: any) => {
-        // pass in any options from the v2 orders create call:
-        // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
-
         if (this.TotalPrice == 0) {
           alertDanger("EL TOTAL DE LA VENTA DEBE SER MAYOR A 0");
           return false;
@@ -106,13 +133,7 @@ export class CheckoutPaymentComponent implements OnInit {
 
         return actions.order.create(createOrderPayload);
       },
-
-      // finalize the transaction
       onApprove: async (data: any, actions: any) => {
-        // const captureOrderHandler = (details:any) => {
-        //     const payerName = details.payer.name.given_name;
-        //     console.log('Transaction completed');
-        // };
         let Order = await actions.order.capture();
         console.log(Order);
         let dataSale = {
@@ -142,16 +163,11 @@ export class CheckoutPaymentComponent implements OnInit {
           alertSuccess(resp.message_text);
           this.router.navigateByUrl("/perfil-del-cliente?selected_menu=4");
         })
-
-        // return actions.order.capture().then(captureOrderHandler);
       },
-
-      // handle unrecoverable errors
       onError: (err: any) => {
         console.error('An error prevented the buyer from checking out with PayPal');
       }
     }).render(this.paypalElement?.nativeElement);
-
   }
   selectAddress(addrr: any) {
     this.address_selected = addrr;

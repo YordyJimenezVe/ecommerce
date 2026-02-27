@@ -196,7 +196,7 @@
                             </div>
                         </div>
 
-                        <div class="payment_methods pay_pal">
+                        <div class="payment_methods pay_pal" [class.active]="method_payment == 'PAYPAL'">
                             <div class="payment_method_title">
                                 <h4>Paypal</h4>
                                 <div class="payment_method_img">
@@ -205,8 +205,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-center mt-4">
-                                <div #paypal></div>
+                            <div class="text-center mt-4" [hidden]="method_payment != 'PAYPAL'">
+                                <div id="paypal-button-container"></div>
                             </div>
                         </div>
 

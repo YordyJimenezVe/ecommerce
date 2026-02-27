@@ -39,6 +39,7 @@ export class CheckoutPaymentComponent implements OnInit {
   cvv: any = null;
   date_expiration: any = null;
   user: any = null;
+  method_payment: any = null;
 
   proof_file: any = null;
   constructor(
@@ -167,7 +168,7 @@ export class CheckoutPaymentComponent implements OnInit {
       onError: (err: any) => {
         console.error('An error prevented the buyer from checking out with PayPal');
       }
-    }).render(this.paypalElement?.nativeElement);
+    }).render('#paypal-button-container');
   }
   selectAddress(addrr: any) {
     this.address_selected = addrr;

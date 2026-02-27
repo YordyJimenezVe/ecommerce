@@ -9,14 +9,19 @@
 
     <!-- Title -->
     <div class="text-center mb-10">
-      <h3 class="login-title">
+      <h3 class="login-title" *ngIf="!requires2FA">
         Bienvenido al Panel
       </h3>
-      <p class="text-muted font-weight-bold">Administración Megarys</p>
+      <h3 class="login-title" *ngIf="requires2FA">
+        Autenticación 2FA
+      </h3>
+      <p class="text-muted font-weight-bold" *ngIf="!requires2FA">Administración Megarys</p>
+      <p class="text-muted font-weight-bold" *ngIf="requires2FA">Ingresa el código de 6 dígitos de Authenticator</p>
     </div>
 
     <!--begin::Form-->
-    <form class="form" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form" (ngSubmit)="submit()">
+    <form class="form" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form" (ngSubmit)="submit()"
+      *ngIf="!requires2FA">
 
       <!-- Alert Error -->
       <ng-container *ngIf="hasError">
@@ -66,6 +71,44 @@
 
     </form>
     <!--end::Form-->
+
+    <!--begin::2FA Form-->
+    <form class="form" novalidate="novalidate" (submit)="$event.preventDefault()" *ngIf="requires2FA">
+      <!-- Alert Error -->
+      <ng-container *ngIf="hasError">
+        <div class="mb-10 alert alert-custom alert-danger alert-dismissible">
+          <div class="alert-text font-weight-bold">Código de verificación inválido. Inténtalo de nuevo.</div>
+        </div>
+      </ng-container>
+
+      <div class="form-group mb-5">
+        <label class="font-size-h6 font-weight-bolder text-dark text-center w-100 mb-5">Código de Verificación</label>
+        <div class="position-relative text-center">
+          <i class="las la-shield-alt" style="font-size: 50px; color: #f89c0e; margin-bottom: 20px;"></i>
+        </div>
+        <input
+          class="form-control form-control-solid h-auto py-7 px-6 rounded-lg border-0 text-center font-weight-bolder"
+          type="text" name="verificationCode" placeholder="000000" maxlength="6"
+          style="font-size: 1.5rem; letter-spacing: 10px;" [(ngModel)]="verificationCode"
+          [ngModelOptions]="{standalone: true}" />
+      </div>
+
+      <!-- Action -->
+      <div class="pb-lg-0 pb-5 text-center">
+        <button type="button" class="btn btn-megarys-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 w-100"
+          (click)="verify2FA()" [disabled]="isVerifying">
+          <span *ngIf="!isVerifying">Verificar Código</span>
+          <span *ngIf="isVerifying" class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </button>
+      </div>
+      <div class="text-center mt-3">
+        <a href="javascript:void(0)" (click)="requires2FA = false; hasError = false;"
+          class="text-muted text-hover-primary" style="text-decoration: underline;">
+          Cancelar y volver al login
+        </a>
+      </div>
+    </form>
+    <!--end::2FA Form-->
 
   </div>
 

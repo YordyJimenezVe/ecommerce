@@ -92,6 +92,25 @@ export class AuthService implements OnDestroy {
     );
   }
 
+  verify2FALogin(temp_token: string, code: string) {
+    this.isLoadingSubject.next(true);
+    let url = URL_SERVICIOS + '/verify-2fa-login';
+    return this.http.post(url, { temp_token, code }).pipe(
+      map((auth: any) => {
+        if (auth.access_token) {
+          return this.setAuthFromLocalStorage(auth);
+        } else {
+          return auth;
+        }
+      }),
+      catchError((err) => {
+        console.error('err', err);
+        return of(undefined);
+      }),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
   logout() {
     // localStorage.removeItem(this.authLocalStorageToken);
     this.user = null;

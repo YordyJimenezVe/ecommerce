@@ -15,9 +15,16 @@
                     <div class="text-center mb-4">
                         <img src="assets/images/logo-megarys.png" alt="logo" style="max-height: 50px;">
                     </div>
-                    <h4 class="title_2 text-center">{{ 'Login' | translate }}</h4>
-                    <p class="mb-4 text_md text-center">{{ 'Login if you are a returning customer' | translate }}</p>
-                    <form (submit)="$event.preventDefault()">
+                    <h4 class="title_2 text-center" *ngIf="!requires2FA">{{ 'Login' | translate }}</h4>
+                    <h4 class="title_2 text-center" *ngIf="requires2FA">{{ 'Two-Factor Authentication' | translate }}
+                    </h4>
+                    <p class="mb-4 text_md text-center" *ngIf="!requires2FA">{{ 'Login if you are a returning customer'
+                        | translate }}</p>
+                    <p class="mb-4 text_md text-center" *ngIf="requires2FA">{{ 'Enter the 6-digit code from your
+                        authenticator app' | translate }}</p>
+
+                    <!-- Standard Login Form -->
+                    <form (submit)="$event.preventDefault()" *ngIf="!requires2FA">
                         <div class="row">
                             <div class="col-12">
                                 <div class="single_billing_inp">
@@ -52,28 +59,59 @@
                         </div>
                     </form>
 
-                    <div class="dif_regway my-3">
+                    <!-- 2FA Verification Form -->
+                    <form (submit)="$event.preventDefault()" *ngIf="requires2FA">
+                        <div class="row">
+                            <div class="col-12 text-center mb-3">
+                                <i class="las la-shield-alt" style="font-size: 60px; color: var(--primary-color);"></i>
+                            </div>
+                            <div class="col-12">
+                                <div class="single_billing_inp">
+                                    <label class="text-center w-100 mb-2">{{ 'Verification Code' | translate }}
+                                        <span>*</span></label>
+                                    <input type="text" [(ngModel)]="verificationCode" name="verificationCode"
+                                        placeholder="000000" maxlength="6"
+                                        style="letter-spacing: 10px; font-weight: bolder; text-align: center; font-size: 1.5rem; border-radius: 8px;">
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="button" (click)="verify2FA()" [disabled]="isVerifying"
+                                    class="default_btn xs_btn rounded px-4 d-block w-100">
+                                    <span *ngIf="!isVerifying">{{ 'Verify Code' | translate }}</span>
+                                    <span *ngIf="isVerifying" class="spinner-border spinner-border-sm"></span>
+                                </button>
+                            </div>
+                            <div class="col-12 mt-3 text-center">
+                                <a href="javascript:void(0)" (click)="requires2FA = false; email=''; password='';"
+                                    class="text-muted text-sm text-hover-primary" style="text-decoration: underline;">
+                                    {{ 'Cancel and back to login' | translate }}
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+
+                    <ng-container *ngIf="!requires2FA">
                         <span class="txt">{{ 'Or login in with' | translate }}</span>
-                    </div>
-
-                    <div class="d-flex">
-                        <button
-                            class="default_btn xs_btn rounded px-4 d-block w-50 text-capitalize bg-facebook d-flex align-items-center justify-content-center"
-                            (click)="signInWithFB()">
-                            <i class="lab la-facebook-f me-2" style="font-size: 1.2rem;"></i> Facebook
-                        </button>
-                        <button
-                            class="default_btn xs_btn rounded px-4 d-block w-50 ms-3 text-capitalize bg-google d-flex align-items-center justify-content-center"
-                            (click)="signInWithGoogle()">
-                            <i class="lab la-google me-2" style="font-size: 1.2rem;"></i> Google
-                        </button>
-                    </div>
-
-                    <p class="text-center mt-3 mb-0">{{ 'Don\'t have an account?' | translate }} <a
-                            routerLink="/auth/registro" class="text-color">{{ 'Register Now' | translate }}</a></p>
-
                 </div>
+
+                <div class="d-flex">
+                    <button
+                        class="default_btn xs_btn rounded px-4 d-block w-50 text-capitalize bg-facebook d-flex align-items-center justify-content-center"
+                        (click)="signInWithFB()">
+                        <i class="lab la-facebook-f me-2" style="font-size: 1.2rem;"></i> Facebook
+                    </button>
+                    <button
+                        class="default_btn xs_btn rounded px-4 d-block w-50 ms-3 text-capitalize bg-google d-flex align-items-center justify-content-center"
+                        (click)="signInWithGoogle()">
+                        <i class="lab la-google me-2" style="font-size: 1.2rem;"></i> Google
+                    </button>
+                </div>
+
+                <p class="text-center mt-3 mb-0">{{ 'Don\'t have an account?' | translate }} <a
+                        routerLink="/auth/registro" class="text-color">{{ 'Register Now' | translate }}</a></p>
+                </ng-container>
             </div>
         </div>
     </div>
+</div>
 </div>

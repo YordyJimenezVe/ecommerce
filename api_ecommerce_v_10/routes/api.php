@@ -53,6 +53,7 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/refresh', [AuthController::class, 'refresh'])->name('refresh');
     Route::post('/me', [AuthController::class, 'me'])->name('me');
+    Route::post('/verify-2fa-login', [AuthController::class, 'verify2FALogin']);
 
     Route::group(['prefix' => 'admin'], function () {
         // Route::group(['prefix' => 'dashboard'], function () {
@@ -64,6 +65,21 @@ Route::group([
         Route::put('/update/{id}', [UserController::class, 'update']);
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
     });
+});
+
+// Routes requiring only authentication (auth:api)
+Route::group(["middleware" => "auth:api"], function () {
+    Route::post('/users/logout', [AuthController::class, 'logout']);
+    Route::post('/users/update', [AuthController::class, 'update']);
+    Route::put('/users/update_password', [AuthController::class, 'update_password']);
+    Route::get('/users/admin', [AuthController::class, 'users']);
+    // Direcciones del cliente
+    Route::resource('ecommerce/address_client', AddressClientController::class);
+
+    // Two-Factor Authentication Routes
+    Route::post('/users/2fa/generate', [\App\Http\Controllers\Auth\TwoFactorController::class, 'generateSecret']);
+    Route::post('/users/2fa/enable', [\App\Http\Controllers\Auth\TwoFactorController::class, 'enable']);
+    Route::post('/users/2fa/disable', [\App\Http\Controllers\Auth\TwoFactorController::class, 'disable']);
 });
 
 

@@ -26,6 +26,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   returnUrl: string;
   isLoading$: Observable<boolean>;
 
+  requires2FA: boolean = false;
+  tempToken: string = '';
+  verificationCode: string = '';
+  isVerifying: boolean = false;
+
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 
@@ -49,8 +54,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.initForm();
     // get return url from route parameters or default to '/'
     this.returnUrl =
-        this.route.snapshot.queryParams['returnUrl'.toString()] || '/';
-    }
+      this.route.snapshot.queryParams['returnUrl'.toString()] || '/';
+  }
 
   // convenience getter for easy access to form fields
   get f() {
@@ -91,26 +96,56 @@ export class LoginComponent implements OnInit, OnDestroy {
     //       this.hasError = true;
     //     }
     //   });
-    this.authService.login(this.f.email.value, this.f.password.value).subscribe((resp:any)=>{
+    this.authService.login(this.f.email.value, this.f.password.value).subscribe((resp: any) => {
       console.log(resp)
+
+      if (resp && resp.requires_2fa) {
+        this.requires2FA = true;
+        this.tempToken = resp.temp_token;
+        return;
+      }
+
       // this.router.navigate(['/dashboard']);
       if (resp) {
-          // this.router.navigate([this.  returnUrl]);
-          document.location.reload();
+        // this.router.navigate([this.  returnUrl]);
+        document.location.reload();
       } else {
-          this.hasError = true;
+        this.hasError = true;
       }
-    },(error:any)=>{
+    }, (error: any) => {
       console.log(error)
-      if(error.error.error=="Unauthorized"){
+      if (error.error.error == "Unauthorized") {
         // this.toastr.error('Upps!!', 'Las Credenciales Ingresadas No Existen');
         this.hasError = true;
-      }else{
+      } else {
         // this.toastr.error('Upps!!', 'Sucedio Algo Inesperado.Intentelo nuevamente');
         this.hasError = true;
       }
     })
     // this.unsubscribe.push(loginSubscr);
+  }
+
+  verify2FA() {
+    if (!this.verificationCode || this.verificationCode.length !== 6) {
+      this.hasError = true;
+      // You might want a specific error message here, but we reuse hasError for simplicity
+      return;
+    }
+
+    this.hasError = false;
+    this.isVerifying = true;
+
+    this.authService.verify2FALogin(this.tempToken, this.verificationCode).subscribe((resp: any) => {
+      this.isVerifying = false;
+      if (resp) {
+        document.location.reload();
+      } else {
+        this.hasError = true;
+      }
+    }, (error: any) => {
+      this.isVerifying = false;
+      this.hasError = true;
+    });
   }
 
   ngOnDestroy() {

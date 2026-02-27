@@ -13,6 +13,11 @@ export class LoginComponent implements OnInit {
   email: any = null;
   password: any = null;
 
+  requires2FA: boolean = false;
+  tempToken: string = '';
+  verificationCode: string = '';
+  isVerifying: boolean = false;
+
   constructor(
     public authService: AuthService,
     public router: Router,
@@ -32,6 +37,12 @@ export class LoginComponent implements OnInit {
     }
     this.authService.login(this.email, this.password).subscribe((resp: any) => {
       console.log(resp);
+      if (resp && resp.requires_2fa) {
+        this.requires2FA = true;
+        this.tempToken = resp.temp_token;
+        return;
+      }
+
       if (!resp.error && resp) {
         //  TODO SALIO BIEN Y VOLVER AL HOME CON USUARIO AUTENTICADO
         document.location.reload();
@@ -42,6 +53,22 @@ export class LoginComponent implements OnInit {
         }
       }
     })
+  }
+
+  verify2FA() {
+    if (!this.verificationCode || this.verificationCode.length !== 6) {
+      alert("COLOCA EL CÓDIGO DE 6 DÍGITOS");
+      return;
+    }
+    this.isVerifying = true;
+    this.authService.verify2FALogin(this.tempToken, this.verificationCode).subscribe((resp: any) => {
+      this.isVerifying = false;
+      if (!resp.error && resp === true) {
+        document.location.reload();
+      } else {
+        alert("CÓDIGO DE VERIFICACIÓN INVÁLIDO");
+      }
+    });
   }
 
   signInWithGoogle(): void {

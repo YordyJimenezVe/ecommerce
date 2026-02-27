@@ -58,6 +58,22 @@ export class AuthService {
     return false;
   }
 
+  verify2FALogin(temp_token: string, code: string) {
+    let URL = URL_SERVICIOS + '/verify-2fa-login';
+    return this.http.post(URL, { temp_token, code }).pipe(
+      map((resp: any) => {
+        if (resp.access_token) {
+          return this.saveLocalStorageResponse(resp);
+        } else {
+          return resp;
+        }
+      }),
+      catchError((err: any) => {
+        return of(err);
+      })
+    );
+  }
+
   registro(data: any) {
     let URL = URL_SERVICIOS + '/users/register';
     return this.http.post(URL, data);

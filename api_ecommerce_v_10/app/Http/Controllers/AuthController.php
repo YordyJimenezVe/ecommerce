@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Crypt;
 use Validator;
 
 class AuthController extends Controller
@@ -67,6 +68,15 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        $user = auth('api')->user();
+
+        if ($user->two_factor_confirmed_at) {
+            return response()->json([
+                'requires_2fa' => true,
+                'temp_token' => Crypt::encryptString($user->id)
+            ], 200);
+        }
+
         return $this->respondWithToken($token);
     }
 
@@ -76,6 +86,15 @@ class AuthController extends Controller
 
         if (!$token = auth('api')->attempt(["email" => $request->email, "password" => $request->password, "state" => 1])) {
             return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $user = auth('api')->user();
+
+        if ($user->two_factor_confirmed_at) {
+            return response()->json([
+                'requires_2fa' => true,
+                'temp_token' => Crypt::encryptString($user->id)
+            ], 200);
         }
 
         return $this->respondWithToken($token);
@@ -102,7 +121,48 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        if ($user->two_factor_confirmed_at) {
+            return response()->json([
+                'requires_2fa' => true,
+                'temp_token' => Crypt::encryptString($user->id)
+            ], 200);
+        }
+
         return $this->respondWithToken($token);
+    }
+
+    /**
+     * Verify 2FA code to complete login process.
+     */
+    public function verify2FALogin(Request $request)
+    {
+        $request->validate([
+            'temp_token' => 'required|string',
+            'code' => 'required|string',
+        ]);
+
+        try {
+            $userId = Crypt::decryptString($request->temp_token);
+            $user = User::find($userId);
+
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+
+            $google2fa = new \PragmaRX\Google2FA\Google2FA();
+            $valid = $google2fa->verifyKey($user->two_factor_secret, $request->code);
+
+            if ($valid) {
+                // Generate the real JWT token now
+                $token = auth('api')->login($user);
+                return $this->respondWithToken($token);
+            }
+
+            return response()->json(['error' => 'Invalid 2FA code'], 401);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Invalid token'], 401);
+        }
     }
     /**
      * Get the authenticated User.

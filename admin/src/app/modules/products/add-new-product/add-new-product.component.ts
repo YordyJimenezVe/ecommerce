@@ -21,6 +21,7 @@ export class AddNewProductComponent implements OnInit {
   resumen: any = null;
   description: any = null;
   state: any = 1;
+  stock: any = 0;
 
   categories: any = [];
 
@@ -130,6 +131,7 @@ export class AddNewProductComponent implements OnInit {
     formaData.append("resumen", this.resumen)
     formaData.append("description", this.description)
     formaData.append("state", this.state)
+    formaData.append("stock", this.stock)
     formaData.append("imagen_file", this.imagen_file)
     formaData.append("tags", this.tags)
 
@@ -157,6 +159,7 @@ export class AddNewProductComponent implements OnInit {
       this.tags = [];
       this.images_files = [];
       this.state = 1;
+      this.stock = 0;
     })
   }
 }

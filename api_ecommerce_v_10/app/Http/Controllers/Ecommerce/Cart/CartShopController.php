@@ -25,7 +25,7 @@ class CartShopController extends Controller
      */
     public function index()
     {
-        $carts = CartShop::where("user_id",auth('api')->user()->id)->orderBy("id","desc")->get();
+        $carts = CartShop::where("user_id", auth('api')->user()->id)->orderBy("id", "desc")->get();
         return response()->json(["carts" => CartShopCollection::make($carts)]);
     }
 
@@ -41,49 +41,49 @@ class CartShopController extends Controller
 
     public function apply_cupon($cupon)
     {
-        $cupone = Cupone::where("code",$cupon)->where("state",1)->first();
-        if(!$cupone){
+        $cupone = Cupone::where("code", $cupon)->where("state", 1)->first();
+        if (!$cupone) {
             return response()->json(["message" => 403, "message_text" => "EL CODIGO DEL CUPÓN INGRESADO NO EXISTE"]);
         }
         $user = auth("api")->user();
-        $cartshops = CartShop::where("user_id",$user->id)->orderBy("id","desc")->get();
+        $cartshops = CartShop::where("user_id", $user->id)->orderBy("id", "desc")->get();
 
         foreach ($cartshops as $key => $cart) {
-            if($cupone->products){
+            if ($cupone->products) {
                 // [5,4]
-                $products = explode(",",$cupone->products);
-                if(in_array($cart->product_id,$products)){
+                $products = explode(",", $cupone->products);
+                if (in_array($cart->product_id, $products)) {
                     $subtotal = 0;
                     $total = 0;
-                    if($cupone->type_discount == 1){
-                        $subtotal = $cart->precio_unitario - $cart->precio_unitario*($cupone->discount* 0.01);
-                    }else{
+                    if ($cupone->type_discount == 1) {
+                        $subtotal = $cart->precio_unitario - $cart->precio_unitario * ($cupone->discount * 0.01);
+                    } else {
                         $subtotal = $cart->precio_unitario - $cupone->discount;
                     }
                     $total = $subtotal * $cart->cantidad;
 
-                    $cart->update(["subtotal" => $subtotal ,"total" => $total, "type_discount" => $cupone->type_discount, "discount" => $cupone->discount ,"code_cupon" => $cupone->code]);
+                    $cart->update(["subtotal" => $subtotal, "total" => $total, "type_discount" => $cupone->type_discount, "discount" => $cupone->discount, "code_cupon" => $cupone->code]);
                 }
             }
-            if($cupone->categories){
+            if ($cupone->categories) {
                 // [5,4]
-                $categories = explode(",",$cupone->categories);
-                $categories = explode(",",$cupone->categories);
-                if(in_array($cart->product->categorie_id,$categories)){
+                $categories = explode(",", $cupone->categories);
+                $categories = explode(",", $cupone->categories);
+                if (in_array($cart->product->categorie_id, $categories)) {
                     $subtotal = 0;
                     $total = 0;
-                    if($cupone->type_discount == 1){
-                        $subtotal = $cart->precio_unitario - $cart->precio_unitario*($cupone->discount* 0.01);
-                    }else{
+                    if ($cupone->type_discount == 1) {
+                        $subtotal = $cart->precio_unitario - $cart->precio_unitario * ($cupone->discount * 0.01);
+                    } else {
                         $subtotal = $cart->precio_unitario - $cupone->discount;
                     }
                     $total = $subtotal * $cart->cantidad;
 
-                    $cart->update(["subtotal" => $subtotal ,"total" => $total, "type_discount" => $cupone->type_discount, "discount" => $cupone->discount ,"code_cupon" => $cupone->code]);
+                    $cart->update(["subtotal" => $subtotal, "total" => $total, "type_discount" => $cupone->type_discount, "discount" => $cupone->discount, "code_cupon" => $cupone->code]);
                 }
             }
         }
-        return response()->json(["message" => 200 , "carts" => CartShopCollection::make($cartshops)]);
+        return response()->json(["message" => 200, "carts" => CartShopCollection::make($cartshops)]);
     }
     /**
      * Store a newly created resource in storage.
@@ -94,34 +94,36 @@ class CartShopController extends Controller
     public function store(Request $request)
     {
         //primero validacion de producto existente
-        if($request->product_color_size_id){
-            $validate_cart_shop = CartShop::where("product_id",$request->product_id)
-                                ->where("product_size_id", $request->product_size_id)
-                                ->where("product_color_size_id",$request->product_color_size_id)
-                                ->first();
-            if($validate_cart_shop){
+        if ($request->product_color_size_id) {
+            $validate_cart_shop = CartShop::where("user_id", auth("api")->user()->id)
+                ->where("product_id", $request->product_id)
+                ->where("product_size_id", $request->product_size_id)
+                ->where("product_color_size_id", $request->product_color_size_id)
+                ->first();
+            if ($validate_cart_shop) {
                 return response()->json(["message" => 403, "message_text" => "EL PRODUCTO SELECCIONADO YA EXISTE"]);
             }
-        }else{
-            $validate_cart_shop = CartShop::where("product_id",$request->product_id)->first();
-            if($validate_cart_shop){
+        } else {
+            $validate_cart_shop = CartShop::where("user_id", auth("api")->user()->id)
+                ->where("product_id", $request->product_id)->first();
+            if ($validate_cart_shop) {
                 return response()->json(["message" => 403, "message_text" => "EL PRODUCTO SELECCIONADO YA EXISTE"]);
             }
         }
         //segunda validacion de stock disponible
-        if($request->product_color_size_id){
-           $color_size = ProductColorSize::findOrFail($request->product_color_size_id);
-           if($color_size->stock < $request->cantidad){
-             return response()->json(["message" => 403, "message_text" => "EL PRODUCTO NO SE ENCUNTRA EN STOCK ACTUALMENTE"]);
-           }
-        }else{
+        if ($request->product_color_size_id) {
+            $color_size = ProductColorSize::findOrFail($request->product_color_size_id);
+            if ($color_size->stock < $request->cantidad) {
+                return response()->json(["message" => 403, "message_text" => "EL PRODUCTO NO SE ENCUNTRA EN STOCK ACTUALMENTE"]);
+            }
+        } else {
             $product = Product::findOrFail($request->product_id);
-            if($product->stock < $request->cantidad){
+            if ($product->stock < $request->cantidad) {
                 return response()->json(["message" => 403, "message_text" => "EL PRODUCTO NO SE ENCUNTRA EN STOCK ACTUALMENTE"]);
             }
         }
         $cart_shop = CartShop::create($request->all());
-        return response(["message" => 200 , "cart_shop" => CartShopResource::make($cart_shop)]);
+        return response(["message" => 200, "cart_shop" => CartShopResource::make($cart_shop)]);
     }
 
     /**
@@ -155,34 +157,38 @@ class CartShopController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($request->product_color_size_id){
-            $validate_cart_shop = CartShop::where("id","<>",$id)->where("product_id",$request->product_id)
-                                ->where("product_size_id", $request->product_size_id)
-                                ->where("product_color_size_id",$request->product_color_size_id)
-                                ->first();
-            if($validate_cart_shop){
+        if ($request->product_color_size_id) {
+            $validate_cart_shop = CartShop::where("id", "<>", $id)
+                ->where("user_id", auth("api")->user()->id)
+                ->where("product_id", $request->product_id)
+                ->where("product_size_id", $request->product_size_id)
+                ->where("product_color_size_id", $request->product_color_size_id)
+                ->first();
+            if ($validate_cart_shop) {
                 return response()->json(["message" => 403, "message_text" => "EL PRODUCTO SELECCIONADO YA EXISTE"]);
             }
-        }else{
-            $validate_cart_shop = CartShop::where("id","<>",$id)->where("product_id",$request->product_id)->first();
-            if($validate_cart_shop){
+        } else {
+            $validate_cart_shop = CartShop::where("id", "<>", $id)
+                ->where("user_id", auth("api")->user()->id)
+                ->where("product_id", $request->product_id)->first();
+            if ($validate_cart_shop) {
                 return response()->json(["message" => 403, "message_text" => "EL PRODUCTO SELECCIONADO YA EXISTE"]);
             }
         }
-        if($request->product_color_size_id){
+        if ($request->product_color_size_id) {
             $color_size = ProductColorSize::findOrFail($request->product_color_size_id);
-            if($color_size->stock < $request->cantidad){
-              return response()->json(["message" => 403, "message_text" => "EL PRODUCTO NO SE ENCUNTRA EN STOCK ACTUALMENTE"]);
+            if ($color_size->stock < $request->cantidad) {
+                return response()->json(["message" => 403, "message_text" => "EL PRODUCTO NO SE ENCUNTRA EN STOCK ACTUALMENTE"]);
             }
-         }else{
-             $product = Product::findOrFail($request->product_id);
-             if($product->stock < $request->cantidad){
-                 return response()->json(["message" => 403, "message_text" => "EL PRODUCTO NO SE ENCUNTRA EN STOCK ACTUALMENTE"]);
-             }
-         }
-         $cart_shop = CartShop::findOrFail($id);
-         $cart_shop->update($request->all());
-         return response(["message" => 200 , "cart_shop" => CartShopResource::make($cart_shop)]);
+        } else {
+            $product = Product::findOrFail($request->product_id);
+            if ($product->stock < $request->cantidad) {
+                return response()->json(["message" => 403, "message_text" => "EL PRODUCTO NO SE ENCUNTRA EN STOCK ACTUALMENTE"]);
+            }
+        }
+        $cart_shop = CartShop::findOrFail($id);
+        $cart_shop->update($request->all());
+        return response(["message" => 200, "cart_shop" => CartShopResource::make($cart_shop)]);
     }
 
     /**
@@ -195,6 +201,6 @@ class CartShopController extends Controller
     {
         $cart_shop = CartShop::findOrFail($id);
         $cart_shop->delete();
-        return response(["message" => 200 ]);
+        return response(["message" => 200]);
     }
 }

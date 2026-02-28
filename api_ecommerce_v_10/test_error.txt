@@ -1,0 +1,12 @@
+SQLSTATE[42S22]: Column not found: 1054 Unknown column 'logotipo' in 'field list' (Connection: mysql, SQL: select `id`, `name`, `logotipo` from `companies`)
+#0 C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\vendor\laravel\framework\src\Illuminate\Database\Connection.php(755): Illuminate\Database\Connection->runQueryCallback('select `id`, `n...', Array, Object(Closure))
+#1 C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\vendor\laravel\framework\src\Illuminate\Database\Connection.php(407): Illuminate\Database\Connection->run('select `id`, `n...', Array, Object(Closure))
+#2 C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(2747): Illuminate\Database\Connection->select('select `id`, `n...', Array, true)
+#3 C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(2736): Illuminate\Database\Query\Builder->runSelect()
+#4 C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3290): Illuminate\Database\Query\Builder->Illuminate\Database\Query\{closure}()
+#5 C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(2735): Illuminate\Database\Query\Builder->onceWithColumns(Array, Object(Closure))
+#6 C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(720): Illuminate\Database\Query\Builder->get(Array)
+#7 C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(704): Illuminate\Database\Eloquent\Builder->getModels(Array)
+#8 C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\app\Http\Controllers\Support\SupportTicketController.php(307): Illuminate\Database\Eloquent\Builder->get()
+#9 C:\xampp\htdocs\Ecommerce\api_ecommerce_v_10\test_analytics2.php(11): App\Http\Controllers\Support\SupportTicketController->analytics(Object(Illuminate\Http\Request))
+#10 {main}

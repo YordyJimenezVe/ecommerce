@@ -304,20 +304,22 @@ class SupportTicketController extends Controller
         // Fetch companies list for super admins
         $companiesList = [];
         if ($isSuperAdmin) {
-            $companiesList = \App\Models\Company::select('id', 'name', 'logotipo')->get();
+            $companiesList = \App\Models\Company::select('id', 'name', 'logo')->get();
         }
 
         // Ticket stats by status
         $statusStats = SupportTicket::selectRaw('status, count(*) as total')
             ->when($companyId, function ($q) use ($companyId) {
-                return $q->where('company_id', $companyId); })
+                return $q->where('company_id', $companyId);
+            })
             ->groupBy('status')
             ->pluck('total', 'status');
 
         // Stats by category
         $categoryStats = SupportTicket::selectRaw('category, count(*) as total')
             ->when($companyId, function ($q) use ($companyId) {
-                return $q->where('company_id', $companyId); })
+                return $q->where('company_id', $companyId);
+            })
             ->groupBy('category')
             ->orderByDesc('total')
             ->get();
@@ -347,7 +349,8 @@ class SupportTicketController extends Controller
         )
             ->join('support_tickets', 'support_tickets.id', '=', 'ticket_surveys.ticket_id')
             ->when($companyId, function ($q) use ($companyId) {
-                return $q->where('support_tickets.company_id', $companyId); })
+                return $q->where('support_tickets.company_id', $companyId);
+            })
             ->whereNotNull('support_tickets.assigned_to')
             ->groupBy('support_tickets.assigned_to')
             ->having('total_reviewed', '>=', 1)

@@ -14,9 +14,8 @@
             </div>
             <div class="company-logo-item" *ngFor="let comp of data.companies_list"
                 [class.active]="selectedCompanyId === comp.id" (click)="loadAnalytics(comp.id)">
-                <img *ngIf="comp.logotipo" [src]="URL + 'storage/' + comp.logotipo" [alt]="comp.name"
-                    [title]="comp.name">
-                <span *ngIf="!comp.logotipo">{{ comp.name }}</span>
+                <img *ngIf="comp.logo" [src]="URL + 'storage/' + comp.logo" [alt]="comp.name" [title]="comp.name">
+                <span *ngIf="!comp.logo">{{ comp.name }}</span>
             </div>
         </div>
     </div>

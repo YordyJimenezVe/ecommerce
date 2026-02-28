@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { TicketService } from '../ticket.service';
+import { URL_BACKEND } from 'src/app/config/config';
 
 @Component({
     selector: 'app-ticket-analytics',
@@ -9,6 +10,9 @@ import { TicketService } from '../ticket.service';
 export class TicketAnalyticsComponent implements OnInit {
     data: any = null;
     loading = false;
+    URL = URL_BACKEND;
+
+    selectedCompanyId: number | null = null;
 
     categoryLabel: any = {
         billing: 'Facturación', technical: 'Técnico', account: 'Cuenta',
@@ -22,9 +26,14 @@ export class TicketAnalyticsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.loadAnalytics();
+    }
+
+    loadAnalytics(companyId?: number) {
         this.loading = true;
+        this.selectedCompanyId = companyId || null;
         this.cdr.detectChanges();
-        this.ticketService.getAnalytics().subscribe((d: any) => {
+        this.ticketService.getAnalytics(companyId).subscribe((d: any) => {
             this.data = d;
             this.loading = false;
             this.cdr.detectChanges();
@@ -32,6 +41,23 @@ export class TicketAnalyticsComponent implements OnInit {
             this.loading = false;
             this.cdr.detectChanges();
         });
+    }
+
+    sendFeedbackTo(employee: any) {
+        if (!employee || (!employee.user_id && !employee.assigned_to && !employee.assignedTo)) return;
+        const employeeId = employee.user_id || employee.assignedTo?.id;
+        const employeeName = employee.name || employee.assignedTo?.name;
+
+        if (!employeeId) return;
+
+        const message = window.prompt(`Enviar Feedback a ${employeeName}:\n\nEscribe el mensaje de retroalimentación que se enviará a su correo:`);
+
+        if (message && message.trim().length > 0) {
+            this.ticketService.sendEmployeeFeedback(employeeId, message).subscribe({
+                next: () => alert('¡Enviado! El feedback ha sido enviado al correo del empleado exitosamente.'),
+                error: (err) => alert(`Fallo al enviar: ${err.error?.message || 'Error del servidor'}`)
+            });
+        }
     }
 
     getBarWidth(count: number): number {

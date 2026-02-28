@@ -5,6 +5,22 @@
         <p>Resumen de tickets, calidad de servicio y rendimiento del equipo</p>
     </div>
 
+    <!-- Company Filter for Superadmins -->
+    <div class="company-filters" *ngIf="data?.companies_list?.length">
+        <div class="filter-header">Filtrar por Empresa</div>
+        <div class="company-logos">
+            <div class="company-logo-item" [class.active]="selectedCompanyId === null" (click)="loadAnalytics()">
+                <span>Todas</span>
+            </div>
+            <div class="company-logo-item" *ngFor="let comp of data.companies_list"
+                [class.active]="selectedCompanyId === comp.id" (click)="loadAnalytics(comp.id)">
+                <img *ngIf="comp.logotipo" [src]="URL + 'storage/' + comp.logotipo" [alt]="comp.name"
+                    [title]="comp.name">
+                <span *ngIf="!comp.logotipo">{{ comp.name }}</span>
+            </div>
+        </div>
+    </div>
+
     <div class="loading-spinner" *ngIf="loading">
         <div class="spinner"></div>
     </div>
@@ -104,6 +120,9 @@
                                 <span class="rating-num">{{ formatRating(op.avg_rating) }}</span>
                             </div>
                             <span class="op-reviews">{{ op.total_reviewed }} evaluaciones</span>
+                            <button class="btn-feedback" (click)="sendFeedbackTo(op)" title="Enviar Feedback">
+                                <i class="fas fa-envelope"></i> Feedback
+                            </button>
                         </div>
                     </div>
                     <div *ngIf="!data.best_operators?.length" class="no-data">Sin datos suficientes aún</div>
@@ -202,9 +221,15 @@
                     </div>
                     <div class="ai-feed-footer">
                         <small class="ai-feed-date">{{ a.analyzed_at | date:'dd/MM/yyyy HH:mm' }}</small>
-                        <a [routerLink]="['/support', a.ticket_id]" class="btn-view-ticket">
-                            Ver conversación <i class="fas fa-external-link-alt"></i>
-                        </a>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button class="btn-view-ticket" (click)="sendFeedbackTo(a)" *ngIf="a.ticket?.assigned_to"
+                                title="Enviar Feedback">
+                                <i class="fas fa-envelope"></i> Notificar
+                            </button>
+                            <a [routerLink]="['/support', a.ticket_id]" class="btn-view-ticket">
+                                Ver ticket <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

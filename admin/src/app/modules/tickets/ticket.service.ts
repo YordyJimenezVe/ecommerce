@@ -72,7 +72,12 @@ export class TicketService {
         return this.http.post(`${URL_SERVICIOS}/admin/tickets/${id}/assign`, { assigned_to: assignedTo }, { headers: this.headers() });
     }
 
-    getAnalytics(): Observable<any> {
-        return this.http.get(`${URL_SERVICIOS}/admin/tickets/analytics`, { headers: this.headers() });
+    getAnalytics(companyId?: number): Observable<any> {
+        let params = companyId ? `?company_id=${companyId}` : '';
+        return this.http.get(`${URL_SERVICIOS}/admin/tickets/analytics${params}`, { headers: this.headers() });
+    }
+
+    sendEmployeeFeedback(employeeId: number, message: string): Observable<any> {
+        return this.http.post(`${URL_SERVICIOS}/admin/tickets/analytics/feedback/${employeeId}`, { message }, { headers: this.headers() });
     }
 }

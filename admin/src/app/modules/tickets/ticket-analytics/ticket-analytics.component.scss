@@ -572,3 +572,87 @@
     color: #64748b;
     font-weight: 500;
 }
+
+// ─── Company Filters ───────────────────────────────────────
+.company-filters {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+
+    .filter-header {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #64748b;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .company-logos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .company-logo-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 1rem;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: all 0.2s;
+        min-width: 80px;
+        min-height: 50px;
+
+        img {
+            max-height: 40px;
+            max-width: 120px;
+            object-fit: contain;
+        }
+
+        span {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        &:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        &.active {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+    }
+}
+
+// Feedback Buttons
+.btn-feedback {
+    margin-top: 0.5rem;
+    background: #fff0f0;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &:hover {
+        background: #ef4444;
+        color: white;
+    }
+}

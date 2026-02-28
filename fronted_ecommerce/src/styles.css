@@ -68,3 +68,10 @@
     align-items: center;
 }
 
+
+/* Fix for checkout order summary items text color */
+.single_check_order .checkorder_cont h5, 
+.single_check_order .checkorder_qnty, 
+.single_check_order .checkorder_price {
+    color: var(--text-color, #333) !important;
+}

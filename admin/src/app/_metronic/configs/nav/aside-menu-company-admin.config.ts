@@ -179,6 +179,10 @@ export const AsideMenuCompanyAdmin = {
                     page: '/support'
                 },
                 {
+                    title: 'Analytics de Soporte',
+                    page: '/support/analytics'
+                },
+                {
                     title: 'Enviar al Equipo',
                     page: '/notifications/send'
                 },

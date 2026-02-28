@@ -246,4 +246,5 @@ Route::group(['middleware' => ['auth:api'], 'prefix' => 'admin/tickets'], functi
     Route::post('/{id}/close', [SupportTicketController::class, 'close']);
     Route::post('/{id}/assign', [SupportTicketController::class, 'assign']);
     Route::get('/{id}/ai-analyze', [SupportTicketController::class, 'aiAnalyzeTicket']);
+    Route::post('/analytics/feedback/{employee_id}', [SupportTicketController::class, 'sendFeedback']);
 });

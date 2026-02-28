@@ -288,36 +288,57 @@ class SupportTicketController extends Controller
     }
 
     // ─── Admin: Analytics ─────────────────────────────────────────────────────
-    public function analytics()
+    public function analytics(Request $request)
     {
         $user = Auth::user();
-        if (!$this->isStaff($user)) {
+        $roleName = $user->role ? strtolower($user->role->name) : '';
+        $isSuperAdmin = in_array($roleName, ['super_admin', 'administrador general', 'soporte', 'support']) || strtolower($user->email) === 'yordyalejandro13@gmail.com';
+        $isCompanyAdmin = strtolower($roleName) === strtolower('ADMINISTRADOR DE EMPRESA');
+
+        if (!$isSuperAdmin && !$isCompanyAdmin) {
             return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        $companyId = $isSuperAdmin ? $request->company_id : $user->company_id;
+
+        // Fetch companies list for super admins
+        $companiesList = [];
+        if ($isSuperAdmin) {
+            $companiesList = \App\Models\Company::select('id', 'name', 'logotipo')->get();
         }
 
         // Ticket stats by status
         $statusStats = SupportTicket::selectRaw('status, count(*) as total')
+            ->when($companyId, function ($q) use ($companyId) {
+                return $q->where('company_id', $companyId); })
             ->groupBy('status')
             ->pluck('total', 'status');
 
         // Stats by category
         $categoryStats = SupportTicket::selectRaw('category, count(*) as total')
+            ->when($companyId, function ($q) use ($companyId) {
+                return $q->where('company_id', $companyId); })
             ->groupBy('category')
             ->orderByDesc('total')
             ->get();
 
+        $surveyQuery = \App\Models\TicketSurvey::join('support_tickets', 'support_tickets.id', '=', 'ticket_surveys.ticket_id');
+        if ($companyId) {
+            $surveyQuery->where('support_tickets.company_id', $companyId);
+        }
+
         // Average ratings
-        $avgRating = \App\Models\TicketSurvey::average('attention_rating');
-        $resolutionRate = \App\Models\TicketSurvey::where('issue_resolved', true)->count() /
-            max(\App\Models\TicketSurvey::count(), 1) * 100;
+        $avgRating = (clone $surveyQuery)->average('attention_rating');
+        $totalSurveys = (clone $surveyQuery)->count();
+        $resolutionRate = $totalSurveys > 0 ? ((clone $surveyQuery)->where('issue_resolved', true)->count() / $totalSurveys) * 100 : 0;
 
         // Rating distribution
-        $ratingDistribution = \App\Models\TicketSurvey::selectRaw('attention_rating, count(*) as total')
+        $ratingDistribution = (clone $surveyQuery)->selectRaw('attention_rating, count(*) as total')
             ->groupBy('attention_rating')
             ->orderBy('attention_rating')
             ->get();
 
-        // Operator rankings (by assigned_to average rating, min 3 tickets closed)
+        // Operator rankings (by assigned_to average rating, min 1 tickets closed)
         $operators = \App\Models\TicketSurvey::selectRaw(
             'support_tickets.assigned_to as user_id,
                  AVG(ticket_surveys.attention_rating) as avg_rating,
@@ -325,6 +346,8 @@ class SupportTicketController extends Controller
                  SUM(CASE WHEN ticket_surveys.issue_resolved = 1 THEN 1 ELSE 0 END) as resolved_count'
         )
             ->join('support_tickets', 'support_tickets.id', '=', 'ticket_surveys.ticket_id')
+            ->when($companyId, function ($q) use ($companyId) {
+                return $q->where('support_tickets.company_id', $companyId); })
             ->whereNotNull('support_tickets.assigned_to')
             ->groupBy('support_tickets.assigned_to')
             ->having('total_reviewed', '>=', 1)
@@ -335,9 +358,9 @@ class SupportTicketController extends Controller
         $userIds = $operators->pluck('user_id')->toArray();
         $users = \App\Models\User::whereIn('id', $userIds)->get()->keyBy('id');
         $operators = $operators->map(function ($op) use ($users) {
-            $user = $users->get($op->user_id);
-            $op->name = $user ? $user->name . ' ' . $user->surname : 'Unknown';
-            $op->email = $user ? $user->email : '';
+            $opUser = $users->get($op->user_id);
+            $op->name = $opUser ? $opUser->name . ' ' . $opUser->surname : 'Unknown';
+            $op->email = $opUser ? $opUser->email : '';
             return $op;
         });
 
@@ -345,30 +368,37 @@ class SupportTicketController extends Controller
         $worstOperators = $operators->sortBy('avg_rating')->take(3)->values();
 
         // Common improvement suggestions (from surveys)
-        $recentSuggestions = \App\Models\TicketSurvey::whereNotNull('improvement_suggestion')
-            ->orderByDesc('created_at')
+        $recentSuggestions = (clone $surveyQuery)->whereNotNull('improvement_suggestion')
+            ->orderByDesc('ticket_surveys.created_at')
             ->limit(20)
             ->pluck('improvement_suggestion');
 
         // ─── AI Analysis Stats ─────────────────────────────────────────────────
-        $aiAnalysesCount = \App\Models\TicketAiAnalysis::count();
-        $avgAiStaffRating = $aiAnalysesCount > 0 ? round(\App\Models\TicketAiAnalysis::avg('staff_rating'), 2) : null;
-        $poorTreatmentCount = \App\Models\TicketAiAnalysis::where('treated_poorly', 1)->orWhere('treated_poorly', true)->count();
-        $aiResolvedCounts = \App\Models\TicketAiAnalysis::selectRaw('resolved, count(*) as total')->groupBy('resolved')->pluck('total', 'resolved');
-        $recentAiSummaries = \App\Models\TicketAiAnalysis::with('ticket:id,subject')
+        $aiQuery = \App\Models\TicketAiAnalysis::join('support_tickets', 'support_tickets.id', '=', 'ticket_ai_analyses.ticket_id');
+        if ($companyId) {
+            $aiQuery->where('support_tickets.company_id', $companyId);
+        }
+
+        $aiAnalysesCount = (clone $aiQuery)->count();
+        $avgAiStaffRating = $aiAnalysesCount > 0 ? round((clone $aiQuery)->avg('staff_rating'), 2) : null;
+        $poorTreatmentCount = (clone $aiQuery)->where(function ($q) {
+            $q->where('treated_poorly', 1)->orWhere('treated_poorly', true);
+        })->count();
+        $aiResolvedCounts = (clone $aiQuery)->selectRaw('resolved, count(*) as total')->groupBy('resolved')->pluck('total', 'resolved');
+        $recentAiSummaries = (clone $aiQuery)->with(['ticket:id,subject,assigned_to', 'ticket.assignedTo:id,name,surname,email'])
             ->whereNotNull('summary')
             ->whereIn('staff_rating', [1, 2, 4, 5])
-            ->orderByDesc('analyzed_at')
+            ->orderByDesc('ticket_ai_analyses.analyzed_at')
             ->limit(30)
-            ->get(['ticket_id', 'staff_rating', 'treated_poorly', 'resolved', 'summary', 'analyzed_at', 'poor_treatment_reason']);
+            ->get(['ticket_ai_analyses.ticket_id', 'staff_rating', 'treated_poorly', 'resolved', 'summary', 'analyzed_at', 'poor_treatment_reason']);
 
         \Illuminate\Support\Facades\Log::info("Analytics AI Stats: count={$aiAnalysesCount}, poor={$poorTreatmentCount}");
 
         return response()->json([
             'status_stats' => $statusStats,
             'category_stats' => $categoryStats,
-            'avg_rating' => round($avgRating, 2),
-            'resolution_rate' => round($resolutionRate, 1),
+            'avg_rating' => round((float) $avgRating, 2),
+            'resolution_rate' => round((float) $resolutionRate, 1),
             'rating_distribution' => $ratingDistribution,
             'best_operators' => $bestOperators->values(),
             'worst_operators' => $worstOperators,
@@ -379,7 +409,56 @@ class SupportTicketController extends Controller
             'ai_poor_treatment' => $poorTreatmentCount,
             'ai_resolved_counts' => $aiResolvedCounts,
             'ai_recent_summaries' => $recentAiSummaries,
+            // Companies list for filter (if applicable)
+            'companies_list' => $companiesList,
+            'selected_company_id' => $companyId,
         ]);
+    }
+
+    // ─── Admin: Send Feedback to Employee ─────────────────────────────────────
+    public function sendFeedback(Request $request, $employee_id)
+    {
+        $request->validate([
+            'message' => 'required|string|max:2500',
+        ]);
+
+        $user = Auth::user();
+        $roleName = $user->role ? strtolower($user->role->name) : '';
+        $isSuperAdmin = in_array($roleName, ['super_admin', 'administrador general', 'soporte', 'support']) || strtolower($user->email) === 'yordyalejandro13@gmail.com';
+        $isCompanyAdmin = strtolower($roleName) === strtolower('ADMINISTRADOR DE EMPRESA');
+
+        if (!$isSuperAdmin && !$isCompanyAdmin) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        $employee = \App\Models\User::with('company')->findOrFail($employee_id);
+
+        if ($isCompanyAdmin && $employee->company_id !== $user->company_id) {
+            return response()->json(['message' => 'You can only send feedback to employees of your own company.'], 403);
+        }
+
+        $company = $employee->company;
+        $companyName = $company ? $company->name : 'Nuestra Empresa';
+        $companyLogo = $company ? $company->logotipo : null;
+        $color = $company && isset($company->colors) ? (is_array($company->colors) ? ($company->colors['primary'] ?? null) : json_decode($company->colors, true)['primary'] ?? null) : null;
+
+        try {
+            Mail::send('emails.employee_feedback', [
+                'employeeName' => $employee->name,
+                'feedbackMessage' => $request->message,
+                'companyName' => $companyName,
+                'companyLogo' => $companyLogo,
+                'color' => $color,
+            ], function ($m) use ($employee, $companyName) {
+                $m->to($employee->email, $employee->name)
+                    ->subject("Nuevo Feedback de Calidad - {$companyName}");
+            });
+
+            return response()->json(['message' => 'Feedback sent successfully.']);
+        } catch (\Exception $e) {
+            Log::error('Failed to send employee feedback email: ' . $e->getMessage());
+            return response()->json(['message' => 'Failed to send feedback email. Please check server logs.'], 500);
+        }
     }
 
     // ─── Admin: AI Analysis for single ticket ─────────────────────────────────

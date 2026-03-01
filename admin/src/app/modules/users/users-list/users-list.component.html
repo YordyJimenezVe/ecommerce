@@ -53,12 +53,18 @@
       </ul>
 
       <!-- Company Logo Selector -->
-      <div class="d-flex align-items-center ml-10 overflow-auto" style="gap: 15px; padding-bottom: 5px;">
+      <div class="d-flex align-items-center ml-10 overflow-auto py-2" style="gap: 15px; max-width: 600px;">
         <div *ngFor="let comp of companies" (click)="selectCompany(comp.id)"
-          class="symbol symbol-40 symbol-light-primary cursor-pointer border-2"
+          class="symbol symbol-50 symbol-light-primary cursor-pointer border-2 shadow-sm"
           [ngClass]="{'border-primary': company_id == comp.id && category === 'companies', 'border-transparent': company_id != comp.id || category !== 'companies' }"
-          [ngbTooltip]="comp.name" style="border-style: solid; border-radius: 8px; transition: all 0.3s ease;">
-          <img [src]="URL_BACKEND + '/storage/' + comp.logo" alt="" style="object-fit: contain; padding: 2px;">
+          [ngbTooltip]="comp.name"
+          style="border-style: solid; border-radius: 12px; transition: all 0.3s ease; background-color: #f3f6f9; min-width: 50px; overflow: hidden;">
+          <img *ngIf="comp.logo" [src]="URL_BACKEND + 'storage/' + comp.logo" alt="{{comp.name}}"
+            style="object-fit: contain; width: 100%; height: 100%;">
+          <div *ngIf="!comp.logo"
+            class="h-100 w-100 d-flex align-items-center justify-content-center text-primary font-weight-bold">
+            {{ comp.name.substring(0, 2).toUpperCase() }}
+          </div>
         </div>
       </div>
     </div>

@@ -62,9 +62,27 @@ export class UsersListComponent implements OnInit {
       this.category = 'megarys';
       this._userService.getCompanies().subscribe((resp: any) => {
         this.companies = resp.companies;
+        console.log("DEBUG: Companies loaded", this.companies);
+        this.companies.forEach(c => {
+          console.log(`DEBUG: Company ${c.name} logo path: ${c.logo}`);
+          console.log(`DEBUG: Constructed URL: ${this.getLogoUrl(c.logo)}`);
+        });
       });
     }
     this.allUsers();
+  }
+
+  getLogoUrl(logo: string) {
+    if (!logo) return null;
+    const base = this.URL_BACKEND.endsWith('/') ? this.URL_BACKEND : this.URL_BACKEND + '/';
+    // Remove leading slash if any
+    const cleanLogo = logo.startsWith('/') ? logo.substring(1) : logo;
+    return base + 'storage/' + cleanLogo;
+  }
+
+  handleImageError(event: any, comp: any) {
+    console.error(`ERROR: Failed to load logo for ${comp.name} at ${event.target.src}`);
+    comp.logo_error = true;
   }
 
   allUsers(page = 1) {

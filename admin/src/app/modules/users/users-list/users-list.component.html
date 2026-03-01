@@ -23,6 +23,12 @@
           <input type="text" class="form-control" name="searchText" placeholder="Buscar" value=""
             [(ngModel)]="search" /><small class="form-text text-muted"><b>Buscar</b> por correo y nombre</small>
         </div>
+        <div class="col-3" *ngIf="category === 'companies'">
+          <select class="form-control" name="company_id" [(ngModel)]="company_id">
+            <option value="">Todas las Empresas</option>
+            <option *ngFor="let comp of companies" [value]="comp.id">{{ comp.name }}</option>
+          </select><small class="form-text text-muted"><b>Filtrar</b> por Empresa</small>
+        </div>
         <div class="col-3">
           <button class="btn btn-primary ml-2" placement="top" [ngbTooltip]="'Filtro'" (click)="allUsers()">
             <i class="icon text-white flaticon-search-1"></i>
@@ -38,20 +44,24 @@
     </ng-container>
 
     <!-- begin: Categorization Tabs -->
-    <ul class="nav nav-tabs nav-tabs-line mb-5">
-      <li class="nav-item">
-        <a class="nav-link cursor-pointer" [ngClass]="{ 'active': category === '' }"
-          (click)="changeCategory('')">Todos</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link cursor-pointer" [ngClass]="{ 'active': category === 'megarys' }"
-          (click)="changeCategory('megarys')">Equipo Megarys</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link cursor-pointer" [ngClass]="{ 'active': category === 'companies' }"
-          (click)="changeCategory('companies')">Equipo de Empresas</a>
-      </li>
-    </ul>
+    <div class="d-flex align-items-center mb-5" *ngIf="isSuperAdmin">
+      <ul class="nav nav-tabs nav-tabs-line" style="border-bottom: none;">
+        <li class="nav-item">
+          <a class="nav-link cursor-pointer" [ngClass]="{ 'active': category === 'megarys' }"
+            (click)="changeCategory('megarys')">Equipo Megarys</a>
+        </li>
+      </ul>
+
+      <!-- Company Logo Selector -->
+      <div class="d-flex align-items-center ml-10 overflow-auto" style="gap: 15px; padding-bottom: 5px;">
+        <div *ngFor="let comp of companies" (click)="selectCompany(comp.id)"
+          class="symbol symbol-40 symbol-light-primary cursor-pointer border-2"
+          [ngClass]="{'border-primary': company_id == comp.id && category === 'companies', 'border-transparent': company_id != comp.id || category !== 'companies' }"
+          [ngbTooltip]="comp.name" style="border-style: solid; border-radius: 8px; transition: all 0.3s ease;">
+          <img [src]="URL_BACKEND + '/storage/' + comp.logo" alt="" style="object-fit: contain; padding: 2px;">
+        </div>
+      </div>
+    </div>
     <!-- end: Categorization Tabs -->
 
     <div class="table-responsive">
@@ -120,12 +130,31 @@
                 </span>
               </a>
 
+              <a (click)="toggleBlock(user)" class="btn btn-icon btn-light btn-hover-warning btn-sm mx-1"
+                [ngbTooltip]="user.state == 1 ? 'Bloquear Usuario' : 'Desbloquear Usuario'"
+                ngbTooltipClass="kt-tooltip">
+                <span class="svg-icon svg-icon-md"
+                  [ngClass]="user.state == 1 ? 'svg-icon-warning' : 'svg-icon-success'">
+                  <svg *ngIf="user.state == 1" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="feather feather-slash">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                  </svg>
+                  <svg *ngIf="user.state == 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="feather feather-check-circle">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </span>
+              </a>
+
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-
 
     <div>
       <ngb-pagination [(collectionSize)]="totalPages" [(page)]="currentPage" [pageSize]="20" [maxSize]="5"

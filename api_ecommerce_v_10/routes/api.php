@@ -61,6 +61,7 @@ Route::group([
         //     Route::get('/company-stats', [DashboardController::class, 'getCompanyStats']);
         // });
         Route::get('/all', [UserController::class, 'index']);
+        Route::get('/grouped-by-company', [UserController::class, 'groupedByCompany']);
         Route::post('/register', [UserController::class, 'store']);
         Route::put('/update/{id}', [UserController::class, 'update']);
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
@@ -174,6 +175,9 @@ Route::group(['middleware' => ['auth:api', 'super.admin'], 'prefix' => 'admin'],
     Route::get('billing/orders', [\App\Http\Controllers\Admin\BillingController::class, 'index']);
     Route::post('billing/orders/{id}/approve', [\App\Http\Controllers\Admin\BillingController::class, 'approve']);
     Route::post('billing/orders/{id}/reject', [\App\Http\Controllers\Admin\BillingController::class, 'reject']);
+
+    // Admin Roles Management
+    Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)->except(['create', 'show', 'edit']);
 });
 
 Route::group(['middleware' => ['auth:api', 'tenant'], 'prefix' => 'users/admin/dashboard'], function () {
@@ -247,4 +251,16 @@ Route::group(['middleware' => ['auth:api'], 'prefix' => 'admin/tickets'], functi
     Route::post('/{id}/assign', [SupportTicketController::class, 'assign']);
     Route::get('/{id}/ai-analyze', [SupportTicketController::class, 'aiAnalyzeTicket']);
     Route::post('/analytics/feedback/{employee_id}', [SupportTicketController::class, 'sendFeedback']);
+});
+
+// ─── Premium Requests System ────────────────────────────────────────────────
+Route::group(['middleware' => ['auth:api'], 'prefix' => 'premium/requests'], function () {
+    Route::post('/', [\App\Http\Controllers\PremiumRequestController::class, 'store']); // Submit a request
+});
+
+// Admin routes for Premium Requests management (Super Admin)
+Route::group(['middleware' => ['auth:api', 'super.admin'], 'prefix' => 'admin/premium/requests'], function () {
+    Route::get('/', [\App\Http\Controllers\PremiumRequestController::class, 'index']);
+    Route::put('/{id}/approve', [\App\Http\Controllers\PremiumRequestController::class, 'approve']);
+    Route::put('/{id}/reject', [\App\Http\Controllers\PremiumRequestController::class, 'reject']);
 });

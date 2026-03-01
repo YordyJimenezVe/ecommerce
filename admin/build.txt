@@ -1,0 +1,16 @@
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+- Generating browser application bundles...
+✔ Browser application bundle generation complete.
+
+Error: src/app/modules/premium-requests/requests-list/requests-list.component.html:11:46 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'select'.
+
+11                 <select class="form-control" [(ngModel)]="statusFilter" (change)="loadRequests()">
+                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/modules/premium-requests/requests-list/requests-list.component.ts:8:16
+    8   templateUrl: './requests-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component RequestsListComponent.
+
+
+

@@ -100,13 +100,9 @@ class User extends Authenticatable implements JWTSubject
         }
         if ($category) {
             if ($category === 'megarys') {
-                $query->whereHas('role', function ($q) {
-                    $q->whereNull('company_id');
-                });
+                $query->whereNull('company_id');
             } elseif ($category === 'companies') {
-                $query->whereHas('role', function ($q) {
-                    $q->whereNotNull('company_id');
-                });
+                $query->whereNotNull('company_id');
             }
         }
         return $query;

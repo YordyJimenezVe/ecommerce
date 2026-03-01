@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { URL_SERVICIOS } from 'src/app/config/config';
@@ -8,8 +8,7 @@ import { AuthService } from '../../auth';
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
-
+export class RolesService {
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
 
@@ -21,72 +20,37 @@ export class UsersService {
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
 
-  allUsers(page = 1, state = '', search = '', category = '', company_id = '') {
+  getRoles() {
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.authservice.token });
-    let LINK = "";
-    if (state) {
-      LINK = LINK + "&state=" + state;
-    }
-    if (search) {
-      LINK = LINK + "&search=" + search;
-    }
-    if (category) {
-      LINK = LINK + "&category=" + category;
-    }
-    if (company_id) {
-      LINK = LINK + "&company_id=" + company_id;
-    }
-    let URL = URL_SERVICIOS + "/users/admin/all?page=" + page + LINK;
+    let URL = URL_SERVICIOS + "/admin/roles";
     return this.http.get(URL, { headers: headers }).pipe(
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
 
-  getCompanies() {
-    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.authservice.token });
-    let URL = URL_SERVICIOS + "/admin/companies";
-    return this.http.get(URL, { headers: headers });
-  }
-
-  groupedByCompany(page = 1, state = '', search = '') {
+  createRole(data: any) {
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.authservice.token });
-    let LINK = "";
-    if (state) {
-      LINK = LINK + "&state=" + state;
-    }
-    if (search) {
-      LINK = LINK + "&search=" + search;
-    }
-    let URL = URL_SERVICIOS + "/users/admin/grouped-by-company?page=" + page + LINK;
-    return this.http.get(URL, { headers: headers }).pipe(
-      finalize(() => this.isLoadingSubject.next(false))
-    );
-  }
-
-  register(data: any) {
-    this.isLoadingSubject.next(true);
-    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.authservice.token });
-    let URL = URL_SERVICIOS + "/users/admin/register";
+    let URL = URL_SERVICIOS + "/admin/roles";
     return this.http.post(URL, data, { headers: headers }).pipe(
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
 
-  update(user_Id, data) {
+  updateRole(id: number, data: any) {
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.authservice.token });
-    let URL = URL_SERVICIOS + "/users/admin/update/" + user_Id;
+    let URL = URL_SERVICIOS + "/admin/roles/" + id;
     return this.http.put(URL, data, { headers: headers }).pipe(
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
 
-  deleteUser(user_Id) {
+  deleteRole(id: number) {
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.authservice.token });
-    let URL = URL_SERVICIOS + "/users/admin/delete/" + user_Id;
+    let URL = URL_SERVICIOS + "/admin/roles/" + id;
     return this.http.delete(URL, { headers: headers }).pipe(
       finalize(() => this.isLoadingSubject.next(false))
     );

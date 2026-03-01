@@ -188,6 +188,26 @@ export const AsideMenuCompanyAdmin = {
                 },
             ]
         },
+        { section: 'Inteligencia Artificial' },
+        {
+            title: 'Estudio de IA',
+            root: true,
+            name: 'ai-studio',
+            bullet: 'dot',
+            icon: 'flaticon2-idea',
+            svg: './assets/media/svg/icons/General/Smile.svg',
+            page: '/ai-studio',
+            submenu: [
+                {
+                    title: 'Monitor IA',
+                    page: '/ai-studio/training'
+                },
+                {
+                    title: 'Base de Conocimientos',
+                    page: '/ai-studio/knowledge'
+                }
+            ]
+        },
         { section: 'Configuración' },
         {
             title: 'Pagos',

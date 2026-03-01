@@ -12,6 +12,9 @@ export class UserModel extends AuthModel {
   roles: number[];
   occupation: string;
   companyName: string;
+  company?: any;
+  ai_studio_active?: boolean;
+  support_analytics_active?: boolean;
   phone: string;
   address?: AddressModel;
   socialNetworks?: SocialNetworksModel;
@@ -61,5 +64,12 @@ export class UserModel extends AuthModel {
     this.phone = user.phone || '';
     this.address = user.address;
     this.socialNetworks = user.socialNetworks;
+
+    // Premium Features Access
+    if (user.company) {
+      this.company = user.company;
+      this.ai_studio_active = user.company.ai_studio_active || false;
+      this.support_analytics_active = user.company.support_analytics_active || false;
+    }
   }
 }

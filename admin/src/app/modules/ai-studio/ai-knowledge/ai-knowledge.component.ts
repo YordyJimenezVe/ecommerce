@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AiStudioService } from '../service/ai-studio.service';
 import { CompaniesService } from '../../companies/service/companies.service';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from '../../auth';
 
 @Component({
   selector: 'app-ai-knowledge',
@@ -23,15 +24,25 @@ export class AiKnowledgeComponent implements OnInit {
   is_admin_only = false;
   selected_id: any = null;
 
+  hasAccess = false;
+  isSuperAdmin = false;
+
   constructor(
     private aiService: AiStudioService,
     private companyService: CompaniesService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.listKnowledges();
-    this.listCompanies();
+    const user = this.authService.user;
+    this.isSuperAdmin = user?.role?.name === 'ADMINISTRADOR GENERAL' || user?.role === 'ADMINISTRADOR GENERAL';
+    this.hasAccess = this.isSuperAdmin || user?.ai_studio_active === true;
+
+    if (this.hasAccess) {
+      this.listKnowledges();
+      this.listCompanies();
+    }
   }
 
   listKnowledges() {

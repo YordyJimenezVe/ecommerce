@@ -1,3 +1,4 @@
+
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,15 +20,6 @@ import { FakeAPIService } from './_fake/fake-api.service';
 import { NoticyAlertComponent } from './componets/notifications/noticy-alert/noticy-alert.component';
 import { ToastNotificationsModule } from 'ngx-toast-notifications';
 import { SuspendedInterceptor } from './_services/suspended.interceptor';
-// #fake-end#
-
-function appInitializer(authService: AuthService) {
-  return () => {
-    // return new Promise((resolve) => {
-    //   authService.getUserByToken().subscribe().add(resolve);
-    // });
-  };
-}
 
 
 @NgModule({

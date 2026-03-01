@@ -21,12 +21,15 @@ class UserController extends Controller
         $state = $request->get("state");
         $search = $request->get("search");
         $category = $request->get("category");
+        $company_id = $request->get("company_id");
         $user = auth('api')->user();
 
-        $query = User::filterAdvance($state, $search, $category)->with('role');
+        $query = User::filterAdvance($state, $search, $category)->with('role', 'company');
 
         if (!$user->hasPermission('manage_companies') && $user->company_id) {
             $query->where('company_id', $user->company_id);
+        } else if ($user->hasPermission('manage_companies') && $company_id) {
+            $query->where('company_id', $company_id);
         }
 
         $users = $query->orderBy("id", "desc")->paginate(20);
@@ -34,6 +37,47 @@ class UserController extends Controller
         return response()->json([
             "total" => $users->total(),
             "users" => $users,
+        ]);
+    }
+
+    public function groupedByCompany(Request $request)
+    {
+        $state = $request->get("state");
+        $search = $request->get("search");
+
+        $query = \App\Models\Company::with([
+            'users' => function ($q) use ($state, $search) {
+                $q->with('role');
+                if ($state) {
+                    $q->where("state", $state);
+                }
+                if ($search) {
+                    $q->where(function ($query) use ($search) {
+                        $query->where("name", "like", "%" . $search . "%")
+                            ->orWhere("surname", "like", "%" . $search . "%")
+                            ->orWhere("email", "like", "%" . $search . "%");
+                    });
+                }
+                $q->orderBy('id', 'desc');
+            }
+        ])->whereHas('users', function ($q) use ($state, $search) {
+            if ($state) {
+                $q->where("state", $state);
+            }
+            if ($search) {
+                $q->where(function ($query) use ($search) {
+                    $query->where("name", "like", "%" . $search . "%")
+                        ->orWhere("surname", "like", "%" . $search . "%")
+                        ->orWhere("email", "like", "%" . $search . "%");
+                });
+            }
+        });
+
+        $companies = $query->orderBy('name', 'asc')->paginate(10);
+
+        return response()->json([
+            "total" => $companies->total(),
+            "companies" => $companies,
         ]);
     }
 

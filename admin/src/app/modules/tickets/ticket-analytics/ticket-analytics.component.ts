@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { TicketService } from '../ticket.service';
 import { URL_BACKEND } from 'src/app/config/config';
+import { AuthService } from '../../auth';
 
 @Component({
     selector: 'app-ticket-analytics',
@@ -20,13 +21,25 @@ export class TicketAnalyticsComponent implements OnInit {
     };
     ratingLabel: any = { 1: 'Muy Mala ☆', 2: 'Mala ☆☆', 3: 'Normal ☆☆☆', 4: 'Buena ☆☆☆☆', 5: 'Excelente ☆☆☆☆☆' };
 
+    hasAccess: boolean = false;
+    isSuperAdmin: boolean = false;
+
     constructor(
         private ticketService: TicketService,
+        private authService: AuthService,
         private cdr: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
-        this.loadAnalytics();
+        const user = this.authService.user;
+        this.isSuperAdmin = user?.role?.name === 'ADMINISTRADOR GENERAL' || user?.role === 'ADMINISTRADOR GENERAL';
+
+        // El SuperAdmin siempre tiene acceso o la empresa tiene la licencia activa
+        this.hasAccess = this.isSuperAdmin || user?.support_analytics_active === true;
+
+        if (this.hasAccess) {
+            this.loadAnalytics();
+        }
     }
 
     loadAnalytics(companyId?: number) {

@@ -125,6 +125,15 @@ export const AsideMenuAdminGeneral = {
         }
       ]
     },
+    {
+      title: 'Solicitudes Premium',
+      root: true,
+      icon: 'flaticon-star',
+      svg: './assets/media/svg/icons/General/Star.svg',
+      page: '/premium-requests',
+      bullet: 'dot',
+    },
+    { section: 'Tienda' },
     { section: 'Sistema' },
 
     {

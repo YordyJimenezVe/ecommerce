@@ -1,0 +1,92 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header border-0 py-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label font-weight-bolder text-dark">Solicitudes Premium</span>
+            <span class="text-muted mt-3 font-weight-bold font-size-sm">Administra peticiones de licencias y pagos
+                manuales</span>
+        </h3>
+        <div class="card-toolbar">
+            <div class="d-flex align-items-center">
+                <label class="mr-3 mb-0">Filtrar:</label>
+                <select class="form-control" [(ngModel)]="statusFilter" (change)="loadRequests()">
+                    <option value="pending">Pendientes</option>
+                    <option value="approved">Aprobados</option>
+                    <option value="rejected">Rechazados</option>
+                    <option value="all">Todos</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-head-custom table-vertical-center">
+                <thead>
+                    <tr class="text-left text-uppercase">
+                        <th style="min-width: 150px">Empresa</th>
+                        <th style="min-width: 150px">Usuario</th>
+                        <th style="min-width: 120px">Módulo</th>
+                        <th style="min-width: 150px">Pago</th>
+                        <th style="min-width: 100px">Estado</th>
+                        <th class="text-right" style="min-width: 150px">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let req of requests">
+                        <td>
+                            <strong class="text-dark-75 d-block font-size-lg">{{ req.company?.name || 'N/A' }}</strong>
+                            <span class="text-muted font-size-sm">{{ req.created_at | date:'short' }}</span>
+                        </td>
+                        <td>
+                            <span class="text-dark-75 d-block">{{ req.user?.name }} {{ req.user?.surname }}</span>
+                            <span class="text-muted font-size-sm">{{ req.user?.email }}</span>
+                        </td>
+                        <td>
+                            <span class="font-weight-bold text-primary">{{ formatModule(req.module) }}</span>
+                        </td>
+                        <td>
+                            <span class="font-weight-bold d-block">{{ req.payment_method | uppercase }}</span>
+                            <span class="text-muted font-size-sm" *ngIf="req.amount">{{ req.amount }} {{ req.currency
+                                }}</span>
+                            <a *ngIf="req.payment_proof" [href]="URL + 'storage/' + req.payment_proof" target="_blank"
+                                class="label label-inline label-light-info mt-1 d-inline-block">
+                                <i class="fas fa-file-invoice text-info mr-1"></i> Ver Comprobante
+                            </a>
+                        </td>
+                        <td>
+                            <span class="label label-inline"
+                                [ngClass]="{'label-light-warning': req.status === 'pending', 'label-light-success': req.status === 'approved', 'label-light-danger': req.status === 'rejected'}">
+                                {{ req.status | uppercase }}
+                            </span>
+                        </td>
+                        <td class="text-right">
+                            <ng-container *ngIf="req.status === 'pending'">
+                                <button (click)="approve(req)" class="btn btn-sm btn-icon btn-light-success border mr-2"
+                                    title="Aprobar Solicitud">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button (click)="reject(req)" class="btn btn-sm btn-icon btn-light-danger border"
+                                    title="Rechazar Solicitud">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="req.status !== 'pending'">
+                                <button class="btn btn-sm btn-light btn-text-dark font-weight-bolder"
+                                    title="{{ req.admin_notes }}" style="pointer-events: none;">
+                                    <i class="fas fa-info-circle"></i> {{ req.duration_months ? req.duration_months + '
+                                    Meses' : 'Info' }}
+                                </button>
+                            </ng-container>
+                        </td>
+                    </tr>
+                    <tr *ngIf="requests.length === 0 && !isLoading">
+                        <td colspan="6" class="text-center text-muted py-10">No hay solicitudes encontradas.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center py-10" *ngIf="isLoading">
+            <div class="spinner spinner-primary spinner-lg mr-15"></div>
+        </div>
+    </div>
+</div>

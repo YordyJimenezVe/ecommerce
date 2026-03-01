@@ -215,11 +215,17 @@ class AuthController extends Controller
                 "name" => $user->name,
                 "surname" => $user->surname,
                 "email" => $user->email,
-                "role" => $user->role ? $user->role->name : null,
+                "role_id" => $user->role_id,
+                "role" => $user->role ? [
+                    "id" => $user->role->id,
+                    "name" => $user->role->name,
+                ] : null,
                 "company" => $user->company ? [
                     "id" => $user->company->id,
                     "name" => $user->company->name,
                     "status" => $user->company->status,
+                    "ai_studio_active" => $user->company->ai_studio_expires_at && \Carbon\Carbon::parse($user->company->ai_studio_expires_at)->isFuture(),
+                    "support_analytics_active" => $user->company->support_analytics_expires_at && \Carbon\Carbon::parse($user->company->support_analytics_expires_at)->isFuture(),
                 ] : null,
             ],
         ]);

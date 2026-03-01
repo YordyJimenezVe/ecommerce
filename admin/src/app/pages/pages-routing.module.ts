@@ -166,6 +166,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'premium-requests',
+        loadChildren: () =>
+          import('../modules/premium-requests/premium-requests.module').then(
+            (m) => m.PremiumRequestsModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',

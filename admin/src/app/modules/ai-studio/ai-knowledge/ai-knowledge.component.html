@@ -1,4 +1,4 @@
-<div class="card card-custom gutter-b">
+<div class="card card-custom gutter-b" *ngIf="hasAccess">
     <div class="card-header border-0 py-5">
         <h3 class="card-title align-items-start flex-column">
             <span class="card-label font-weight-bolder text-dark">Base de Conocimiento IA</span>
@@ -97,3 +97,7 @@
         </div>
     </div>
 </div>
+
+<ng-container *ngIf="!hasAccess">
+    <app-premium-paywall moduleName="Estudio de IA: Base de Conocimientos" moduleCode="ai_studio"></app-premium-paywall>
+</ng-container>

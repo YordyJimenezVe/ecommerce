@@ -1,1 +1,83 @@
-<p><b>Roles:</b> - Coming soon in the following updates (ETA [v8.x.x]).</p>
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label"><i class="icon-2x text-dark-50 flaticon-security mx-2"></i> Roles y Permisos</h3>
+        </div>
+        <div class="card-toolbar">
+            <a type="button" class="btn btn-primary" (click)="openModal(roleModal)"><i
+                    class="icon-lg text-white flaticon-add"></i> Crear Rol</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <span class="spinner spinner-primary ml-5 mb-5"></span>
+        </ng-container>
+
+        <div class="table-responsive">
+            <table class="table table-head-custom table-vertical-center">
+                <thead>
+                    <tr class="text-left">
+                        <th>ID</th>
+                        <th>Nombre del Rol</th>
+                        <th>Permisos Asignados</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let role of roles">
+                        <td>{{ role.id }}</td>
+                        <td><strong class="text-dark-75">{{ role.name }}</strong></td>
+                        <td>
+                            <span class="badge badge-secondary mr-2 mb-2" *ngFor="let p of role.permissions">{{ p.name
+                                }}</span>
+                        </td>
+                        <td>
+                            <a (click)="openModal(roleModal, role)"
+                                class="btn btn-icon btn-light btn-hover-primary btn-sm mx-1">
+                                <i class="flaticon-edit text-primary"></i>
+                            </a>
+                            <a (click)="deleteRole(role)" class="btn btn-icon btn-light btn-hover-danger btn-sm mx-1">
+                                <i class="flaticon-delete text-danger"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #roleModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">{{ activeRole ? 'Editar' : 'Crear' }} Rol</h4>
+        <button type="button" class="close" (click)="modal.dismiss()">
+            <span>&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Nombre del Rol</label>
+            <div class="col-lg-9 col-xl-9">
+                <input type="text" class="form-control form-control-solid" placeholder="Ingrese nombre"
+                    [(ngModel)]="roleName">
+            </div>
+        </div>
+
+        <div class="separator separator-dashed my-5"></div>
+
+        <h5 class="font-weight-bold mb-4">Permisos</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3" *ngFor="let p of permissions">
+                <label class="checkbox checkbox-outline checkbox-success">
+                    <input type="checkbox" [checked]="selectedPermissions.includes(p.id)"
+                        (change)="togglePermission(p.id)" />
+                    <span></span> {{ p.name }} ({{ p.slug }})
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveRole(modal)" [disabled]="!roleName">Guardar</button>
+    </div>
+</ng-template>

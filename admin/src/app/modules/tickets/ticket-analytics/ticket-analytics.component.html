@@ -1,4 +1,4 @@
-<div class="analytics-page">
+<div class="analytics-page" *ngIf="hasAccess">
 
     <div class="page-header">
         <h1>📊 Analytics de Soporte</h1>
@@ -255,3 +255,7 @@
 
     </div>
 </div>
+
+<ng-container *ngIf="!hasAccess">
+    <app-premium-paywall moduleName="Analytics de Soporte Técnico" moduleCode="support_analytics"></app-premium-paywall>
+</ng-container>

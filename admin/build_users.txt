@@ -1,0 +1,16 @@
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+- Generating browser application bundles...
+✔ Browser application bundle generation complete.
+
+Error: src/app/modules/users/users-list/users-list.component.html:121:19 - error NG5002: Unexpected closing tag ":svg:svg". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags
+
+121                   </svg>
+                      ~~~~~~
+
+  src/app/modules/users/users-list/users-list.component.ts:12:16
+    12   templateUrl: './users-list.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component UsersListComponent.
+
+
+

@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AiStudioService } from '../service/ai-studio.service';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from '../../auth';
 
 @Component({
   selector: 'app-ai-training',
@@ -11,14 +12,23 @@ export class AiTrainingComponent implements OnInit {
 
   logs: any = [];
   isLoading = false;
+  hasAccess = false;
+  isSuperAdmin = false;
 
   constructor(
     private aiService: AiStudioService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.listLogs();
+    const user = this.authService.user;
+    this.isSuperAdmin = user?.role?.name === 'ADMINISTRADOR GENERAL' || user?.role === 'ADMINISTRADOR GENERAL';
+    this.hasAccess = this.isSuperAdmin || user?.ai_studio_active === true;
+
+    if (this.hasAccess) {
+      this.listLogs();
+    }
   }
 
   listLogs() {

@@ -12,3 +12,7 @@
     @include border-radius($border-radius !important);
     height: 500px !important;
 }
+
+.tox-notification {
+    display: none !important;
+}

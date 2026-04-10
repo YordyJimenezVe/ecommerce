@@ -1,0 +1,13 @@
+﻿diff --git a/.github/workflows/deploy-frontend.yml b/.github/workflows/deploy-frontend.yml
+index 6ca7bd8..d6530e1 100644
+--- a/.github/workflows/deploy-frontend.yml
++++ b/.github/workflows/deploy-frontend.yml
+@@ -36,7 +36,7 @@ jobs:
+           username: ${{ secrets.FTP_USERNAME }}
+           password: ${{ secrets.FTP_PASSWORD }}
+           local-dir: ./fronted_ecommerce/dist/ecommerce/
+-          server-dir: /megarys.com/frontend_temp/
++          server-dir: ./megarys.com/
+           exclude: |
+             **/.git*
+             **/.git*/**

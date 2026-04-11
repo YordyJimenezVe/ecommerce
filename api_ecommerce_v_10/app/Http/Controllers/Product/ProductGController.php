@@ -58,13 +58,17 @@ class ProductGController extends Controller
         $products_color_sizes = ProductSize::orderBy("id", "desc")->get();
 
         $company = auth()->user()->company;
+
+        $has_payment_methods = \App\Models\CompanyPaymentConfig::where('company_id', $company->id)->where('is_active', true)->exists();
+
         return response()->json([
             "categories" => $categories,
             "products_colors" => $products_colors,
             "products_color_sizes" => $products_color_sizes,
             "company" => [
                 "id" => $company->id,
-                "free_shipping_authorized" => (bool) $company->free_shipping_authorized
+                "free_shipping_authorized" => (bool) $company->free_shipping_authorized,
+                "has_payment_methods" => $has_payment_methods,
             ]
         ]);
     }

@@ -105,3 +105,10 @@
   height: 3px;
   width: 100%;
 }
+
+/* Ocultar advertencia de dominio y marca de TinyMCE */
+.tox-notifications-container, 
+.tox-statusbar__branding, 
+.tox-notification--warning {
+    display: none !important;
+}

@@ -4,6 +4,7 @@ import { AddNewProductComponent } from './add-new-product/add-new-product.compon
 import { EditNewProductComponent } from './edit-new-product/edit-new-product.component';
 import { LitsProductsComponent } from './lits-products/lits-products.component';
 import { ProductsComponent } from './products.component';
+import { PaymentCheckGuard } from './_services/payment-check.guard';
 
 // "localhost:4200/products/edit-product/3"
 const routes: Routes = [{
@@ -12,7 +13,8 @@ const routes: Routes = [{
   children: [
     {
       path: 'add-product',
-      component: AddNewProductComponent
+      component: AddNewProductComponent,
+      canActivate: [PaymentCheckGuard]
     },
     {
       path: 'list-product',

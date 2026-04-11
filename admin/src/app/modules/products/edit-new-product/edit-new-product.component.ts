@@ -199,6 +199,8 @@ export class EditNewProductComponent implements OnInit {
     formaData.append("stock", this.stock_individual ? this.stock_individual : 0)
     formaData.append("type_inventario", this.checked_inventario)
     formaData.append("state", this.state);
+    formaData.append("delivery_method", this.delivery_method)
+    if (this.shipping_details) formaData.append("shipping_details", this.shipping_details)
     // let index = 0;
     // for (const imagen of this.images_files) {
     //   formaData.append("files["+index+"]",imagen.file);

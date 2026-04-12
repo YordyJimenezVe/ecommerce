@@ -40,6 +40,11 @@ export class CheckoutPaymentComponent implements OnInit {
   date_expiration: any = null;
   user: any = null;
   method_payment: any = null;
+  has_paypal: boolean = false;
+  has_credit_card: boolean = false;
+  has_manual: boolean = false;
+  manual_configs: any[] = [];
+
 
   proof_file: any = null;
   constructor(
@@ -64,16 +69,46 @@ export class CheckoutPaymentComponent implements OnInit {
         if (company_id) {
           this._saleService.getPaymentConfigs(company_id).subscribe((configsResp: any) => {
             let configs = configsResp.configs;
-            let paypalConfig = configs.find((c: any) => c.method_type === 'PAYPAL');
+
+            // Reset manual configs
+            this.manual_configs = [];
+
+            // Detect available methods
+            this.has_paypal = configs.some((c: any) => c.method_type === 'PAYPAL' && c.is_active);
+            this.has_credit_card = configs.some((c: any) => c.method_type === 'CREDIT_CARD' && c.is_active);
+
+            // Manual methods (Yape, Plin, BCP, etc)
+            this.manual_configs = configs.filter((c: any) =>
+              ['YAPE', 'PLIN', 'TRANSFER_BCP', 'TRANSFER_BBVA', 'TRANSFER_INTERBANK'].includes(c.method_type) && c.is_active
+            ).map((c: any) => {
+              // Ensure configuration is parsed
+              let configData = typeof c.configuration === 'string' ? JSON.parse(c.configuration) : c.configuration;
+              return {
+                ...c,
+                parsed_config: configData
+              };
+            });
+            this.has_manual = this.manual_configs.length > 0;
+
+            // Pre-select first available method if none selected or if default is hidden
+            // Note: This might interfere with jQuery 'active' classes, so we'll be careful in HTML.
+
+            let paypalConfig = configs.find((c: any) => c.method_type === 'PAYPAL' && c.is_active);
             if (paypalConfig && paypalConfig.configuration) {
               let parsed = typeof paypalConfig.configuration === 'string' ? JSON.parse(paypalConfig.configuration) : paypalConfig.configuration;
               let clientId = parsed.client_id || parsed.public_key;
               this.loadPaypalScript(clientId);
             }
+
+            setTimeout(() => {
+              methodPayment();
+            }, 50);
           });
         }
       }
     })
+
+
     this.user = this._cartService._authServices.user;
     this._saleService.listAddressUser().subscribe((resp: any) => {
       console.log(resp);

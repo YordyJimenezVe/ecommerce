@@ -130,29 +130,36 @@
                 <h4 class="shop_cart_title ps-4">Selecciona metodo de pago: </h4>
 
                 <div class="payment_method_options">
-                    <div class="single_payment_method active" data-target=".credit_card">
+                    <div class="single_payment_method" [ngClass]="{'active': has_credit_card}"
+                        data-target=".credit_card" *ngIf="has_credit_card">
                         <div class="sp_img">
                             <img loading="lazy" src="assets/images/credit-card.png" alt="credit card">
                         </div>
                         <p class="sp_text">Tarjeta de Credito</p>
                     </div>
-                    <div class="single_payment_method" data-target=".pay_pal">
+                    <div class="single_payment_method" [ngClass]="{'active': !has_credit_card && has_paypal}"
+                        data-target=".pay_pal" *ngIf="has_paypal">
                         <div class="sp_img">
                             <img loading="lazy" src="assets/images/paypal.png" alt="paypal">
                         </div>
                         <p class="sp_text">Paypal</p>
                     </div>
-                    <div class="single_payment_method" data-target=".transfer_mobile">
+                    <div class="single_payment_method"
+                        [ngClass]="{'active': !has_credit_card && !has_paypal && has_manual}"
+                        data-target=".transfer_mobile" *ngIf="has_manual">
                         <div class="sp_img">
                             <i class="las la-university" style="font-size: 32px;"></i>
                         </div>
                         <p class="sp_text">Transferencia / Móvil</p>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-xl-10">
 
-                        <div class="payment_methods credit_card active">
+                        <div class="payment_methods credit_card" [ngClass]="{'active': has_credit_card}"
+                            *ngIf="has_credit_card">
+
                             <div class="payment_method_title">
                                 <h4>Tarjeta</h4>
                                 <div class="payment_method_img">
@@ -196,7 +203,9 @@
                             </div>
                         </div>
 
-                        <div class="payment_methods pay_pal">
+                        <div class="payment_methods pay_pal" [ngClass]="{'active': !has_credit_card && has_paypal}"
+                            *ngIf="has_paypal">
+
                             <div class="payment_method_title">
                                 <h4>Paypal</h4>
                                 <div class="payment_method_img">
@@ -210,7 +219,9 @@
                             </div>
                         </div>
 
-                        <div class="payment_methods transfer_mobile">
+                        <div class="payment_methods transfer_mobile"
+                            [ngClass]="{'active': !has_credit_card && !has_paypal && has_manual}" *ngIf="has_manual">
+
                             <div class="payment_method_title">
                                 <h4>Transferencia / Pago Móvil</h4>
                                 <div class="payment_method_img">
@@ -219,15 +230,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                             <div class="row">
                                 <div class="col-12 mb-3">
                                     <h5>Detalles de Pago</h5>
-                                    <p><strong>Banco:</strong> BCP</p>
-                                    <p><strong>Cuenta:</strong> 193-00000000-0-00</p>
-                                    <p><strong>CCI:</strong> 002-193-000000000000-12</p>
-                                    <p><strong>Beneficiario:</strong> Megarys SAC</p>
-                                    <p><strong>RUC:</strong> 20000000000</p>
+                                    <div class="border-bottom pb-2 mb-2" *ngFor="let mconfig of manual_configs">
+                                        <p class="mb-1 text-primary"><strong>{{ mconfig.method_type.replace('TRANSFER_', '')
+                                                }}</strong></p>
+                                        <p class="mb-0">{{ mconfig.parsed_config.details }}</p>
+                                    </div>
                                 </div>
+
                                 <div class="col-12">
                                     <div class="single_billing_inp">
                                         <label>Subir Comprobante (Imagen/Screenshot): <span>*</span></label>

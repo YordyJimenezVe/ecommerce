@@ -66,20 +66,22 @@ export class CheckoutPaymentComponent implements OnInit {
 
       if (this.listCarts.length > 0) {
         let company_id = this.listCarts[0].product.company_id;
+        console.log('BUSCANDO CONFIGURACION PARA EMPRESA:', company_id);
         if (company_id) {
           this._saleService.getPaymentConfigs(company_id).subscribe((configsResp: any) => {
-            let configs = configsResp.configs;
+            console.log('RESPUESTA DEL SERVIDOR (PAGOS):', configsResp);
+            let configs = configsResp.configs || [];
 
             // Reset manual configs
             this.manual_configs = [];
 
-            // Detect available methods
-            this.has_paypal = configs.some((c: any) => c.method_type === 'PAYPAL' && c.is_active);
-            this.has_credit_card = configs.some((c: any) => c.method_type === 'CREDIT_CARD' && c.is_active);
+            // Detect available methods (Backend returns only active ones)
+            this.has_paypal = configs.some((c: any) => c.method_type === 'PAYPAL');
+            this.has_credit_card = configs.some((c: any) => c.method_type === 'CREDIT_CARD');
 
             // Manual methods (Yape, Plin, BCP, etc)
             this.manual_configs = configs.filter((c: any) =>
-              ['YAPE', 'PLIN', 'TRANSFER_BCP', 'TRANSFER_BBVA', 'TRANSFER_INTERBANK'].includes(c.method_type) && c.is_active
+              ['YAPE', 'PLIN', 'TRANSFER_BCP', 'TRANSFER_BBVA', 'TRANSFER_INTERBANK'].includes(c.method_type)
             ).map((c: any) => {
               // Ensure configuration is parsed
               let configData = typeof c.configuration === 'string' ? JSON.parse(c.configuration) : c.configuration;
@@ -90,10 +92,14 @@ export class CheckoutPaymentComponent implements OnInit {
             });
             this.has_manual = this.manual_configs.length > 0;
 
-            // Pre-select first available method if none selected or if default is hidden
-            // Note: This might interfere with jQuery 'active' classes, so we'll be careful in HTML.
+            console.log('FLAGS DE PAGO:', {
+              paypal: this.has_paypal,
+              card: this.has_credit_card,
+              manual: this.has_manual,
+              manual_count: this.manual_configs.length
+            });
 
-            let paypalConfig = configs.find((c: any) => c.method_type === 'PAYPAL' && c.is_active);
+            let paypalConfig = configs.find((c: any) => c.method_type === 'PAYPAL');
             if (paypalConfig && paypalConfig.configuration) {
               let parsed = typeof paypalConfig.configuration === 'string' ? JSON.parse(paypalConfig.configuration) : paypalConfig.configuration;
               let clientId = parsed.client_id || parsed.public_key;
@@ -102,10 +108,11 @@ export class CheckoutPaymentComponent implements OnInit {
 
             setTimeout(() => {
               methodPayment();
-            }, 50);
+            }, 100);
           });
         }
       }
+
     })
 
 

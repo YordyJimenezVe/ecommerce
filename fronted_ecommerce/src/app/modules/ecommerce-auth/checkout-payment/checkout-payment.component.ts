@@ -66,10 +66,8 @@ export class CheckoutPaymentComponent implements OnInit {
 
       if (this.listCarts.length > 0) {
         let company_id = this.listCarts[0].product.company_id;
-        console.log('BUSCANDO CONFIGURACION PARA EMPRESA:', company_id);
         if (company_id) {
           this._saleService.getPaymentConfigs(company_id).subscribe((configsResp: any) => {
-            console.log('RESPUESTA DEL SERVIDOR (PAGOS):', configsResp);
             let configs = configsResp.configs || [];
 
             // Reset manual configs
@@ -92,13 +90,6 @@ export class CheckoutPaymentComponent implements OnInit {
             });
             this.has_manual = this.manual_configs.length > 0;
 
-            console.log('FLAGS DE PAGO:', {
-              paypal: this.has_paypal,
-              card: this.has_credit_card,
-              manual: this.has_manual,
-              manual_count: this.manual_configs.length
-            });
-
             let paypalConfig = configs.find((c: any) => c.method_type === 'PAYPAL');
             if (paypalConfig && paypalConfig.configuration) {
               let parsed = typeof paypalConfig.configuration === 'string' ? JSON.parse(paypalConfig.configuration) : paypalConfig.configuration;
@@ -112,6 +103,7 @@ export class CheckoutPaymentComponent implements OnInit {
           });
         }
       }
+
 
     })
 

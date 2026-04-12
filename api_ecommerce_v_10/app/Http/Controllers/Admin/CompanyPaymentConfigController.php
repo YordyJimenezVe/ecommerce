@@ -44,7 +44,10 @@ class CompanyPaymentConfigController extends Controller
         $company_id = auth()->user()->company_id;
         $config = CompanyPaymentConfig::where('company_id', $company_id)->findOrFail($id);
 
-        $config->update($request->all());
+        $data = $request->all();
+        $data['company_id'] = $company_id;
+        $config->update($data);
+
 
         return response()->json(['message' => 200, 'config' => $config]);
     }

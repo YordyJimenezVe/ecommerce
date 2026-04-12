@@ -81,6 +81,8 @@ class ProductGController extends Controller
     public function store(Request $request)
     {
         $company_id = auth()->user()->company_id;
+        $request->request->add(["company_id" => $company_id]);
+
         $has_payment_method = \App\Models\CompanyPaymentConfig::where('company_id', $company_id)->where('is_active', true)->exists();
 
         if (!$has_payment_method) {
@@ -161,6 +163,8 @@ class ProductGController extends Controller
     public function update(Request $request, $id)
     {
         $company_id = auth()->user()->company_id;
+        $request->request->add(["company_id" => $company_id]);
+
         $has_payment_method = \App\Models\CompanyPaymentConfig::where('company_id', $company_id)->where('is_active', true)->exists();
 
         if (!$has_payment_method) {
